@@ -160,3 +160,59 @@ The biggest takeaway from today was realizing that NotebookLM is primarily a doc
 This insight has given me a clearer vision for ResearchMind AI. Rather than building another AI chatbot or summarization tool, I want to build an AI research collaborator that assists researchers throughout the research lifecycle using multiple specialized AI agents.
 
 Overall, today's work strengthened my understanding of product analysis and helped me think more like a researcher and AI product designer rather than only a developer.
+
+
+# Development Journal
+
+## Day 3 – SciSpace Competitor Analysis
+
+**Date:** 15 July 2026
+
+### Objective
+
+To analyze SciSpace as a competitor, understand its research workflow, identify its strengths and limitations, and discover ideas that can help design ResearchMind AI.
+
+### Tasks Completed
+
+* Explored the SciSpace homepage and understood its purpose and target users.
+* Analyzed the overall research workflow and major features.
+* Explored the paper search functionality using the topic **Agentic AI**.
+* Observed how SciSpace searches papers from multiple academic sources, including SciSpace Research Library, Google Scholar, arXiv, Zotero, and Mendeley.
+* Analyzed the AI-generated topic overview, including TL;DR, definitions, research trends, and references.
+* Documented a detailed competitor analysis in `Product_Comparison.md`.
+* Compared NotebookLM and SciSpace in `Competitor_Comparison.md`.
+
+### Key Observations
+
+* SciSpace is designed as a complete AI-powered research workspace rather than just a document assistant.
+* It begins with a research question instead of requiring users to upload documents.
+* The platform automates several research tasks such as paper discovery, literature review, report generation, and academic writing.
+* It integrates with multiple academic databases and reference managers, making research more efficient.
+* The generated research overview provides a good introduction to a topic but mainly focuses on summarization rather than deep analytical reasoning.
+
+### Challenges Identified
+
+* Generated insights are mostly descriptive and do not critically compare different research papers.
+* The platform does not automatically identify research gaps or suggest future research directions.
+* Higher-level reasoning, experiment planning, and scientific decision-making still depend on the researcher.
+* Some advanced features require a premium subscription.
+
+### Ideas for ResearchMind AI
+
+* Develop specialized AI agents that collaborate to perform different research tasks.
+* Enable automatic comparison of methodologies across multiple research papers.
+* Introduce AI-driven research-gap identification.
+* Generate evidence-based experiment plans and implementation strategies.
+* Provide deeper reasoning instead of only summarizing research papers.
+* Design the system as an AI research collaborator rather than only a research automation tool.
+
+### Biggest Learning
+
+Today's analysis helped me understand the difference between research automation and research reasoning. SciSpace successfully automates many repetitive research tasks, but it still relies on researchers for critical thinking and scientific decision-making. This reinforced my vision that ResearchMind AI should go beyond automation by supporting analytical reasoning through multiple specialized AI agents while keeping the researcher in control of the final decisions.
+
+### Plan for Day 4
+
+* Analyze Elicit as the third competitor.
+* Compare Elicit with NotebookLM and SciSpace.
+* Identify additional research gaps and feature ideas for ResearchMind AI.
+* Continue documenting observations and updating the competitor comparison.

@@ -154,25 +154,147 @@ I believe NotebookLM could be improved by adding:
 
 
 
-## Product 2: SciSpace
+# Product 2: SciSpace
 
-### Purpose
+## 1. Purpose
 
-### Target Users
+SciSpace is an AI-powered research platform designed to simplify and accelerate the academic research process. It provides researchers with an integrated workspace to search, understand, analyze, write, and manage scientific literature. Rather than focusing only on document summarization, SciSpace aims to automate several stages of the research workflow, including literature review, paper discovery, academic writing, data extraction, and report generation.
 
-### Workflow
+Its primary objective is to reduce the time researchers spend searching for information and performing repetitive research tasks while improving research productivity.
 
-### Key Features
+---
 
-### Strengths
+## 2. Target Users
 
-### Limitations
+| User Type              | Why Would They Use SciSpace?                                                   |
+| ---------------------- | ------------------------------------------------------------------------------ |
+| Undergraduate Students | To understand research papers and learn academic writing.                      |
+| Master's Students      | To perform literature reviews and organize references.                         |
+| PhD Researchers        | To conduct systematic reviews and accelerate research workflows.               |
+| Professors             | To supervise research, review literature, and prepare publications.            |
+| Research Scientists    | To search, analyze, and organize scientific papers.                            |
+| Biomedical Researchers | To access domain-specific literature using specialized research tools.         |
+| Enterprise R&D Teams   | To create AI-powered research workspaces and collaborate on research projects. |
 
-### Privacy & Security
+---
 
-### Personal Evaluation
+## 3. Workflow
 
-### Overall Rating
+Research Query
+↓
+AI Searches Multiple Research Sources
+↓
+Relevant Papers Retrieved
+↓
+AI Generates Topic Overview (Definition, TL;DR, Trends)
+↓
+User Explores Individual Papers
+↓
+AI Explains, Summarizes, and Answers Questions
+↓
+Generate Literature Review / Report / Draft
+↓
+Export Results (Word, PDF, PPT, LaTeX, Markdown, etc.)
+
+---
+
+## 4. Key Features
+
+* AI-powered research paper search.
+* Deep Search mode.
+* Systematic Review assistant.
+* Biomedical Research Agent.
+* AI-powered literature review generation.
+* Paper explanation and summarization.
+* Academic writing assistant.
+* Report generation.
+* Diagram generation.
+* Data extraction from research papers.
+* Review and improve academic writing.
+* Integration with Google Scholar, arXiv, PubMed, Zotero, and Mendeley.
+* Multiple AI models (Light, Pro, and Expert).
+* Export options including Word, PDF, PowerPoint, LaTeX manuscripts, LaTeX posters, websites, infographics, and Markdown.
+
+---
+
+## 5. Strengths
+
+* Provides a complete research workspace instead of only a document chat interface.
+* Searches research papers from multiple academic sources.
+* Generates quick topic overviews before reading papers.
+* Supports systematic literature reviews.
+* Excellent academic writing assistance.
+* Integrates with popular reference managers like Zotero and Mendeley.
+* Multiple export formats improve usability.
+* Enterprise support enables collaboration for research teams.
+* Well-designed interface focused specifically on researchers.
+
+---
+
+## 6. Limitations
+
+* Some advanced AI models and features require a paid subscription.
+* Personal reference libraries such as Mendeley require authentication before access.
+* Initial search page offers limited filtering options.
+* Generated topic overviews are primarily summaries rather than deep analytical insights.
+* Does not automatically perform critical comparison of methodologies across multiple papers.
+* Does not identify research gaps through reasoning across multiple studies.
+* Does not generate evidence-based experiment plans.
+* AI assists research automation but still relies heavily on researchers for higher-level reasoning and decision-making.
+* Users still need to manually evaluate conflicting research findings and determine future research directions.
+
+---
+
+## 7. Privacy & Security
+
+SciSpace allows users to integrate external research libraries such as Zotero and Mendeley while also supporting searches across trusted academic databases. Access to personal reference libraries requires user authentication. Researchers should continue to exercise caution when uploading unpublished or confidential research documents and review the platform's data-handling policies before sharing sensitive information.
+
+---
+
+## 8. Personal Evaluation
+
+### What impressed me the most?
+
+The feature that impressed me the most was SciSpace's ability to search multiple academic sources from a single interface and immediately generate a structured overview containing definitions, trends, and key concepts. The platform also offers numerous research-specific tools, making it feel like a dedicated research workspace rather than a general AI chatbot.
+
+### What frustrated me?
+
+Although SciSpace provides high-quality summaries and research automation features, I found that its generated insights remain largely descriptive. It summarizes existing information effectively but does not perform deeper reasoning such as identifying research gaps, critically comparing methodologies, or recommending future research directions. Some advanced features are also locked behind premium plans.
+
+### Would I use this product?
+
+Yes. I would use SciSpace for discovering research papers, understanding unfamiliar topics, generating literature reviews, and improving academic writing. It can significantly reduce the time required for the initial stages of research. However, I would still perform critical analysis and experiment planning manually.
+
+### What could be improved?
+
+* Automatic comparison of multiple research papers.
+* AI-driven research-gap identification.
+* Evidence-based experiment planning.
+* Cross-paper reasoning instead of only summarization.
+* Better support for identifying conflicting research findings.
+* More advanced filtering and ranking of search results.
+* Deeper analytical insights rather than only topic summaries.
+
+---
+
+## 9. Overall Rating
+
+| Category         | Rating (/10) | Reason                                                                                                                                                                                     |
+| ---------------- | -----------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Ease of Use      |   **9.0/10** | Simple interface with research-focused navigation.                                                                                                                                         |
+| UI/UX            |   **9.0/10** | Professional and well-organized design.                                                                                                                                                    |
+| AI Accuracy      |   **8.8/10** | Provides relevant summaries and explanations based on academic sources.                                                                                                                    |
+| Research Support |   **9.4/10** | Excellent support for literature search, writing, and research organization.                                                                                                               |
+| Privacy          |   **8.5/10** | Secure integrations and user authentication for external libraries, though users should review data policies for sensitive documents.                                                      |
+| Overall          |   **9.1/10** | A comprehensive AI-powered research workspace that significantly improves research productivity but still depends on the researcher for critical reasoning and scientific decision-making. |
+
+---
+
+## 10. My Biggest Learning
+
+While analyzing SciSpace, I realized that modern AI tools are evolving beyond simple document summarization into comprehensive research automation platforms. SciSpace effectively assists with paper discovery, literature reviews, academic writing, and research organization. However, it primarily automates existing research tasks rather than performing higher-level research reasoning.
+
+Researchers still need to compare methodologies, evaluate conflicting evidence, identify genuine research gaps, design experiments, and make scientific decisions independently. This observation reinforces the vision of ResearchMind AI as an AI research collaborator that supports analytical reasoning through multiple specialized AI agents while keeping the human researcher responsible for the final scientific judgment.
 
 
 
