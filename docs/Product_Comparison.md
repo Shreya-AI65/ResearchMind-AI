@@ -217,6 +217,43 @@ Export Results (Word, PDF, PPT, LaTeX, Markdown, etc.)
 
 ---
 
+
+### Paper Search Experience
+
+### Literature Review Evaluation
+
+### Literature Review Evaluation
+
+SciSpace generates a well-structured literature review with logical headings and subheadings based on the research topic. For example, while exploring *Agentic AI*, it automatically organized the review into sections such as architecture, applications, and recent developments, making the content easy to navigate.
+
+The generated review is coherent and readable. It partially compares related research papers by grouping similar studies together. However, by default, it focuses more on summarizing existing work than performing deep comparative analysis. Critical evaluation of conflicting methodologies or synthesis across multiple papers generally requires explicit prompting from the user.
+
+The literature review includes clickable in-text citations that link directly to the original research sources, allowing users to verify the information easily.
+
+### AI Chat and Paper Understanding
+
+SciSpace provides a research-oriented AI assistant for interacting with research papers. During evaluation, I observed the following:
+
+* High accuracy when explaining textual content from research papers.
+* Provides page references and relevant snippets from uploaded PDFs, making answers easy to verify.
+* Strong contextual memory within the same chat session.
+* Context is not retained when switching to another paper or starting a new conversation.
+* Performs well when answering questions grounded in the uploaded document.
+* Hallucination remains low while discussing document content but increases when asked to generate information beyond the available research paper.
+* Performance on complex mathematical equations and multi-column academic layouts is moderate, indicating room for improvement in advanced document understanding.
+
+### Academic Writing Assistant
+
+SciSpace's writing assistant is specifically designed for academic writing rather than general-purpose content generation. The generated text follows a formal research style, uses passive academic language where appropriate, employs standard scientific terminology, and maintains a professional tone suitable for research papers.
+
+Compared to general-purpose large language models, the writing assistance feels more aligned with academic publishing standards, making it useful for drafting research reports, improving clarity, and refining technical writing.
+
+### Report Generation and Export
+
+SciSpace generates clean, well-structured reports that are suitable for academic use. During evaluation, the exported content was organized with clear headings, properly separated references, and readable formatting.
+
+The platform supports multiple export formats such as Markdown and CSV, making it convenient to reuse the generated content in different research workflows. Overall, the generated reports are of high quality and can serve as a strong starting point for literature reviews or research drafts, although researchers should still perform manual verification before publication.
+
 ## 5. Strengths
 
 * Provides a complete research workspace instead of only a document chat interface.
