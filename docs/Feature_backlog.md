@@ -83,6 +83,31 @@ The goal of Version 1 is to build a functional platform that assists researchers
 
 The following features will be developed after the MVP is completed.
 
+## AI Research Roadmap Generator
+
+Generate a step-by-step research roadmap after analyzing the literature, including suggested milestones, implementation phases, and future research directions.
+
+## Cross-Project Knowledge Graph
+
+Connect insights from multiple research projects and visualize relationships between papers, concepts, authors, and methodologies instead of keeping projects isolated.
+
+## Research Timeline Visualization
+
+Automatically generate an interactive timeline showing the evolution of research, major breakthroughs, datasets, and methodologies in a specific domain.
+
+## AI Debate Mode
+
+Allow multiple AI agents to discuss and debate different research methodologies before presenting a final evidence-based recommendation to the user.
+
+## Evidence Confidence Score
+
+Assign a confidence score to every generated insight based on the number, quality, recency, and consistency of supporting research papers.
+
+## Personalized Learning Modes
+
+Provide explanations tailored to different user levels such as Beginner, Undergraduate, Master's Student, PhD Researcher, and Industry Professional.
+
+
 ## Agentic AI Enhancements
 
 * Multi-agent collaboration.

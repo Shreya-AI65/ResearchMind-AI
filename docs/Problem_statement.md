@@ -30,3 +30,17 @@ ResearchMind AI is a multi-agent research intelligence platform that automates t
 ## Expected Impact
 
 The proposed system aims to significantly reduce the effort involved in understanding a new research area by providing structured insights instead of isolated summaries. It will help users quickly identify state-of-the-art methods, benchmark datasets, existing limitations, and future research opportunities, enabling faster and more informed research decisions.
+
+
+## Existing Solutions
+
+Several AI-powered research assistants, including NotebookLM, SciSpace, Elicit, and Consensus, help users search, summarize, and understand research papers. These tools significantly reduce the time required for literature review and document comprehension by providing AI-assisted summaries, explanations, and source-grounded responses.
+
+However, these platforms primarily focus on document understanding rather than supporting the complete research workflow.
+
+
+## Research Gap
+
+Although current AI research assistants effectively support literature understanding, researchers still spend significant time on higher-level research activities such as comparing methodologies across multiple papers, identifying research gaps, evaluating experimental approaches, planning experiments, selecting datasets and evaluation metrics, and synthesizing knowledge from diverse sources.
+
+This project aims to address these challenges by developing **ResearchMind AI**, an Agentic AI-based research collaborator that employs multiple specialized AI agents to support the complete research lifecycle. Instead of functioning solely as a document summarization tool, the proposed system will assist users in literature analysis, research-gap discovery, experiment planning, and research decision-making through collaborative AI agents.
