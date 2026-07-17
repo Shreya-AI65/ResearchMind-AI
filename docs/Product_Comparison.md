@@ -335,25 +335,210 @@ Researchers still need to compare methodologies, evaluate conflicting evidence, 
 
 
 
-## Product 3: Elicit
+# Product 3: Elicit
 
-### Purpose
+## 1. Purpose
 
-### Target Users
+Elicit is an AI-powered research assistant designed to automate evidence synthesis and literature review. Instead of simply searching research papers, it follows a structured workflow that gathers relevant papers, screens them based on relevance, extracts key insights, and generates research reports. Its primary objective is to reduce the manual effort required to perform systematic literature reviews and evidence-based research.
 
-### Workflow
+---
 
-### Key Features
+## 2. Target Users
 
-### Strengths
+| User Type                         | Why Would They Use Elicit?                                       |
+| --------------------------------- | ---------------------------------------------------------------- |
+| Undergraduate Students            | To understand research topics and prepare literature reviews.    |
+| Master's Students                 | To conduct research and summarize academic literature.           |
+| PhD Researchers                   | To perform systematic reviews and evidence synthesis.            |
+| Professors                        | To supervise research projects and review scientific literature. |
+| Medical Researchers               | To analyze clinical trials and evidence-based studies.           |
+| Pharmaceutical Companies          | To accelerate scientific research and evidence collection.       |
+| Government & Policy Organizations | To support evidence-based policy decisions.                      |
 
-### Limitations
+---
 
-### Privacy & Security
+## 3. Workflow
 
-### Personal Evaluation
+Research Question
 
-### Overall Rating
+↓
+
+Gather Relevant Papers
+
+↓
+
+Screen Papers
+
+↓
+
+Extract Insights
+
+↓
+
+Generate Research Report
+
+---
+
+## 4. Key Features
+
+* AI-powered semantic search
+* Automatic paper screening
+* Insight extraction from research papers
+* Research report generation
+* Systematic literature review
+* Interactive evidence tables
+* Sentence-level citations
+* Personal research library
+* Research alerts
+* Large-scale evidence synthesis
+
+---
+
+## 5. Search Experience
+
+
+### Search Topic
+
+**Agentic AI**
+
+### Search Quality
+
+Elicit uses semantic search to retrieve research papers based on the meaning and intent of the query rather than relying only on exact keywords. During my evaluation, the search results were highly relevant to the topic "Agentic AI."
+
+The search results were automatically ranked according to relevance, allowing the most useful papers to appear first.
+
+### Paper Ranking
+
+One of Elicit's strongest features is its paper ranking mechanism. The platform automatically ranks papers based on relevance and provides useful metadata, including:
+
+* Citation count
+* Publication year
+* Paper title
+* Short AI-generated summary
+* DOI
+* Full-text availability (when available)
+
+This helps researchers quickly identify important papers without manually opening each one.
+
+### Filters
+
+Elicit provides several useful research filters, including:
+
+* Publication Year
+* Journal Quality (Q1, Q2, Q3, Q4)
+* Study Type (Review, etc.)
+* PDF Availability
+
+These filters make it easier to narrow down high-quality research papers.
+
+### AI Paper Summaries
+
+Instead of generating one combined summary for all retrieved papers, Elicit provides an individual AI-generated summary (approximately 4–5 lines) for each paper. This allows researchers to quickly judge whether a paper is relevant before reading the full abstract.
+
+After selecting a paper, Elicit displays:
+
+* Abstract
+* Paper details
+* DOI
+* Full-text availability (if accessible)
+
+This creates an efficient paper-screening workflow.
+
+### Download and Library Management
+
+Researchers can:
+
+* Download search results.
+* Save papers to their personal library.
+* Organize research for future use.
+
+---
+
+## Personal Observations
+
+### What impressed me?
+
+The most impressive feature was the combination of semantic search, automatic paper ranking, and AI-generated summaries for every individual paper. Instead of forcing users to read multiple abstracts, Elicit provides concise summaries that help determine whether a paper is worth exploring further. The availability of citation counts, journal-quality filters, and DOI links makes the screening process much faster.
+
+### Limitations Observed
+
+Although Elicit is excellent for discovering and screening research papers, I observed several limitations:
+
+* It primarily summarizes individual papers rather than synthesizing knowledge across multiple papers.
+* It focuses on helping researchers identify relevant literature but provides limited support for deeper analytical reasoning.
+* Understanding complex research still requires reading the original paper.
+* Higher-level tasks such as identifying research gaps, comparing methodologies in depth, and planning experiments remain largely manual.
+* The platform emphasizes evidence discovery more than collaborative research reasoning.
+
+### Ideas for ResearchMind AI
+
+Based on this evaluation, ResearchMind AI could improve upon Elicit by:
+
+* Automatically comparing methodologies across multiple papers.
+* Detecting research gaps using evidence from multiple sources.
+* Generating evidence-based research recommendations.
+* Supporting experiment planning.
+* Maintaining long-term context across multiple research sessions.
+* Enabling collaboration between specialized AI agents instead of relying on a single research workflow.
+
+
+---
+
+## 6. Major Strengths
+
+* Workflow designed specifically for research.
+* Strong semantic search.
+* Automatic paper screening.
+* Excellent evidence synthesis.
+* Sentence-level citations improve transparency.
+* Interactive research tables.
+* Suitable for large-scale literature reviews.
+* Trusted by universities, research institutions, and industry.
+
+---
+
+## 7. Limitations
+
+* Primarily focused on literature review and evidence synthesis.
+* Less emphasis on deep multi-agent reasoning.
+* Higher-level research decisions still depend on the researcher.
+* Homepage does not clearly describe the underlying AI models.
+* Advanced functionality may require premium access.
+
+---
+
+## 8. Personal Evaluation
+
+### What impressed me?
+
+The feature that impressed me the most was the structured workflow. Unlike many AI tools that simply answer questions, Elicit follows a research pipeline by gathering papers, screening them, extracting important insights, and finally generating a report. This closely resembles the workflow followed by researchers during literature review.
+
+### What frustrated me?
+
+Although the workflow is well designed, it is primarily focused on generating reports from existing literature. It does not appear to perform deeper reasoning, identify research gaps automatically, or support experiment planning in the way I envision for ResearchMind AI.
+
+### Would I use this product?
+
+Yes. I would use Elicit when conducting systematic literature reviews or generating evidence-based reports. It would save considerable time during the early stages of research.
+
+---
+
+## 9. Overall Rating
+
+| Category         | Rating (/10) | Reason                                                                                    |
+| ---------------- | -----------: | ----------------------------------------------------------------------------------------- |
+| Ease of Use      |   **9.2/10** | Simple workflow focused on research tasks.                                                |
+| Search Quality   |   **9.5/10** | Strong semantic search across a very large research database.                             |
+| Research Support |   **9.6/10** | Excellent for literature review and evidence synthesis.                                   |
+| Transparency     |   **9.7/10** | Sentence-level citations improve trustworthiness.                                         |
+| Overall          |   **9.4/10** | A powerful AI assistant for systematic literature reviews and research report generation. |
+
+---
+
+## 10. Biggest Learning
+
+Elicit demonstrated that modern AI research tools are moving beyond simple search engines toward structured research workflows. Instead of only retrieving papers, it organizes the entire literature review process into evidence gathering, screening, insight extraction, and report generation. However, it still relies on researchers for higher-level reasoning, research-gap identification, and scientific decision-making, leaving opportunities for ResearchMind AI to provide deeper analytical support through specialized AI agents.
+
 
 
 ## Product 4: Consensus

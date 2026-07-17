@@ -162,7 +162,6 @@ This insight has given me a clearer vision for ResearchMind AI. Rather than buil
 Overall, today's work strengthened my understanding of product analysis and helped me think more like a researcher and AI product designer rather than only a developer.
 
 
-# Development Journal
 
 ## Day 3 – SciSpace Competitor Analysis
 
@@ -216,3 +215,73 @@ Today's analysis helped me understand the difference between research automation
 * Compare Elicit with NotebookLM and SciSpace.
 * Identify additional research gaps and feature ideas for ResearchMind AI.
 * Continue documenting observations and updating the competitor comparison.
+
+
+
+## Day 4 – Elicit Competitor Analysis
+
+**Date:** 17 July 2026
+
+### Objective
+
+To analyze Elicit as an AI-powered research assistant, understand its workflow, compare it with NotebookLM and SciSpace, and identify ideas that can improve the design of ResearchMind AI.
+
+---
+
+### Tasks Completed
+
+* Explored the Elicit homepage and understood its purpose and target users.
+* Studied the complete workflow of Elicit, including paper gathering, screening, insight extraction, and report generation.
+* Explored the paper search functionality using the topic **Agentic AI**.
+* Evaluated semantic search, paper ranking, filtering options, AI-generated summaries, citation information, DOI links, and paper metadata.
+* Compared Elicit with SciSpace by identifying similarities and differences in research workflow.
+* Updated **Product_Comparison.md** with a detailed analysis of Elicit.
+* Updated **Competitor_Comparison.md** with a comparison between SciSpace and Elicit.
+
+---
+
+### Key Observations
+
+* Elicit follows a structured research workflow rather than functioning as a conversational AI assistant.
+* It emphasizes evidence synthesis by gathering papers, screening them, extracting insights, and generating reports.
+* Semantic search retrieves highly relevant papers even when exact keywords are not used.
+* Individual AI summaries for each paper make the screening process faster and reduce the need to open every paper.
+* Citation counts, DOI links, publication year, and journal-quality filters help researchers identify high-quality papers efficiently.
+* Sentence-level citations improve transparency and increase confidence in the generated results.
+
+---
+
+### Challenges Identified
+
+* The platform primarily focuses on evidence discovery and literature review rather than deep analytical reasoning.
+* It summarizes individual papers but performs limited cross-paper synthesis by default.
+* Researchers still need to manually identify research gaps, compare conflicting methodologies, and design experiments.
+* The platform provides excellent research support but does not function as a collaborative multi-agent research system.
+
+---
+
+### Ideas for ResearchMind AI
+
+* Develop specialized AI agents that collaborate throughout the research lifecycle.
+* Automatically compare methodologies from multiple research papers.
+* Detect research gaps using evidence collected across papers.
+* Generate evidence-based research recommendations.
+* Support experiment planning and implementation strategies.
+* Maintain long-term memory across multiple research sessions.
+* Provide deeper analytical reasoning instead of only evidence summarization.
+
+---
+
+### Biggest Learning
+
+Today's analysis helped me understand that Elicit specializes in evidence synthesis rather than complete research automation. It is highly effective at discovering, screening, and organizing research papers, making the literature review process more efficient. However, higher-level research reasoning and scientific decision-making still depend on the researcher. This reinforced my vision that ResearchMind AI should combine multiple specialized AI agents to assist researchers beyond evidence collection by supporting reasoning, comparison, research-gap identification, and experiment planning.
+
+---
+
+### Plan for Day 5
+
+* Analyze Consensus as the fourth competitor.
+* Compare Consensus with NotebookLM, SciSpace, and Elicit.
+* Identify additional research gaps and opportunities for ResearchMind AI.
+* Update the competitor comparison document.
+* Continue refining the vision and architecture of ResearchMind AI based on competitor analysis.
