@@ -192,3 +192,21 @@ After analyzing multiple AI research assistants, I realized that every existing 
 * Persistent research memory.
 * Cross-paper reasoning.
 * Personalized research recommendations.
+
+
+
+# Overall Research Insights
+
+The evaluation of NotebookLM, SciSpace, Elicit, and Consensus provided a comprehensive understanding of the current capabilities of AI-assisted research tools.
+
+Several important observations emerged during the analysis:
+
+* Modern research assistants significantly reduce the time required for literature search and document understanding.
+* Semantic search and Retrieval-Augmented Generation (RAG) have become standard features in research-focused AI tools.
+* Evidence-backed responses with citations improve transparency and reduce hallucinations.
+* Most tools emphasize retrieval and summarization rather than deep analytical reasoning.
+* Cross-paper methodology comparison and automated research-gap identification remain largely manual tasks.
+* Experiment planning and hypothesis generation continue to rely heavily on researcher expertise.
+* Long-term research memory and collaboration among multiple specialized AI agents are generally absent.
+
+These findings directly influenced the design of ResearchMind AI. The proposed system extends beyond traditional AI research assistants by introducing a collaborative multi-agent architecture capable of supporting researchers throughout the complete scientific research lifecycle.
