@@ -541,22 +541,253 @@ Elicit demonstrated that modern AI research tools are moving beyond simple searc
 
 
 
-## Product 4: Consensus
+# Product 4: Consensus
 
-### Purpose
+## 1. Purpose
 
-### Target Users
+Consensus is an AI-powered academic search engine designed to help users obtain evidence-based answers from scientific literature. Instead of providing information from the general web, it searches peer-reviewed research papers, analyzes the evidence, and generates research-backed responses with supporting citations.
 
-### Workflow
+Its primary objective is to make scientific knowledge easily accessible while reducing misinformation and unsupported claims.
 
-### Key Features
+---
 
-### Strengths
+## 2. Target Users
+
+| User Type              | Why Would They Use Consensus?                                    |
+| ---------------------- | ---------------------------------------------------------------- |
+| Undergraduate Students | To find research-backed answers for assignments and projects.    |
+| Master's Students      | To explore research topics and review scientific evidence.       |
+| PhD Researchers        | To quickly identify relevant literature and supporting evidence. |
+| Medical Professionals  | To access evidence-based medical research.                       |
+| Professors             | To verify scientific claims and guide research projects.         |
+| General Users          | To obtain reliable answers supported by peer-reviewed research.  |
+
+---
+
+## 3. Workflow
+
+Research Question
+
+↓
+
+Semantic Search
+
+↓
+
+Retrieve Relevant Research Papers
+
+↓
+
+Analyze Scientific Evidence
+
+↓
+
+Generate AI Answer
+
+↓
+
+Provide Supporting Research Papers and Citations
+
+---
+
+## 4. Key Features
+
+* Semantic academic search
+* Deep Search mode
+* Medical Mode
+* AI-generated evidence-based answers
+* Literature review automation
+* Natural language filters
+* Research agreement analysis
+* Citation filtering
+* Journal-quality filtering
+* Country and field-based filtering
+* Publisher filtering
+* Study methodology filtering
+
+---
+
+## 5. Homepage Analysis
+
+Consensus introduces itself as an AI-powered research assistant built on more than **200 million peer-reviewed research papers**.
+
+The homepage emphasizes that research should begin with scientific evidence rather than general internet searches. It highlights features such as Deep Search, Medical Mode, evidence synthesis, and literature review automation.
+
+The platform is trusted by universities, publishers, and research organizations, including Wiley, Taylor & Francis, Sage Publications, the University of Michigan, Rice University, Carnegie Mellon University, and the University of Virginia.
+
+---
+
+## 6. Search Experience
+
+Consensus provides semantic search instead of relying only on exact keywords. It searches a large collection of peer-reviewed scientific literature and retrieves relevant research papers based on the meaning of the query.
+
+The platform includes several useful filters:
+
+* Publication Year
+* Journal Ranking (Q1–Q4)
+* Citation Count
+* Open Access
+* Preprint Exclusion
+* Study Methodology
+* Sample Size
+* Study Duration
+* Publisher
+* Country
+* Field of Study
+
+These filters enable researchers to narrow their search and focus on high-quality scientific evidence.
+
+### Search Topic
+
+**Agentic AI**
+
+### Search Quality
+
+Consensus retrieved highly relevant research papers using semantic search. The search results were well organized and included paper titles, citation counts, abstracts, PDF access, and AI-generated summaries.
+
+Unlike traditional academic search engines, the platform presents both research evidence and AI-generated explanations in a single interface, reducing the effort required to understand the topic.
+
+---
+
+### Paper Ranking
+
+The retrieved papers were automatically ranked according to relevance. Each paper included useful research metadata such as:
+
+* Citation count
+* Abstract
+* PDF availability
+* Research topic
+* AI-generated summary
+
+This allows researchers to quickly identify influential papers without manually exploring every search result.
+
+---
+
+### AI Summary Quality
+
+Consensus generates a single integrated summary by combining evidence from multiple research papers instead of producing separate summaries for each paper.
+
+During evaluation, I observed that the generated summary was concise, well-structured, and easier to understand than the summaries produced by some other research tools.
+
+The quality of the generated content appeared to be among the best of the AI research assistants evaluated so far.
+
+---
+
+### Paper Reading Experience
+
+Each paper provides:
+
+* Abstract
+* PDF access (when available)
+* Citation information
+* AI-generated explanation
+
+One particularly useful feature is the ability to highlight any section of the generated answer and immediately ask follow-up questions about that specific content. This makes reading research papers much more interactive.
+
+---
+
+### Related Research Suggestions
+
+Consensus automatically recommends additional research questions related to the current topic.
+
+For example, after searching "Agentic AI", suggested questions included:
+
+* Are Agentic AI systems effective for complex goal completion?
+* What are the evaluation metrics for Agentic AI?
+* How do Agentic AI architectures differ from autonomous LLM agents?
+
+These suggestions encourage researchers to explore related research directions without needing to formulate every question manually.
+
+---
+
+## Personal Observations
+
+### What impressed me?
+
+The strongest feature of Consensus is its ability to combine evidence retrieval, semantic search, AI summarization, and interactive research assistance within a single interface.
+
+Compared with the other research tools evaluated, the AI-generated summaries appeared more coherent, and the integrated workflow reduced the need to switch between multiple pages while reading research papers.
+
+The ability to ask questions about specific portions of the generated content significantly improves the research experience.
+
+---
 
 ### Limitations
 
-### Privacy & Security
+Although Consensus performs exceptionally well for evidence retrieval and scientific question answering, several limitations remain:
 
-### Personal Evaluation
+* The generated summaries are intentionally concise rather than deeply analytical.
+* Cross-paper methodological comparison remains limited.
+* Automatic research-gap identification is not available.
+* Experiment planning still depends on the researcher.
+* Long-term research memory and multi-agent collaboration are not supported.
 
-### Overall Rating
+---
+
+## Ideas for ResearchMind AI
+
+Based on this evaluation, ResearchMind AI should extend beyond Consensus by providing:
+
+* Automatic methodology comparison across papers.
+* Research-gap detection.
+* Multi-agent collaboration.
+* Experiment planning assistance.
+* Long-term research memory.
+* Dynamic reasoning across multiple research sessions instead of isolated conversations.
+
+---
+
+## 7. Major Strengths
+
+* Large database of peer-reviewed research papers.
+* Strong semantic search.
+* Deep Search mode for comprehensive research.
+* Medical Mode for healthcare-related evidence.
+* Rich filtering options.
+* Evidence-based AI responses.
+* Research agreement analysis.
+* Trusted by leading universities and publishers.
+
+---
+
+## 8. Limitations
+
+* Primarily focused on evidence retrieval and scientific question answering.
+* Higher-level reasoning and research-gap identification remain manual.
+* Does not appear to support multi-agent collaboration.
+* Experiment planning and methodology generation are still dependent on the researcher.
+* Long-term research memory is limited.
+
+---
+
+## 9. Personal Evaluation
+
+### What impressed me?
+
+The most impressive aspect of Consensus is its strong focus on evidence-based research. The availability of more than 200 million peer-reviewed papers, Deep Search mode, Medical Mode, and detailed filtering options makes it highly effective for quickly finding reliable scientific information.
+
+### What frustrated me?
+
+Although Consensus is excellent at retrieving scientific evidence, it mainly assists in answering research questions rather than supporting the complete research lifecycle. Tasks such as identifying research gaps, comparing methodologies across papers, and planning experiments still require significant manual effort.
+
+### Would I use this product?
+
+Yes. I would use Consensus whenever I need scientifically validated answers or want to verify claims using peer-reviewed research papers before conducting deeper analysis.
+
+---
+
+## 10. Overall Rating
+
+| Category         | Rating (/10) | Reason                                                                             |
+| ---------------- | -----------: | ---------------------------------------------------------------------------------- |
+| Ease of Use      |   **9.5/10** | Simple and intuitive interface.                                                    |
+| Search Quality   |   **9.7/10** | Excellent semantic search over peer-reviewed literature.                           |
+| Research Support |   **9.3/10** | Strong for evidence retrieval and verification.                                    |
+| Transparency     |   **9.8/10** | Focuses on evidence-backed answers and scientific citations.                       |
+| Overall          |   **9.6/10** | One of the strongest AI-powered academic search tools for evidence-based research. |
+
+---
+
+## 11. Biggest Learning
+
+Consensus demonstrated that AI can make scientific research more accessible by providing evidence-backed answers instead of generic AI-generated responses. However, it still focuses primarily on retrieving and organizing evidence. Advanced research reasoning, automatic research-gap detection, experiment planning, and collaborative multi-agent workflows remain opportunities for ResearchMind AI.

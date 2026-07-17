@@ -151,3 +151,21 @@ Provide explanations tailored to different user levels such as Beginner, Undergr
 # Future Vision
 
 ResearchMind AI aims to become an intelligent research companion capable of assisting researchers throughout the complete research lifecycle—from identifying research topics to generating literature reviews, suggesting experiments, and supporting publication planning.
+
+
+# Version 3 (Advanced Research Intelligence)
+
+The following features are planned for future versions after the core research assistant is completed.
+
+- Multi-agent collaboration
+- Automatic research-gap detection
+- Cross-paper methodology comparison
+- Experiment planning assistant
+- Research recommendation engine
+- Knowledge graph generation
+- Long-term research memory
+- Research trend prediction
+- Automatic benchmark generation
+- Citation quality analysis
+- Hypothesis generation
+- Research timeline visualization

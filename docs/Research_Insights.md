@@ -132,6 +132,19 @@ Experiment planning and implementation guidance remain largely manual.
 
 Most research assistants stop after summarization instead of helping researchers move toward new discoveries.
 
+
+## Updated Common Research Gaps
+
+After evaluating NotebookLM, SciSpace, Elicit, and Consensus, I observed several common limitations:
+
+* Most tools focus on information retrieval and summarization rather than deep analytical reasoning.
+* Automatic identification of research gaps is largely unavailable.
+* Experiment planning remains a manual process.
+* Long-term research memory across projects is limited.
+* Collaboration between multiple specialized AI agents is absent.
+* Methodology comparison across multiple papers requires significant manual effort.
+* Researchers are still responsible for critical thinking, hypothesis generation, and scientific decision-making.
+
 ---
 
 # Vision for ResearchMind AI
@@ -147,3 +160,35 @@ The long-term vision is to assist researchers throughout the complete research l
 # Biggest Personal Learning
 
 After analyzing multiple AI research assistants, I realized that every existing platform specializes in a particular stage of research. However, no single platform provides a complete research ecosystem that combines evidence retrieval, analytical reasoning, multi-agent collaboration, long-term memory, research-gap detection, and experiment planning. This observation reinforces the motivation behind developing ResearchMind AI.
+
+
+# 4. Consensus
+
+## Best Features
+
+* Semantic academic search.
+* Evidence-based AI answers.
+* Deep Search mode.
+* Medical Mode.
+* Interactive follow-up questioning.
+* Integrated summaries from multiple papers.
+* Rich filtering options.
+* Large database of peer-reviewed research.
+
+## Limitations
+
+* Limited deep analytical reasoning.
+* No automatic research-gap identification.
+* No experiment planning.
+* No multi-agent collaboration.
+* Long-term memory is limited.
+
+## Ideas for ResearchMind AI
+
+* Automatic methodology comparison.
+* Research-gap detection.
+* Multi-agent collaboration.
+* Experiment planning.
+* Persistent research memory.
+* Cross-paper reasoning.
+* Personalized research recommendations.

@@ -372,3 +372,169 @@ Both platforms complement different stages of the research process rather than r
 After evaluating both platforms, I observed that they specialize in different phases of academic research. SciSpace excels at supporting the overall research workflow, whereas Elicit is particularly strong at evidence discovery, semantic search, and paper screening.
 
 However, neither platform performs deeper multi-paper reasoning, automatic research-gap identification, or experiment planning. These remain opportunities for **ResearchMind AI**, which aims to combine multiple specialized AI agents to support researchers throughout the entire research lifecycle rather than focusing on a single stage.
+
+
+# NotebookLM vs Consensus
+
+## 1. Primary Focus
+
+### NotebookLM
+
+* Personal AI notebook built around user-uploaded documents.
+* Helps users understand, summarize, and interact with their own knowledge base.
+
+### Consensus
+
+* AI-powered academic search engine that retrieves evidence from peer-reviewed research papers.
+* Focuses on evidence-based scientific question answering.
+
+**Better:** Depends on the use case.
+
+---
+
+## 2. Knowledge Source
+
+### NotebookLM
+
+* Only uploaded documents.
+
+### Consensus
+
+* More than 200 million peer-reviewed research papers.
+
+**Better:** Consensus
+
+---
+
+## 3. Search
+
+### NotebookLM
+
+* No academic paper search.
+
+### Consensus
+
+* Semantic search across scientific literature.
+
+**Better:** Consensus
+
+---
+
+## 4. AI Summaries
+
+### NotebookLM
+
+* Summarizes uploaded documents.
+
+### Consensus
+
+* Summarizes evidence collected from multiple research papers.
+
+**Better:** Consensus
+
+---
+
+## 5. Citations
+
+### NotebookLM
+
+* Provides citations from uploaded files.
+
+### Consensus
+
+* Provides evidence-backed scientific citations.
+
+**Better:** Consensus
+
+---
+
+## 6. Best Use Case
+
+NotebookLM is ideal for understanding personal study material.
+
+Consensus is ideal for evidence-based academic research.
+
+---
+
+## Overall Observation
+
+NotebookLM excels at document understanding, whereas Consensus excels at scientific evidence retrieval and research-backed question answering.
+
+
+# Elicit vs Consensus
+
+## 1. Primary Focus
+
+### Elicit
+
+* Literature review automation.
+* Evidence synthesis.
+* Paper screening.
+
+### Consensus
+
+* Scientific question answering.
+* Evidence-based search.
+* Research exploration.
+
+---
+
+## 2. Search
+
+### Elicit
+
+* Semantic search with automatic paper screening.
+
+### Consensus
+
+* Semantic search with evidence-based answers.
+
+**Better:** Consensus
+
+---
+
+## 3. AI Summary
+
+### Elicit
+
+* Individual summaries for each paper.
+
+### Consensus
+
+* Single integrated summary using evidence from multiple papers.
+
+**Better:** Consensus
+
+---
+
+## 4. Paper Screening
+
+### Elicit
+
+* Excellent paper ranking and screening.
+
+### Consensus
+
+* Strong evidence retrieval but less focused on screening workflow.
+
+**Better:** Elicit
+
+---
+
+## 5. Literature Review
+
+### Elicit
+
+* Better literature review workflow.
+
+### Consensus
+
+* Better evidence-based explanations.
+
+**Better:** Depends on the objective.
+
+---
+
+## 6. Overall Observation
+
+Elicit is stronger for systematic literature reviews and evidence screening, whereas Consensus is stronger for obtaining quick, evidence-backed scientific answers supported by peer-reviewed research.
