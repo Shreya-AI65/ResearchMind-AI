@@ -1,0 +1,43 @@
+{
+  "total": 2,
+  "offset": 0,
+  "next": 2,
+  "data": [
+    {
+      "paperId": "1234567890abcdef",
+      "title": "Agentic AI: A Survey on Autonomous Intelligent Systems",
+      "abstract": "This survey provides a comprehensive overview of Agentic AI, including architectures, planning strategies, memory mechanisms, tool usage, and real-world applications. It discusses current challenges and future research directions.",
+      "year": 2026,
+      "citationCount": 467,
+      "url": "https://www.semanticscholar.org/paper/1234567890abcdef",
+      "authors": [
+        {
+          "authorId": "1001",
+          "name": "John Smith"
+        },
+        {
+          "authorId": "1002",
+          "name": "Emily Johnson"
+        }
+      ]
+    },
+    {
+      "paperId": "abcdef1234567890",
+      "title": "Large Language Model Agents: A Comprehensive Survey",
+      "abstract": "This paper reviews LLM-based autonomous agents, covering reasoning, planning, memory, tool invocation, multi-agent collaboration, and evaluation benchmarks.",
+      "year": 2025,
+      "citationCount": 160,
+      "url": "https://www.semanticscholar.org/paper/abcdef1234567890",
+      "authors": [
+        {
+          "authorId": "1003",
+          "name": "Alice Brown"
+        },
+        {
+          "authorId": "1004",
+          "name": "Michael Davis"
+        }
+      ]
+    }
+  ]
+}
