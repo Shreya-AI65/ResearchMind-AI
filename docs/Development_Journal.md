@@ -510,3 +510,302 @@ The next phase of development will focus on implementing the first functional AI
 **Paper Retrieval Agent (Skeleton):** ✅ Completed
 
 **Semantic Scholar Integration:** ⏳ Planned for Day 8
+
+
+
+## Semantic Scholar API Study
+
+### Objective
+
+Before integrating the Semantic Scholar API into ResearchMind AI, I explored its documentation to understand its capabilities, endpoints, request parameters, response format, and usage limitations.
+
+### Overview
+
+Semantic Scholar API is a free academic search service developed by the Allen Institute for AI (AI2). It enables developers to programmatically search, retrieve, and analyze millions of research papers. Unlike traditional keyword-based search engines, Semantic Scholar leverages machine learning techniques to understand relationships between research papers, track citation impact, and provide rich contextual metadata.
+
+### API Endpoints
+
+**Public Base URL**
+
+```
+https://api.semanticscholar.org/graph/v1
+```
+
+**Partner Base URL (API Key Required)**
+
+```
+https://partner.semanticscholar.org/graph/v1
+```
+
+### Paper Search Endpoint
+
+```
+GET /paper/search
+```
+
+This endpoint is used to search academic papers using natural language keywords.
+
+Example query:
+
+```
+/paper/search?query=Agentic AI
+```
+
+---
+
+### Important Query Parameters
+
+| Parameter | Required | Description |
+|-----------|----------|-------------|
+| query | Yes | Research topic or keyword to search |
+| limit | No | Maximum number of papers returned |
+| offset | No | Used for pagination |
+| fields | No | Specifies which paper metadata should be returned |
+
+---
+
+### Paper Metadata Available
+
+The API can return the following information when requested through the `fields` parameter:
+
+- Paper ID
+- Corpus ID
+- Title
+- Abstract
+- Authors
+- Publication Year
+- Publication Date
+- Venue
+- Journal
+- Citation Count
+- Reference Count
+- Influential Citation Count
+- DOI
+- Open Access Status
+- Paper URL
+
+---
+
+### Default Response Behavior
+
+Without specifying the `fields` parameter, the API returns only minimal information, typically:
+
+- Paper ID
+- Title
+
+To retrieve additional metadata such as abstracts, authors, citation counts, and publication details, these fields must be explicitly requested.
+
+---
+
+### Search Characteristics
+
+The search endpoint accepts plain-text research queries and searches across:
+
+- Paper titles
+- Abstracts
+- Indexed keywords
+
+This enables semantic retrieval of relevant academic papers instead of relying solely on exact keyword matching.
+
+---
+
+### Pagination
+
+The API supports pagination using:
+
+- `limit`
+- `offset`
+
+The maximum sequential deep paging supported by the endpoint is approximately 1000 results.
+
+---
+
+### Rate Limits
+
+**Without API Key**
+
+- 100 requests per minute per IP address
+
+**With API Key**
+
+- Introductory limit of 1 request per second (1 RPS)
+
+---
+
+### Important Implementation Notes
+
+- Authentication headers are required only when using the Partner API.
+- The API follows sparse defaults and returns only limited metadata unless additional fields are explicitly requested.
+- Proper query formatting significantly improves search relevance.
+- The `fields` parameter is essential for retrieving complete research metadata required by ResearchMind AI.
+
+---
+
+### Key Learning
+
+Understanding the API documentation before implementation is crucial. Instead of requesting every available field, ResearchMind AI should retrieve only the metadata required for downstream agents, reducing response size and improving efficiency. This study provides the foundation for implementing the Paper Retrieval Agent in the next development phase.
+
+
+# Development Journal
+
+## Day 8 – Semantic Scholar API Integration
+
+### Objective
+Implement the Paper Retrieval Agent and integrate the Semantic Scholar Graph API into the FastAPI backend.
+
+---
+
+## Tasks Completed
+
+### 1. Studied Semantic Scholar API
+- Explored the Graph API documentation.
+- Learned about available endpoints.
+- Understood request parameters including query, limit, and fields.
+- Studied API response structure and rate limits.
+
+---
+
+### 2. Implemented Paper Retrieval Agent
+Created the Paper Retrieval Agent inside:
+
+backend/app/agents/paper_retrieval.py
+
+Implemented:
+- Semantic Scholar Graph API endpoint
+- Search parameters
+- HTTP GET requests using requests library
+- Error handling for unsuccessful responses
+
+---
+
+### 3. Connected FastAPI Endpoint
+
+Created API route:
+
+GET /search
+
+Workflow:
+
+User Query
+↓
+FastAPI Route
+↓
+Paper Retrieval Agent
+↓
+Semantic Scholar API
+↓
+JSON Response
+
+---
+
+### 4. Testing
+
+Successfully verified:
+
+- Backend starts successfully
+- Endpoint routing works
+- API request reaches Semantic Scholar
+- Error handling executes correctly
+
+Received:
+
+HTTP Status Code: 429
+
+Reason:
+
+Public Semantic Scholar API rate limit exceeded.
+
+---
+
+### 5. API Key Request
+
+Submitted an official request for a Semantic Scholar API key to enable authenticated requests with higher rate limits.
+
+Current Status:
+
+Waiting for approval.
+
+---
+
+## Current Project Status
+
+Completed:
+- FastAPI backend
+- Paper Retrieval Agent
+- API integration
+- Error handling
+
+Pending:
+- API key approval
+- Parsing real API responses
+- Metadata extraction
+
+---
+
+## Next Steps
+
+- Create Paper model
+- Build Paper Parser
+- Integrate authenticated Semantic Scholar requests
+- Continue development using mock responses until API key approval
+
+
+### Task 6 – Parser Testing
+
+- Created sample_response.json to simulate Semantic Scholar API output.
+- Successfully tested the Paper Parser using mock JSON data.
+- Verified extraction of:
+  - Title
+  - Authors
+  - Abstract
+  - Publication Year
+  - Citation Count
+  - URL
+
+Status:
+Completed
+
+---
+
+### Task 7 – Paper Service
+
+Created PaperService to act as the middleware between:
+
+Paper Retrieval Agent
+↓
+
+Paper Parser
+↓
+
+Structured Paper Objects
+
+Responsibilities:
+- Retrieve raw paper data
+- Parse API response
+- Return standardized paper objects
+- Handle API error responses
+
+Status:
+Completed
+
+### Task 8 – Parser Unit Testing
+
+Objective:
+Validate that the Paper Parser correctly converts raw Semantic Scholar API responses into structured paper objects.
+
+Implementation:
+- Created a unit test (`tests/test_parser.py`).
+- Loaded mock API data from `sample_response.json`.
+- Passed the response to `PaperParser.parse_response()`.
+- Printed parsed paper metadata for verification.
+
+Test Results:
+- Successfully parsed 2 papers.
+- Verified title extraction.
+- Verified author extraction.
+- Verified publication year extraction.
+- Verified citation count extraction.
+- Verified URL extraction.
+
+Status:
+ Completed Successfully
