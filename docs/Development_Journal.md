@@ -342,7 +342,7 @@ Every research assistant specializes in a different stage of the research lifecy
 
 
 
-# Project Milestone – Completion of Research and Design Phase
+# Day 6-Project Milestone – Completion of Research and Design Phase
 
 **Date:** 18 July 2026
 
