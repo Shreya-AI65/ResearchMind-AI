@@ -646,9 +646,7 @@ The maximum sequential deep paging supported by the endpoint is approximately 10
 Understanding the API documentation before implementation is crucial. Instead of requesting every available field, ResearchMind AI should retrieve only the metadata required for downstream agents, reducing response size and improving efficiency. This study provides the foundation for implementing the Paper Retrieval Agent in the next development phase.
 
 
-# Development Journal
-
-## Day 8 – Semantic Scholar API Integration
+# Day 8 – Semantic Scholar API Integration
 
 ### Objective
 Implement the Paper Retrieval Agent and integrate the Semantic Scholar Graph API into the FastAPI backend.
