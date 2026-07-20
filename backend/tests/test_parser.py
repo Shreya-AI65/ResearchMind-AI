@@ -5,8 +5,12 @@ Purpose:
 Verify that the Paper Parser correctly converts
 Semantic Scholar responses into clean paper objects.
 """
-
+import os
+import sys
 import json
+
+project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+sys.path.insert(0, project_root)
 
 from app.utils.parser import PaperParser
 
