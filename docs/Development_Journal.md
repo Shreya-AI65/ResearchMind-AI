@@ -806,4 +806,396 @@ Test Results:
 - Verified URL extraction.
 
 Status:
- Completed Successfully
+Completed Successfully
+
+
+ ---
+
+## Task 9 – API Workflow Documentation
+
+### Objective
+
+Document the complete backend workflow of ResearchMind AI to clearly define how user queries are processed and how different backend components interact.
+
+### Work Completed
+
+- Created a new documentation file: `docs/API_WORKFLOW.md`.
+- Documented the complete paper retrieval workflow from user query to structured paper objects.
+- Explained the responsibilities of each backend component.
+- Added a system architecture diagram using a text-based flowchart.
+- Documented the current implementation status of the backend modules.
+- Described future expansion plans for integrating multiple academic paper sources.
+
+### Workflow Documented
+
+User Query
+
+↓
+
+FastAPI Search Endpoint
+
+↓
+
+Paper Retrieval Agent
+
+↓
+
+Semantic Scholar API
+
+↓
+
+Raw JSON Response
+
+↓
+
+Paper Parser
+
+↓
+
+Paper Model
+
+↓
+
+Paper Service
+
+↓
+
+Future AI Agents
+
+### Components Documented
+
+- FastAPI Backend
+- Paper Retrieval Agent
+- Semantic Scholar Integration
+- Paper Parser
+- Paper Model
+- Paper Service
+- Future AI Agents
+
+### Future Enhancements
+
+The workflow documentation includes plans to support multiple academic data sources such as:
+
+- Semantic Scholar
+- OpenAlex
+- arXiv
+- Crossref
+- IEEE Xplore (subject to licensing and access)
+
+It also outlines future AI modules including:
+
+- Literature Review Agent
+- Paper Comparison Agent
+- Research Gap Detection Agent
+- Citation Analysis Agent
+- Research Report Generation Agent
+
+### Outcome
+
+The backend workflow is now fully documented, making the project architecture easier to understand, maintain, and extend. This documentation will also support future contributors and serve as a reference during subsequent development phases.
+
+### Status
+
+Completed Successfully
+
+
+---
+
+# Day 9 - Integrating the Paper Retrieval Pipeline
+
+
+## Task 1 – Integrating Paper Service with FastAPI
+
+### Objective
+
+Improve the backend architecture by introducing a service layer between the FastAPI endpoint and the Paper Retrieval Agent. This follows a layered software architecture, improving modularity, maintainability, and scalability.
+
+### Work Completed
+
+- Modified the FastAPI search endpoint (`app/api/search.py`) to use `PaperService` instead of directly calling the `PaperRetrievalAgent`.
+- Updated the request flow so that all paper retrieval requests pass through the service layer.
+- Verified successful communication between the API endpoint, Paper Service, Paper Retrieval Agent, and Paper Parser.
+- Ensured that the service layer returns structured paper data to the FastAPI endpoint.
+
+### Architecture Before
+
+```
+User
+   │
+   ▼
+FastAPI Endpoint
+   │
+   ▼
+Paper Retrieval Agent
+```
+
+### Architecture After
+
+```
+User
+   │
+   ▼
+FastAPI Endpoint
+   │
+   ▼
+Paper Service
+   │
+   ▼
+Paper Retrieval Agent
+   │
+   ▼
+Semantic Scholar API
+   │
+   ▼
+Paper Parser
+   │
+   ▼
+Structured Paper Objects
+```
+
+### Benefits
+
+- Separates API handling from business logic.
+- Makes the backend easier to maintain and extend.
+- Provides a centralized location for processing retrieved papers.
+- Supports future integration of multiple academic databases.
+- Follows software engineering best practices using a layered architecture.
+
+### Result
+
+The FastAPI endpoint now communicates with the `PaperService`, which coordinates paper retrieval and parsing before returning structured results to the client. This creates a cleaner and more scalable backend architecture for future AI agents.
+
+### Status
+
+Completed Successfully
+
+
+### Task 2 – Logger Utility
+
+#### Objective
+
+Implement centralized logging for backend operations to monitor application flow and simplify debugging.
+
+#### Work Completed
+
+- Created `app/utils/logger.py`.
+- Configured reusable logging using Python's `logging` module.
+- Integrated logging into `PaperService`.
+- Logged:
+  - Incoming search queries.
+  - Requests sent to the Paper Retrieval Agent.
+  - Successful parsing of research papers.
+  - Error conditions during retrieval.
+
+#### Test Result
+
+Executed a search request for **"Agentic AI"**.
+
+Observed:
+- Logger recorded the incoming query.
+- Semantic Scholar API returned HTTP 200.
+- Five research papers were successfully retrieved.
+- Paper Parser processed all papers correctly.
+- Backend returned a successful response.
+
+#### Status
+
+Completed Successfully
+
+---
+
+## Task 3 – Centralized Configuration Management
+
+### Objective
+
+Improve the maintainability and scalability of the backend by centralizing all configurable application settings into a dedicated configuration module. This eliminates hardcoded values and allows application settings to be managed from a single location.
+
+### Work Completed
+
+- Created `app/core/config.py` to store application-wide configuration settings.
+- Centralized the Semantic Scholar API configuration, including:
+  - Base URL
+  - Search endpoint
+  - Default paper retrieval limit
+  - Request timeout
+- Added project-level configuration variables such as:
+  - Project name
+  - Version
+  - Debug mode
+  - Placeholder for the Semantic Scholar API key
+- Updated the `PaperRetrievalAgent` to import configuration values from `config.py` instead of using hardcoded constants.
+- Configured the HTTP request to use the centralized timeout value for improved reliability.
+
+### Testing Performed
+
+- Restarted the FastAPI server after integrating the configuration module.
+- Verified that paper search requests continued to execute correctly using the centralized configuration values.
+- Confirmed that the application successfully used the configured API endpoint, request timeout, and default paper limit during execution.
+
+### Benefits
+
+- Eliminates hardcoded configuration values from the source code.
+- Simplifies future configuration changes by maintaining all settings in one file.
+- Improves code readability and maintainability.
+- Supports future migration to environment variables (`.env`) without major code modifications.
+- Follows software engineering best practices by separating configuration from business logic.
+
+### Status
+
+Completed Successfully
+
+---
+
+## Task 4 – Centralized Exception Handling
+
+### Objective
+
+Implement a centralized exception handling mechanism to improve backend reliability and provide consistent error responses throughout the application.
+
+### Work Completed
+
+- Created `app/utils/exceptions.py`.
+- Defined custom exception classes:
+  - `ResearchMindException`
+  - `PaperRetrievalException`
+  - `APIRateLimitException`
+  - `InvalidQueryException`
+  - `EmptyResponseException`
+- Updated the `PaperRetrievalAgent` to raise custom exceptions instead of returning error dictionaries.
+- Updated `PaperService` to catch and handle all custom exceptions gracefully.
+- Integrated logging for exception handling using the centralized logger.
+
+### Testing Performed
+
+- Tested with an empty search query and verified that the backend returned an appropriate validation error.
+- Tested API rate limit scenarios (HTTP 429) and confirmed that a user-friendly error message was returned.
+- Verified that unexpected errors are handled safely without crashing the backend.
+
+### Benefits
+
+- Improves code readability by separating normal logic from error handling.
+- Provides consistent and meaningful error responses.
+- Simplifies debugging through centralized exception management.
+- Makes the backend more maintainable and scalable for future AI agents.
+
+### Status
+
+Completed Successfully
+
+---
+
+## Task 5 – Standardized Response Formatter
+
+### Objective
+
+Implement a centralized response formatter to ensure that all API responses follow a consistent JSON structure for both successful operations and error handling.
+
+### Work Completed
+
+- Created `app/utils/response_formatter.py`.
+- Implemented reusable methods for formatting successful and error responses.
+- Updated `PaperService` to use the response formatter instead of returning raw dictionaries.
+- Standardized API responses across the backend to improve consistency and frontend integration.
+
+### Testing Performed
+
+- Verified successful paper retrieval responses using the standardized response format.
+- Tested invalid search queries and confirmed that error responses follow the same JSON structure.
+- Ensured compatibility with existing exception handling and logging mechanisms.
+
+### Benefits
+
+- Provides a consistent API response structure.
+- Simplifies frontend integration.
+- Improves maintainability by centralizing response formatting.
+- Supports future expansion with additional metadata such as timestamps or request identifiers.
+
+### Status
+
+Completed Successfully
+
+
+---
+
+## Task 6 – End-to-End Pipeline Testing
+
+### Objective
+
+Validate the complete ResearchMind AI backend workflow by testing the interaction between all backend components from receiving a search request to returning a standardized API response.
+
+### Work Completed
+
+- Performed end-to-end testing of the complete backend pipeline.
+- Verified successful integration between:
+  - FastAPI Endpoint
+  - Paper Service
+  - Paper Retrieval Agent
+  - Semantic Scholar API
+  - Paper Parser
+  - Response Formatter
+- Tested exception handling for invalid user input.
+- Tested API rate limit handling.
+- Verified centralized logging during request processing.
+- Confirmed standardized API responses for both success and failure cases.
+
+### Test Cases Executed
+
+1. Successful paper retrieval using a valid query.
+2. Empty search query validation.
+3. Semantic Scholar API rate limit handling.
+4. Paper parser verification.
+5. Logger verification.
+6. Standardized response formatter verification.
+
+### Results
+
+| Test | Status |
+|------|--------|
+| Valid Search | ✅ Passed |
+| Empty Query | ✅ Passed |
+| API Rate Limit | ✅ Passed |
+| Parser | ✅ Passed |
+| Logger | ✅ Passed |
+| Response Formatter | ✅ Passed |
+
+### Benefits
+
+- Verified the stability of the complete backend pipeline.
+- Confirmed smooth communication between all backend modules.
+- Ensured reliable exception handling and standardized API responses.
+- Improved confidence before integrating additional AI agents and frontend components.
+
+### Status
+
+Completed Successfully
+
+---
+
+## Task 7 – Documentation and Project Cleanup
+
+### Objective
+
+Finalize the backend implementation by organizing project documentation, verifying the project structure, and preparing the repository for future development.
+
+### Work Completed
+
+- Updated the project README with setup instructions and API usage.
+- Documented the complete backend request pipeline.
+- Verified the overall backend directory structure.
+- Confirmed successful completion of all Day 9 tasks.
+- Reviewed backend modules for consistency and maintainability.
+
+### Deliverables
+
+- Updated README.md
+- Updated API_WORKFLOW.md
+- Verified project structure
+- Final backend documentation
+
+### Outcome
+
+The backend foundation is fully documented, organized, and ready for the next development phase involving advanced AI agents and frontend integration.
+
+### Status
+
+Completed Successfully

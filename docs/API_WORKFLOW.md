@@ -191,3 +191,35 @@ Future versions of ResearchMind AI will combine results from multiple sources be
 # Conclusion
 
 The current API workflow establishes a modular backend architecture for ResearchMind AI. It separates paper retrieval, parsing, modeling, and service logic into independent components, making the system easier to maintain and extend. This design provides a strong foundation for implementing advanced AI agents for literature review generation, research gap identification, and automated research assistance.
+
+## Final Backend Pipeline
+
+User
+↓
+FastAPI Endpoint
+↓
+Paper Service
+↓
+Paper Retrieval Agent
+↓
+Semantic Scholar API
+↓
+Paper Parser
+↓
+Response Formatter
+↓
+JSON Response
+
+---
+
+Error Handling
+
+Invalid Query
+↓
+Exception
+↓
+Paper Service
+↓
+Response Formatter
+↓
+JSON Error Response

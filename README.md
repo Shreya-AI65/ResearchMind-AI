@@ -2,140 +2,280 @@
 
 ## Overview
 
-ResearchMind AI is a multi-agent AI-powered research assistant designed to support researchers throughout the complete research lifecycle. Unlike existing research assistants that primarily focus on literature retrieval and summarization, ResearchMind AI aims to automate higher-level research activities such as methodology comparison, research-gap detection, experiment planning, and evidence-based report generation.
+ResearchMind AI is a multi-agent AI-powered research assistant designed to support researchers throughout the complete research lifecycle. Unlike existing research assistants that primarily focus on literature retrieval and summarization, ResearchMind AI aims to automate higher-level research activities such as methodology comparison, research-gap detection, experiment planning, evidence-based report generation, and research workflow automation.
 
-The project follows a collaborative multi-agent architecture where specialized AI agents work together to analyze scientific literature and assist researchers in making informed decisions.
+The project follows a collaborative multi-agent architecture where specialized AI agents work together to retrieve, analyze, compare, and synthesize scientific literature to assist researchers in making informed decisions.
 
 ---
 
 ## Motivation
 
-Although modern AI research assistants such as NotebookLM, SciSpace, Elicit, and Consensus have significantly improved literature search and document understanding, researchers still spend considerable time performing tasks such as:
+Researchers spend significant time performing repetitive and time-consuming tasks such as:
 
-* Comparing methodologies across multiple papers
-* Identifying research gaps
-* Planning experiments
-* Selecting datasets and evaluation metrics
-* Synthesizing findings from diverse sources
+- Searching for relevant research papers
+- Reading and summarizing literature
+- Comparing methodologies across papers
+- Identifying research gaps
+- Selecting datasets and evaluation metrics
+- Planning experiments
+- Writing literature reviews and research reports
 
-ResearchMind AI addresses these challenges through intelligent collaboration among multiple specialized AI agents.
+Although tools like NotebookLM, SciSpace, Elicit, and Consensus simplify literature search, many higher-level research activities still require considerable manual effort.
+
+ResearchMind AI aims to automate these tasks through intelligent collaboration among specialized AI agents.
 
 ---
 
 ## Project Objectives
 
-* Automate literature retrieval
-* Generate structured paper summaries
-* Compare research methodologies
-* Detect research gaps
-* Assist with experiment planning
-* Generate evidence-based research reports
-* Reduce manual effort in scientific research
+- Automate literature retrieval
+- Generate structured paper summaries
+- Compare research methodologies
+- Detect research gaps
+- Assist with experiment planning
+- Recommend datasets and evaluation metrics
+- Generate evidence-based research reports
+- Reduce manual effort in scientific research
 
 ---
 
-## Key Features
+# Current Implementation
 
-### Current Design
+The following backend modules have been successfully implemented:
 
-* Multi-agent architecture
-* Paper Retrieval Agent
-* Paper Summarization Agent
-* Methodology Comparison Agent
-* Research Gap Detection Agent
-* Experiment Planning Agent
-* Report Generation Module
-
-### Planned Features
-
-* Knowledge graph generation
-* Citation network analysis
-* Research trend prediction
-* Persistent research memory
-* AI-powered experiment recommendation
-* Presentation generation
-* Benchmark recommendation
+- FastAPI Backend
+- Paper Retrieval Agent
+- Semantic Scholar API Integration
+- Paper Parser
+- Paper Service Layer
+- Response Formatter
+- Configuration Management
+- Custom Exception Handling
+- Centralized Logger
+- End-to-End Pipeline Testing
 
 ---
 
-## System Architecture
+# Planned AI Agents
 
-ResearchMind AI follows the workflow below:
+The following agents will be developed in upcoming phases:
+
+- Paper Summarization Agent
+- Methodology Comparison Agent
+- Research Gap Detection Agent
+- Experiment Planning Agent
+- Literature Review Generator
+- Report Generation Agent
+- Knowledge Graph Agent
+
+---
+
+## Future Features
+
+- Knowledge Graph Generation
+- Citation Network Analysis
+- Research Trend Prediction
+- Persistent Research Memory
+- AI-powered Experiment Recommendation
+- Automatic PPT Generation
+- Benchmark Recommendation
+- Multi-Agent Collaboration
+- Agent-to-Agent Communication (A2A)
+- Model Context Protocol (MCP)
+- Team Collaboration
+
+---
+
+# System Architecture
 
 ```text
-User Query
-      │
-      ▼
-Paper Retrieval Agent
-      │
-      ▼
-Paper Summarization Agent
-      │
-      ▼
-Methodology Comparison Agent
-      │
-      ▼
-Research Gap Detection Agent
-      │
-      ▼
-Experiment Planning Agent
-      │
-      ▼
-Report Generation Module
-      │
-      ▼
-Final Research Report
+                    User
+                      │
+                      ▼
+               FastAPI Backend
+                      │
+                      ▼
+          Paper Retrieval Agent
+                      │
+                      ▼
+          Semantic Scholar API
+                      │
+                      ▼
+              Paper Parser
+                      │
+                      ▼
+             Paper Service Layer
+                      │
+                      ▼
+          Response Formatter
+                      │
+                      ▼
+              JSON Response
+                      │
+                      ▼
+      (Future AI Agents Pipeline)
+                      │
+                      ▼
+       Paper Summarization Agent
+                      │
+                      ▼
+     Methodology Comparison Agent
+                      │
+                      ▼
+      Research Gap Detection Agent
+                      │
+                      ▼
+      Experiment Planning Agent
+                      │
+                      ▼
+        Report Generation Agent
+                      │
+                      ▼
+          Final Research Report
 ```
 
 ---
 
-## Technology Stack
+# Technology Stack
 
-| Component       | Technology                                |
-| --------------- | ----------------------------------------- |
-| Frontend        | React                                     |
-| Backend         | FastAPI                                   |
-| Language        | Python                                    |
-| Database        | PostgreSQL                                |
-| Vector Database | ChromaDB                                  |
-| AI Models       | GPT, Gemini, Open-source LLMs             |
-| Research APIs   | Semantic Scholar, Crossref, arXiv, PubMed |
-| Version Control | Git & GitHub                              |
+| Component | Technology |
+|------------|------------|
+| Frontend | React |
+| Backend | FastAPI |
+| Language | Python |
+| Database | PostgreSQL (Planned) |
+| Vector Database | ChromaDB (Planned) |
+| AI Models | GPT, Gemini, Open-source LLMs |
+| Research APIs | Semantic Scholar, Crossref, arXiv, PubMed |
+| Version Control | Git & GitHub |
 
 ---
 
-## Documentation
+# Repository Structure
+
+```text
+ResearchMind_AI/
+│
+├── backend/
+│   ├── app/
+│   ├── tests/
+│   ├── sample_response.json
+│   ├── requirements.txt
+│   └── README.md
+│
+├── frontend/
+│   └── README.md
+│
+├── docs/
+│   ├── Problem_Statement.md
+│   ├── Feature_Backlog.md
+│   ├── Product_Comparison.md
+│   ├── Research_Insights.md
+│   ├── Development_Journal.md
+│   ├── API_WORKFLOW.md
+│   └── ...
+│
+├── data/
+│
+├── scripts/
+│
+├── docker/
+│
+└── README.md
+```
+
+---
+
+# Documentation
 
 The project documentation includes:
 
-* Problem Statement
-* Feature Backlog
-* Product Comparison
-* Competitor Comparison
-* Research Insights
-* Research Gap Analysis
-* Paper Reading Notes
-* Development Journal
-* System Architecture
-* Agent Design
-* Technology Stack
-* Development Roadmap
+- Problem Statement
+- Feature Backlog
+- Product Comparison
+- Competitor Analysis
+- Research Insights
+- Research Gap Analysis
+- Paper Reading Notes
+- Development Journal
+- API Workflow
+- System Architecture
+- Agent Design
+- Technology Stack
+- Development Roadmap
 
 ---
 
-## Development Status
+# Development Status
 
-### Phase 1 – Research & Analysis
+## Phase 1 – Research & Analysis
 
-Completed
+✅ Completed
 
-### Phase 2 – System Design
+## Phase 2 – System Design
 
-Completed
+✅ Completed
 
-### Phase 3 – Implementation
+## Phase 3 – Backend Foundation
 
-Planned
+✅ Completed
+
+### Completed Components
+
+- FastAPI Backend
+- Paper Retrieval Agent
+- Semantic Scholar Integration
+- Parser
+- Paper Service
+- Response Formatter
+- Logger
+- Exception Handling
+- Configuration Management
+- End-to-End Pipeline Testing
+
+## Phase 4 – AI Agent Development
+
+🚧 In Progress
+
+Upcoming:
+
+- Paper Summarization Agent
+- Methodology Comparison Agent
+- Research Gap Detection Agent
+
+## Phase 5 – Frontend Development
+
+📅 Planned
+
+## Phase 6 – Full System Integration
+
+📅 Planned
+
+---
+
+# Project Modules
+
+## Backend
+
+The backend is implemented using FastAPI.
+
+Documentation:
+
+```
+backend/README.md
+```
+
+---
+
+## Frontend
+
+The frontend will be implemented using React.
+
+Documentation:
+
+```
+frontend/README.md
+```
 
 ---
 
@@ -143,40 +283,37 @@ Planned
 
 Future versions of ResearchMind AI will include:
 
-* Multi-agent collaboration enhancements
-* Agent-to-Agent (A2A) communication
-* Model Context Protocol (MCP)
-* Knowledge graph generation
-* Research trend prediction
-* Automatic benchmark generation
-* Team collaboration features
+- Multi-Agent Collaboration
+- Agent-to-Agent Communication (A2A)
+- Model Context Protocol (MCP)
+- Knowledge Graph Generation
+- Citation Network Analysis
+- Research Trend Prediction
+- Automated Benchmark Recommendation
+- Research Memory
+- Team Collaboration
+- Cloud Deployment
 
 ---
 
-## Repository Structure
+# Long-Term Vision
 
-```text
-ResearchMind_AI/
-│
-├── docs/
-├── backend/
-├── frontend/
-├── agents/
-├── data/
-├── tests/
-├── scripts/
-├── docker/
-└── README.md
-```
+ResearchMind AI aims to become a comprehensive AI-powered research platform capable of assisting researchers from the initial literature review to experiment planning, methodology comparison, implementation guidance, and scientific report generation through collaborative multi-agent intelligence.
+
+The long-term goal is to provide an end-to-end intelligent research ecosystem that accelerates scientific discovery while reducing repetitive manual work.
 
 ---
 
-## Long-Term Vision
-
-The long-term goal of ResearchMind AI is to evolve into a comprehensive AI-powered research platform that supports researchers from the initial literature review to experiment design, implementation planning, and scientific report generation through collaborative multi-agent intelligence.
-
----
-
-## License
+# License
 
 This project is currently under active development for academic and research purposes.
+
+---
+
+# Author
+
+**Shreya Singh**
+
+B.Tech Computer Science Engineering (AI & Data Science)
+
+ResearchMind AI Project
