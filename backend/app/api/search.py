@@ -1,11 +1,11 @@
 from fastapi import APIRouter
-from app.agents.paper_retrieval import PaperRetrievalAgent
+from app.services.paper_service import PaperService
 
 router = APIRouter()
 
-agent = PaperRetrievalAgent()
+paper_service = PaperService()
 
 
 @router.get("/search")
 def search(query: str):
-    return agent.search_papers(query)
+    return paper_service.search_papers(query)
