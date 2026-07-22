@@ -1,32 +1,60 @@
-# ResearchMind AI Backend
+# ResearchMind AI – Backend
 
 ## Overview
 
-The ResearchMind AI Backend is built using FastAPI and serves as the core API layer of the ResearchMind AI project. It is responsible for retrieving research papers, processing academic data, handling API requests, formatting responses, and supporting future AI agents.
+The backend of **ResearchMind AI** is built using **FastAPI** and provides the core services required for intelligent research paper retrieval, parsing, analysis, and future multi-agent collaboration. It follows a modular architecture where each AI agent performs a specific responsibility, making the system scalable and easy to maintain.
 
 ---
 
 # Features
 
-- Paper Retrieval Agent
-- Semantic Scholar API Integration
-- Paper Parser
-- Paper Service Layer
-- Standardized Response Formatter
-- Centralized Configuration
-- Custom Exception Handling
-- Centralized Logging
-- End-to-End Pipeline Testing
+## Implemented
+
+* FastAPI Backend
+* Paper Retrieval Agent
+* Paper Analysis Agent
+* Paper Parser
+* Analysis Service
+* REST API Endpoints
+* Exception Handling
+* Logging System
+* Rule-Based Paper Analysis
+* Paper Quality Assessment
+* Unit Testing
+* Integration Testing
 
 ---
 
-# Technology Stack
+# Backend Architecture
 
-- Python 3.13
-- FastAPI
-- Uvicorn
-- Requests
-- Semantic Scholar API
+```text
+Client
+   │
+   ▼
+FastAPI Routes
+   │
+   ▼
+Services
+   │
+   ├── Paper Service
+   └── Analysis Service
+   │
+   ▼
+AI Agents
+   │
+   ├── Paper Retrieval Agent
+   └── Paper Analysis Agent
+   │
+   ▼
+Utilities
+   │
+   ├── Parser
+   ├── Logger
+   └── Exceptions
+   │
+   ▼
+Semantic Scholar API
+```
 
 ---
 
@@ -37,15 +65,36 @@ backend/
 │
 ├── app/
 │   ├── agents/
+│   │   ├── paper_retrieval.py
+│   │   └── paper_analysis.py
+│   │
 │   ├── api/
-│   ├── core/
-│   ├── models/
+│   │   ├── paper_routes.py
+│   │   └── analysis_routes.py
+│   │
 │   ├── services/
+│   │   ├── paper_service.py
+│   │   └── analysis_service.py
+│   │
+│   ├── models/
+│   │   ├── paper.py
+│   │   └── paper_analysis.py
+│   │
 │   ├── utils/
+│   │   ├── parser.py
+│   │   ├── logger.py
+│   │   └── exceptions.py
+│   │
+│   ├── core/
+│   │   └── config.py
+│   │
 │   └── main.py
 │
 ├── tests/
-├── sample_response.json
+│   ├── test_parser.py
+│   ├── test_analysis.py
+│   └── test_analysis_pipeline.py
+│
 ├── requirements.txt
 └── README.md
 ```
@@ -54,39 +103,34 @@ backend/
 
 # Installation
 
-Clone the repository
+Clone the repository:
 
 ```bash
 git clone <repository-url>
+cd ResearchMind_AI/backend
 ```
 
-Move into the backend folder
-
-```bash
-cd backend
-```
-
-Create a virtual environment
+Create a virtual environment:
 
 ```bash
 python -m venv venv
 ```
 
-Activate the virtual environment
+Activate the virtual environment.
 
-Windows
+### Windows
 
 ```bash
 venv\Scripts\activate
 ```
 
-Linux/macOS
+### Linux / macOS
 
 ```bash
 source venv/bin/activate
 ```
 
-Install dependencies
+Install dependencies:
 
 ```bash
 pip install -r requirements.txt
@@ -96,116 +140,137 @@ pip install -r requirements.txt
 
 # Running the Backend
 
+Start the FastAPI server:
+
 ```bash
 uvicorn app.main:app --reload
 ```
 
-Server
+The backend will be available at:
 
 ```
 http://127.0.0.1:8000
 ```
 
-Swagger Documentation
+Interactive API Documentation:
 
 ```
 http://127.0.0.1:8000/docs
 ```
 
-ReDoc Documentation
-
-```
-http://127.0.0.1:8000/redoc
-```
-
 ---
 
-# API Endpoint
+# Available API Endpoints
 
 ## Search Papers
 
-**GET**
-
-```
-/search?query=<keyword>
+```http
+GET /search?query=<research_topic>
 ```
 
-Example
+Example:
 
 ```
-http://127.0.0.1:8000/search?query=Agentic+AI
+GET /search?query=Agentic AI
 ```
 
 ---
 
-# Sample Success Response
+## Analyze Papers
 
-```json
-{
-  "success": true,
-  "message": "Papers retrieved successfully.",
-  "data": {
-    "query": "Agentic AI",
-    "total_papers": 5,
-    "papers": []
-  }
-}
+```http
+GET /analyze?query=<research_topic>
+```
+
+Example:
+
+```
+GET /analyze?query=Agentic AI
 ```
 
 ---
 
-# Sample Error Response
+# Testing
 
-```json
-{
-  "success": false,
-  "message": "Search query cannot be empty.",
-  "data": null
-}
+Run the parser test:
+
+```bash
+python -m tests.test_parser
+```
+
+Run the paper analysis test:
+
+```bash
+python -m tests.test_analysis
+```
+
+Run the complete analysis pipeline test:
+
+```bash
+python -m tests.test_analysis_pipeline
 ```
 
 ---
 
-# Current Backend Modules
+# Current Capabilities
 
-- Paper Retrieval Agent
-- Paper Service
-- Paper Parser
-- Response Formatter
-- Logger Utility
-- Configuration Manager
-- Custom Exceptions
+The backend currently supports:
 
----
+* Research paper retrieval from Semantic Scholar
+* Parsing raw API responses into structured paper objects
+* Rule-based paper analysis
+* Extraction of:
 
-# Completed Milestones
-
-- FastAPI Backend Setup
-- Semantic Scholar Integration
-- Parser Development
-- Service Layer
-- Response Formatter
-- Exception Handling
-- Configuration Management
-- Logging
-- Pipeline Testing
+  * Research Problem
+  * Methodology
+  * Key Contributions
+  * Future Work
+  * Keywords
+  * Research Area
+* Paper quality scoring
+* Paper quality classification
+* Structured logging
+* Exception handling
+* REST API services
+* Unit and integration testing
 
 ---
 
-# Future Development
+# Technologies Used
 
-- Paper Analysis Agent
-- Research Gap Detection
-- Literature Review Generator
-- Paper Comparison Engine
-- Multi-Agent Workflow
-- Authentication
-- Database Integration
+* Python 3
+* FastAPI
+* Requests
+* Pydantic
+* Uvicorn
+* Semantic Scholar API
 
 ---
 
-# Author
+# Future Enhancements
 
-**Shreya Singh**
+Upcoming backend modules include:
 
-ResearchMind AI Backend
+* Research Gap Detection Agent
+* Methodology Comparison Agent
+* Paper Recommendation Engine
+* Report Generation Agent
+* Knowledge Graph Construction
+* Vector Database Integration
+* Multi-Agent Communication
+* LLM-based Paper Analysis
+* Authentication and User Management
+
+---
+
+# Notes
+
+* The backend currently uses the Semantic Scholar Graph API for paper retrieval.
+* If the Semantic Scholar API rate limit (HTTP 429) is reached, the backend returns a structured error response without crashing.
+* The rule-based analysis pipeline is designed to be replaced or enhanced with LLM-powered techniques in future development phases.
+
+---
+
+# License
+
+This backend is part of the **ResearchMind AI** academic research project and is intended for educational and research purposes.
