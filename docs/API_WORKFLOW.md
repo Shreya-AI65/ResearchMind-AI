@@ -8,11 +8,16 @@ The API Workflow of ResearchMind AI defines how a user's research query flows th
 
 # Workflow
 
-```
+## Paper Search Workflow
+
+```text
 User enters Research Topic
             │
             ▼
 FastAPI Search Endpoint (/search)
+            │
+            ▼
+Paper Service
             │
             ▼
 Paper Retrieval Agent
@@ -30,13 +35,45 @@ Paper Parser
 Paper Model
             │
             ▼
-Paper Service
-            │
-            ▼
 Structured Paper Objects
             │
             ▼
-Future AI Agents
+JSON Response
+```
+
+---
+
+## Paper Analysis Workflow
+
+```text
+User enters Research Topic
+            │
+            ▼
+FastAPI Analysis Endpoint (/analyze)
+            │
+            ▼
+Analysis Service
+            │
+            ▼
+Paper Retrieval Agent
+            │
+            ▼
+Semantic Scholar Graph API
+            │
+            ▼
+Paper Parser
+            │
+            ▼
+Paper Analysis Agent
+            │
+            ▼
+Paper Quality Assessment
+            │
+            ▼
+Structured Analysis Result
+            │
+            ▼
+JSON Response
 ```
 
 ---
@@ -143,7 +180,40 @@ Responsibilities:
 
 ---
 
-## 8. Future AI Agents
+## 8. Analysis Service
+
+The Analysis Service coordinates the complete paper analysis pipeline.
+
+### Responsibilities
+
+* Receive analysis requests from the FastAPI endpoint.
+* Retrieve papers using the Paper Retrieval Agent.
+* Parse research paper metadata.
+* Invoke the Paper Analysis Agent.
+* Handle logging and exception management.
+* Return structured analysis results.
+
+---
+
+## 9. Paper Analysis Agent
+
+The Paper Analysis Agent performs rule-based analysis of research papers.
+
+### Extracted Information
+
+* Research Problem
+* Methodology
+* Key Contributions
+* Future Work
+* Keywords
+* Research Area
+* Paper Quality Score
+* Paper Quality Classification
+
+The extracted information is returned as structured JSON, allowing future AI agents to reuse the analysis.
+---
+
+## 10. Future AI Agents
 
 Once structured paper data is available, it will be processed by specialized AI agents.
 
@@ -161,16 +231,23 @@ These agents will collaboratively generate high-quality research outputs.
 
 # Current Workflow Status
 
-| Component | Status |
-|-----------|--------|
-| FastAPI Backend | ✅ Completed |
-| Paper Retrieval Agent | ✅ Completed |
-| Semantic Scholar Integration | ✅ Implemented (API Key Pending) |
-| Paper Parser | ✅ Completed |
-| Paper Model | ✅ Completed |
-| Paper Service | ✅ Completed |
-| Parser Testing | ✅ Completed |
-| Multi-Agent Processing | ⏳ Planned |
+| Component                 | Status      |
+| ------------------------- | ----------- |
+| FastAPI Backend           | ✅ Completed |
+| Search API                | ✅ Completed |
+| Analysis API              | ✅ Completed |
+| Paper Retrieval Agent     | ✅ Completed |
+| Paper Parser              | ✅ Completed |
+| Paper Model               | ✅ Completed |
+| Paper Service             | ✅ Completed |
+| Paper Analysis Agent      | ✅ Completed |
+| Analysis Service          | ✅ Completed |
+| Logging                   | ✅ Completed |
+| Exception Handling        | ✅ Completed |
+| Parser Testing            | ✅ Completed |
+| Analysis Unit Testing     | ✅ Completed |
+| Integration Testing       | ✅ Completed |
+| Multi-Agent Collaboration | ⏳ Planned   |
 
 ---
 
@@ -192,11 +269,14 @@ Future versions of ResearchMind AI will combine results from multiple sources be
 
 The current API workflow establishes a modular backend architecture for ResearchMind AI. It separates paper retrieval, parsing, modeling, and service logic into independent components, making the system easier to maintain and extend. This design provides a strong foundation for implementing advanced AI agents for literature review generation, research gap identification, and automated research assistance.
 
-## Final Backend Pipeline
+# Final Backend Pipelines
 
+## Search Pipeline
+
+```text
 User
 ↓
-FastAPI Endpoint
+/search API
 ↓
 Paper Service
 ↓
@@ -206,20 +286,51 @@ Semantic Scholar API
 ↓
 Paper Parser
 ↓
-Response Formatter
+Structured Paper Objects
 ↓
 JSON Response
+```
 
 ---
 
-Error Handling
+## Analysis Pipeline
 
-Invalid Query
+```text
+User
 ↓
-Exception
+/analyze API
 ↓
-Paper Service
+Analysis Service
 ↓
-Response Formatter
+Paper Retrieval Agent
 ↓
-JSON Error Response
+Semantic Scholar API
+↓
+Paper Parser
+↓
+Paper Analysis Agent
+↓
+Paper Quality Assessment
+↓
+Structured Analysis Result
+↓
+JSON Response
+```
+
+---
+
+## Error Handling Pipeline
+
+```text
+User Request
+↓
+API Endpoint
+↓
+Service Layer
+↓
+Exception Handling
+↓
+Logger
+↓
+Structured JSON Error Response
+```

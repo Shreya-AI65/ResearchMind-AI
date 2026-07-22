@@ -18,7 +18,9 @@ Retrieve high-quality research papers related to the user's query.
 * Remove duplicate papers.
 * Rank papers by relevance.
 * Collect metadata.
-* Store retrieved papers for downstream agents.
+* Parse Semantic Scholar API responses.
+* Convert papers into standardized objects.
+* Forward structured papers to the Paper Analysis Agent.
 
 ### Input
 
@@ -46,37 +48,55 @@ Paper Summarization Agent
 
 ---
 
-# Agent 2: Paper Summarization Agent
+# Agent 2: Paper Analysis Agent
 
 ## Objective
 
-Extract important information from each paper.
+Analyze retrieved research papers and extract structured information that can be used by downstream AI agents.
 
 ### Responsibilities
 
-Generate structured summaries including:
-
-* Problem Statement
-* Objective
-* Methodology
-* Dataset
-* Evaluation Metrics
-* Results
-* Limitations
-* Future Work
+* Extract research problem.
+* Detect methodology.
+* Extract key contributions.
+* Detect future work.
+* Extract keywords.
+* Detect research area.
+* Calculate paper quality score.
+* Classify paper quality.
 
 ### Input
 
-Retrieved papers
+Structured research papers retrieved from the Paper Retrieval Agent.
 
 ### Output
 
-Structured summaries
+Structured paper analysis including:
+
+* Research Problem
+* Methodology
+* Key Contributions
+* Future Work
+* Keywords
+* Research Area
+* Paper Quality Score
+* Paper Quality Classification
+
+### Current Implementation
+
+✅ Rule-based paper analysis
+
+### Future Enhancements
+
+* LLM-based summarization
+* Dataset extraction
+* Evaluation metric extraction
+* Strength and limitation detection
+* Automatic novelty detection
 
 ### Next Agent
 
 Methodology Comparison Agent
-
 ---
 
 # Agent 3: Methodology Comparison Agent
@@ -198,37 +218,70 @@ Combine outputs from all agents into:
 
 ---
 
-# Agent Communication Flow
+Current Backend Flow
 
 User Query
-
-↓
-
+        │
+        ▼
+FastAPI Endpoint
+        │
+        ▼
 Paper Retrieval Agent
+        │
+        ▼
+Semantic Scholar API
+        │
+        ▼
+Paper Parser
+        │
+        ▼
+Paper Analysis Agent
+        │
+        ▼
+Analysis Service
+        │
+        ▼
+JSON Response
 
-↓
+---------------------------------------
 
-Paper Summarization Agent
+Future Multi-Agent Flow
 
-↓
-
+User Query
+        │
+        ▼
+Paper Retrieval Agent
+        │
+        ▼
+Paper Analysis Agent
+        │
+        ▼
 Methodology Comparison Agent
-
-↓
-
+        │
+        ▼
 Research Gap Detection Agent
-
-↓
-
+        │
+        ▼
 Experiment Planning Agent
-
-↓
-
+        │
+        ▼
 Report Generation Module
-
-↓
-
+        │
+        ▼
 Final Research Report
+
+---
+
+# Current Implementation Status
+
+| Agent | Status |
+|-------|--------|
+| Paper Retrieval Agent | ✅ Completed |
+| Paper Analysis Agent | ✅ Completed |
+| Methodology Comparison Agent | ⏳ Planned |
+| Research Gap Detection Agent | ⏳ Planned |
+| Experiment Planning Agent | ⏳ Planned |
+| Report Generation Module | ⏳ Planned |
 
 ---
 

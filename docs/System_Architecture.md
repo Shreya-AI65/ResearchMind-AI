@@ -10,31 +10,61 @@ Each agent is responsible for a specific task while sharing information with oth
 
 # High-Level Workflow
 
+## Current Backend Workflow
+
+```text
 User Research Query
-
-↓
-
+          │
+          ▼
+FastAPI API Endpoint
+          │
+          ▼
 Paper Retrieval Agent
+          │
+          ▼
+Semantic Scholar API
+          │
+          ▼
+Paper Parser
+          │
+          ▼
+Paper Analysis Agent
+          │
+          ▼
+Analysis Service
+          │
+          ▼
+Structured JSON Response
+```
 
-↓
+---
 
-Paper Summarization Agent
+## Future Multi-Agent Workflow
 
-↓
-
+```text
+User Research Query
+          │
+          ▼
+Paper Retrieval Agent
+          │
+          ▼
+Paper Analysis Agent
+          │
+          ▼
 Methodology Comparison Agent
-
-↓
-
+          │
+          ▼
 Research Gap Detection Agent
-
-↓
-
+          │
+          ▼
 Experiment Planning Agent
-
-↓
-
+          │
+          ▼
+Report Generation Module
+          │
+          ▼
 Final Research Report
+```
 
 ---
 
@@ -87,31 +117,23 @@ Output
 
 ---
 
-## 3. Paper Summarization Agent
+## 3. Paper Analysis Agent
 
-Responsibilities
+### Responsibilities
 
-* Read retrieved papers.
+* Analyze retrieved research papers.
+* Extract the research problem.
+* Identify methodologies.
+* Detect key contributions.
+* Identify future work.
+* Extract keywords.
+* Detect research area.
+* Perform paper quality assessment.
+* Generate structured analysis output.
 
-* Generate structured summaries.
+### Output
 
-* Extract
-
-* Objectives
-
-* Methodology
-
-* Dataset
-
-* Evaluation metrics
-
-* Results
-
-* Limitations
-
-Output
-
-* Structured paper summaries.
+* Structured paper analysis.
 
 ---
 
@@ -194,31 +216,82 @@ Export Formats
 
 # Data Flow
 
+## Current Implementation
+
+```text
 User Query
+      │
+      ▼
+FastAPI Endpoint
+      │
+      ▼
+Paper Retrieval Agent
+      │
+      ▼
+Semantic Scholar API
+      │
+      ▼
+Paper Parser
+      │
+      ▼
+Paper Analysis Agent
+      │
+      ▼
+Analysis Service
+      │
+      ▼
+Structured JSON Response
+```
 
-↓
+---
 
+## Planned Multi-Agent Flow
+
+```text
+User Query
+      │
+      ▼
 Paper Retrieval
-
-↓
-
-Summarization
-
-↓
-
-Comparison
-
-↓
-
+      │
+      ▼
+Paper Analysis
+      │
+      ▼
+Methodology Comparison
+      │
+      ▼
 Research Gap Detection
-
-↓
-
+      │
+      ▼
 Experiment Planning
+      │
+      ▼
+Report Generation
+```
 
-↓
+---
 
-Final Report
+# Current Implementation Status
+
+| Component                    | Status      |
+| ---------------------------- | ----------- |
+| FastAPI Backend              | ✅ Completed |
+| Paper Retrieval Agent        | ✅ Completed |
+| Semantic Scholar Integration | ✅ Completed |
+| Paper Parser                 | ✅ Completed |
+| Paper Service                | ✅ Completed |
+| Paper Analysis Agent         | ✅ Completed |
+| Analysis Service             | ✅ Completed |
+| Search API                   | ✅ Completed |
+| Analysis API                 | ✅ Completed |
+| Logging                      | ✅ Completed |
+| Exception Handling           | ✅ Completed |
+| Unit Testing                 | ✅ Completed |
+| Integration Testing          | ✅ Completed |
+| Methodology Comparison Agent | ⏳ Planned   |
+| Research Gap Detection Agent | ⏳ Planned   |
+| Experiment Planning Agent    | ⏳ Planned   |
+| Report Generation Module     | ⏳ Planned   |
 
 ---
 

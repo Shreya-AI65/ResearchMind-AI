@@ -46,6 +46,31 @@ ResearchMind AI is designed as a modern AI-powered research assistant built usin
 
 ---
 
+## HTTP Client
+- Requests
+
+---
+
+## API
+- Semantic Scholar Graph API
+
+---
+
+## Testing
+- Python unittest
+
+---
+
+## Logging
+- Python logging module
+
+---
+
+## Version Control
+- Git & GitHub 
+
+---
+
 # Database
 
 ## PostgreSQL

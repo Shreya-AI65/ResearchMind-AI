@@ -29,7 +29,7 @@ ResearchMind AI aims to automate these tasks through intelligent collaboration a
 ## Project Objectives
 
 - Automate literature retrieval
-- Generate structured paper summaries
+- Analyze research papers and extract structured information
 - Compare research methodologies
 - Detect research gaps
 - Assist with experiment planning
@@ -45,13 +45,17 @@ The following backend modules have been successfully implemented:
 
 - FastAPI Backend
 - Paper Retrieval Agent
+- Paper Analysis Agent
 - Semantic Scholar API Integration
 - Paper Parser
 - Paper Service Layer
+- Analysis Service Layer
 - Response Formatter
 - Configuration Management
 - Custom Exception Handling
 - Centralized Logger
+- Unit Testing
+- Integration Testing
 - End-to-End Pipeline Testing
 
 ---
@@ -60,7 +64,6 @@ The following backend modules have been successfully implemented:
 
 The following agents will be developed in upcoming phases:
 
-- Paper Summarization Agent
 - Methodology Comparison Agent
 - Research Gap Detection Agent
 - Experiment Planning Agent
@@ -102,12 +105,15 @@ The following agents will be developed in upcoming phases:
                       │
                       ▼
               Paper Parser
-                      │
-                      ▼
-             Paper Service Layer
-                      │
-                      ▼
-          Response Formatter
+                        │
+                        ▼
+                Paper Analysis Agent
+                        │
+                        ▼
+                Analysis Service
+                        │
+                        ▼
+                Response Formatter
                       │
                       ▼
               JSON Response
@@ -224,13 +230,17 @@ The project documentation includes:
 
 - FastAPI Backend
 - Paper Retrieval Agent
+- Paper Analysis Agent
 - Semantic Scholar Integration
 - Parser
 - Paper Service
+- Analysis Service
 - Response Formatter
 - Logger
 - Exception Handling
 - Configuration Management
+- Unit Testing
+- Integration Testing
 - End-to-End Pipeline Testing
 
 ## Phase 4 – AI Agent Development
@@ -279,6 +289,38 @@ frontend/README.md
 
 ---
 
+# Current Project Progress
+
+## ✅ Completed
+
+- Backend architecture
+- REST API using FastAPI
+- Paper Retrieval Agent
+- Paper Analysis Agent
+- Semantic Scholar API integration
+- Structured paper parser
+- Analysis pipeline
+- Logging system
+- Custom exception handling
+- Configuration management
+- Unit testing
+- Integration testing
+- Documentation
+
+## 🚧 In Progress
+
+- Methodology Comparison Agent
+
+## 📅 Upcoming
+
+- Research Gap Detection Agent
+- Experiment Planning Agent
+- Literature Review Generator
+- Report Generation Agent
+- React Frontend
+
+---
+
 ## Future Work
 
 Future versions of ResearchMind AI will include:
@@ -314,6 +356,6 @@ This project is currently under active development for academic and research pur
 
 **Shreya Singh**
 
-B.Tech Computer Science Engineering (AI & Data Science)
+B.Tech Computer Science Engineering (Artificial Intelligence & Data Science)
 
-ResearchMind AI Project
+ResearchMind AI — Multi-Agent Research Intelligence Platform

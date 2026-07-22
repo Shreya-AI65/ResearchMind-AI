@@ -24,10 +24,13 @@ The goal of Version 1 is to build a functional platform that assists researchers
 
 ### Features
 
-* Search for relevant research papers.
-* Retrieve paper metadata (Title, Authors, Abstract, Publication Year).
-* Filter search results based on keywords.
-* Display paper summaries.
+* ✅ Search for relevant research papers.
+* ✅ Retrieve paper metadata (Title, Authors, Abstract, Publication Year, Citation Count, URL).
+* ✅ Semantic Scholar API integration.
+* ✅ Parse API responses into structured paper objects.
+* ✅ Search papers using user-provided research queries.
+* ⏳ Display paper summaries. *(Planned for future enhancement)*
+
 
 ---
 
@@ -35,17 +38,40 @@ The goal of Version 1 is to build a functional platform that assists researchers
 
 ### Features
 
-* Generate concise summaries.
-* Extract research objectives.
-* Extract methodologies.
-* Extract datasets used.
-* Extract evaluation metrics.
-* Identify strengths.
-* Identify limitations.
+* ✅ Generate structured paper analysis.
+* ✅ Extract research objectives/problems.
+* ✅ Extract methodologies.
+* ⏳ Extract datasets used. *(Planned)*
+* ⏳ Extract evaluation metrics. *(Planned)*
+* ⏳ Identify strengths. *(Planned)*
+* ⏳ Identify limitations. *(Planned)*
+* ✅ Extract key contributions.
+* ✅ Detect future work.
+* ✅ Extract keywords.
+* ✅ Detect research area.
+* ✅ Paper quality scoring.
+* ✅ Paper quality classification.
 
 ---
 
-## 4. Paper Comparison
+## 4. Backend Infrastructure
+
+### Features
+
+* ✅ FastAPI Backend
+* ✅ Modular Project Architecture
+* ✅ Paper Service
+* ✅ Analysis Service
+* ✅ REST API Endpoints
+* ✅ Logging System
+* ✅ Custom Exception Handling
+* ✅ Configuration Management
+* ✅ Unit Testing
+* ✅ Integration Testing
+  
+---  
+
+## 5. Paper Comparison
 
 ### Features
 
@@ -57,7 +83,7 @@ The goal of Version 1 is to build a functional platform that assists researchers
 
 ---
 
-## 5. Research Intelligence
+## 6. Research Intelligence
 
 ### Features
 
@@ -68,7 +94,7 @@ The goal of Version 1 is to build a functional platform that assists researchers
 
 ---
 
-## 6. Literature Review Generation
+## 7. Literature Review Generation
 
 ### Features
 
