@@ -9,37 +9,48 @@ The API Workflow of ResearchMind AI defines how a user's research query flows th
 # Workflow
 
 ## Paper Search Workflow
-
-```text
-User enters Research Topic
-            │
-            ▼
-FastAPI Search Endpoint (/search)
-            │
-            ▼
-Paper Service
-            │
-            ▼
+User Research Query
+        │
+        ▼
+FastAPI Endpoint
+        │
+        ▼
+Comparison Service
+        │
+        ▼
 Paper Retrieval Agent
-            │
-            ▼
-Semantic Scholar Graph API
-            │
-            ▼
-Raw JSON Response
-            │
-            ▼
+        │
+        ▼
+Semantic Scholar API
+        │
+        ▼
 Paper Parser
-            │
-            ▼
-Paper Model
-            │
-            ▼
-Structured Paper Objects
-            │
-            ▼
+        │
+        ▼
+Paper Analysis Agent
+        │
+        ▼
+Methodology Comparison Agent
+        │
+        ▼
+Structured Comparison Result
+        │
+        ▼
 JSON Response
-```
+
+---
+
+## Comparison Workflow
+
+The Methodology Comparison workflow performs the following operations:
+
+1. Receive a research query.
+2. Retrieve relevant research papers.
+3. Parse the API response.
+4. Analyze each paper.
+5. Compare analyzed papers.
+6. Generate structured comparison data.
+7. Return the comparison result as JSON.
 
 ---
 

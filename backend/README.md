@@ -247,6 +247,35 @@ The backend currently supports:
 
 ---
 
+## Implemented Services
+
+### Paper Retrieval
+
+- Semantic Scholar API Integration
+- Paper Parsing
+- Metadata Extraction
+
+### Paper Analysis
+
+- Research Problem Extraction
+- Methodology Detection
+- Keyword Extraction
+- Research Area Detection
+- Future Work Detection
+- Paper Quality Scoring
+
+### Methodology Comparison
+
+- Compare analyzed papers
+- Compare methodologies
+- Compare research areas
+- Compare keywords
+- Compare citation counts
+- Highest cited paper detection
+- Latest paper detection
+
+---
+
 # Future Enhancements
 
 Upcoming backend modules include:

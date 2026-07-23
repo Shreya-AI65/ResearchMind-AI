@@ -54,15 +54,47 @@ The goal of Version 1 is to build a functional platform that assists researchers
 
 ---
 
-## 4. Backend Infrastructure
+## 4. Methodology Comparison
+
+### Features
+
+* ✅ Compare multiple analyzed research papers.
+* ✅ Generate structured comparison results.
+* ✅ Compare methodologies.
+* ✅ Compare research areas.
+* ✅ Compare research problems.
+* ✅ Compare publication years.
+* ✅ Compare citation counts.
+* ✅ Compare paper quality scores.
+* ✅ Compare quality classifications.
+* ✅ Extract common methodologies.
+* ✅ Extract common keywords.
+* ✅ Extract research areas.
+* ✅ Identify highest cited paper.
+* ✅ Identify latest published paper.
+* ⏳ Generate visual comparison tables. *(Planned)*
+* ⏳ Compare datasets. *(Planned)*
+* ⏳ Compare evaluation metrics. *(Planned)*
+* ⏳ Compare experimental results. *(Planned)*
+
+---
+
+## 5. Backend Infrastructure
 
 ### Features
 
 * ✅ FastAPI Backend
 * ✅ Modular Project Architecture
+* ✅ Paper Retrieval Agent
+* ✅ Paper Analysis Agent
+* ✅ Methodology Comparison Agent
 * ✅ Paper Service
 * ✅ Analysis Service
+* ✅ Comparison Service
 * ✅ REST API Endpoints
+* ✅ /search API
+* ✅ /analyze API
+* ✅ /compare API
 * ✅ Logging System
 * ✅ Custom Exception Handling
 * ✅ Configuration Management
@@ -71,7 +103,7 @@ The goal of Version 1 is to build a functional platform that assists researchers
   
 ---  
 
-## 5. Paper Comparison
+## 6. Paper Comparison
 
 ### Features
 
@@ -83,7 +115,7 @@ The goal of Version 1 is to build a functional platform that assists researchers
 
 ---
 
-## 6. Research Intelligence
+## 7. Research Intelligence
 
 ### Features
 
@@ -94,7 +126,7 @@ The goal of Version 1 is to build a functional platform that assists researchers
 
 ---
 
-## 7. Literature Review Generation
+## 8. Literature Review Generation
 
 ### Features
 

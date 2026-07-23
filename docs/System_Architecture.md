@@ -12,31 +12,47 @@ Each agent is responsible for a specific task while sharing information with oth
 
 ## Current Backend Workflow
 
-```text
-User Research Query
-          │
-          ▼
-FastAPI API Endpoint
-          │
-          ▼
-Paper Retrieval Agent
-          │
-          ▼
-Semantic Scholar API
-          │
-          ▼
-Paper Parser
-          │
-          ▼
-Paper Analysis Agent
-          │
-          ▼
-Analysis Service
-          │
-          ▼
-Structured JSON Response
-```
+User
 
+↓
+
+FastAPI Backend
+
+↓
+
+Paper Retrieval Agent
+
+↓
+
+Semantic Scholar API
+
+↓
+
+Paper Parser
+
+↓
+
+Paper Analysis Agent
+
+↓
+
+Methodology Comparison Agent
+
+↓
+
+Future AI Agents
+
+↓
+
+Research Gap Detection Agent
+
+↓
+
+Experiment Planning Agent
+
+↓
+
+Final Report
 ---
 
 ## Future Multi-Agent Workflow

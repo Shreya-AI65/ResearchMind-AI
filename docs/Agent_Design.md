@@ -99,36 +99,37 @@ Structured paper analysis including:
 Methodology Comparison Agent
 ---
 
-# Agent 3: Methodology Comparison Agent
+## Agent 3 – Methodology Comparison Agent
 
-## Objective
+### Objective
 
-Compare multiple research papers.
+Compare multiple analyzed research papers and generate structured comparison information.
 
 ### Responsibilities
 
-Compare
-
-* Architectures
-* Models
-* Datasets
-* Metrics
-* Accuracy
-* Computational Cost
-* Advantages
-* Limitations
+- Compare research methodologies
+- Compare research areas
+- Compare research problems
+- Compare publication years
+- Compare citation counts
+- Compare paper quality scores
+- Compare quality classifications
+- Extract common methodologies
+- Extract common keywords
+- Identify highest cited paper
+- Identify latest published paper
 
 ### Input
 
-Paper summaries
+Analyzed research papers.
 
 ### Output
 
-Comparison matrix
+Structured comparison report.
 
-### Next Agent
+### Status
 
-Research Gap Detection Agent
+Backend implementation completed.
 
 ---
 
