@@ -49,17 +49,21 @@ The backend currently supports:
 - Paper Parser
 - Paper Analysis Agent
 - Methodology Comparison Agent
+- Research Gap Detection Agent
 - Paper Service
 - Analysis Service
 - Comparison Service
+- Research Gap Service
 - Logger
 - Exception Handling
 - Configuration Management
 - Unit Testing
 - Integration Testing
+- End-to-End Pipeline Testing
 - /search API
 - /analyze API
 - /compare API
+- /research-gap API
 
 ---
 
@@ -67,12 +71,12 @@ The backend currently supports:
 
 The following agents will be developed in upcoming phases:
 
-- Methodology Comparison Agent
-- Research Gap Detection Agent
 - Experiment Planning Agent
 - Literature Review Generator
 - Report Generation Agent
 - Knowledge Graph Agent
+- Citation Analysis Agent
+- Research Trend Prediction Agent
 
 ---
 
@@ -93,12 +97,19 @@ The following agents will be developed in upcoming phases:
 ---
 
 # System Architecture
-
-```text
                     User
                       │
                       ▼
                FastAPI Backend
+                      │
+        ┌─────────────┼─────────────┐
+        ▼             ▼             ▼
+   /search        /analyze      /compare
+        │             │             │
+        ▼             ▼             ▼
+ Paper Service   Analysis Service  Comparison Service
+        │             │             │
+        └─────────────┼─────────────┘
                       │
                       ▼
           Paper Retrieval Agent
@@ -108,40 +119,20 @@ The following agents will be developed in upcoming phases:
                       │
                       ▼
               Paper Parser
-                        │
-                        ▼
-                Paper Analysis Agent
-                        │
-                        ▼
-                Analysis Service
-                        │
-                        ▼
-                Response Formatter
                       │
                       ▼
-              JSON Response
+          Paper Analysis Agent
+                      │
+          ┌───────────┴───────────┐
+          ▼                       ▼
+ Methodology Comparison     Research Gap Detection
+        Agent                    Agent
+          │                       │
+          ▼                       ▼
+ Comparison Result       Research Gap Report
                       │
                       ▼
-      (Future AI Agents Pipeline)
-                      │
-                      ▼
-       Paper Summarization Agent
-                      │
-                      ▼
-     Methodology Comparison Agent
-                      │
-                      ▼
-      Research Gap Detection Agent
-                      │
-                      ▼
-      Experiment Planning Agent
-                      │
-                      ▼
-        Report Generation Agent
-                      │
-                      ▼
-          Final Research Report
-```
+                 JSON Response
 
 ---
 
@@ -162,7 +153,6 @@ The following agents will be developed in upcoming phases:
 
 # Repository Structure
 
-```text
 ResearchMind_AI/
 │
 ├── backend/
@@ -180,8 +170,13 @@ ResearchMind_AI/
 │   ├── Feature_Backlog.md
 │   ├── Product_Comparison.md
 │   ├── Research_Insights.md
+│   ├── Research_Gap.md
+│   ├── Technology_Stack.md
+│   ├── Agent_Design.md
+│   ├── API_Workflow.md
+│   ├── System_Architecture.md
+│   ├── Development_Roadmap.md
 │   ├── Development_Journal.md
-│   ├── API_WORKFLOW.md
 │   └── ...
 │
 ├── data/
@@ -191,7 +186,6 @@ ResearchMind_AI/
 ├── docker/
 │
 └── README.md
-```
 
 ---
 
@@ -200,18 +194,18 @@ ResearchMind_AI/
 The project documentation includes:
 
 - Problem Statement
-- Feature Backlog
-- Product Comparison
-- Competitor Analysis
 - Research Insights
+- Product Comparison
+- Competitor Comparison
 - Research Gap Analysis
-- Paper Reading Notes
-- Development Journal
+- Technology Stack
+- Feature Backlog
 - API Workflow
 - System Architecture
 - Agent Design
-- Technology Stack
 - Development Roadmap
+- Development Journal
+- Paper Reading Notes
 
 ---
 
@@ -234,27 +228,41 @@ The project documentation includes:
 - FastAPI Backend
 - Paper Retrieval Agent
 - Paper Analysis Agent
+- Methodology Comparison Agent
+- Research Gap Detection Agent
 - Semantic Scholar Integration
 - Parser
 - Paper Service
 - Analysis Service
-- Response Formatter
+- Comparison Service
+- Research Gap Service
 - Logger
 - Exception Handling
 - Configuration Management
 - Unit Testing
 - Integration Testing
 - End-to-End Pipeline Testing
+- /search API
+- /analyze API
+- /compare API
+- /research-gap API
+- End-to-End Pipeline Testing
 
 ## Phase 4 – AI Agent Development
 
 🚧 In Progress
 
-Upcoming:
+Completed:
 
-- Paper Summarization Agent
+- Paper Analysis Agent
 - Methodology Comparison Agent
 - Research Gap Detection Agent
+
+Upcoming:
+
+- Experiment Planning Agent
+- Literature Review Generator
+- Report Generation Agent
 
 ## Phase 5 – Frontend Development
 
@@ -300,9 +308,13 @@ frontend/README.md
 - REST API using FastAPI
 - Paper Retrieval Agent
 - Paper Analysis Agent
+- Methodology Comparison Agent
+- Research Gap Detection Agent
 - Semantic Scholar API integration
 - Structured paper parser
 - Analysis pipeline
+- Comparison pipeline
+- Research Gap pipeline
 - Logging system
 - Custom exception handling
 - Configuration management
@@ -312,11 +324,10 @@ frontend/README.md
 
 ## 🚧 In Progress
 
-- Methodology Comparison Agent
+- Backend AI Agent Expansion
 
 ## 📅 Upcoming
 
-- Research Gap Detection Agent
 - Experiment Planning Agent
 - Literature Review Generator
 - Report Generation Agent
@@ -328,15 +339,17 @@ frontend/README.md
 
 Future versions of ResearchMind AI will include:
 
-- Multi-Agent Collaboration
-- Agent-to-Agent Communication (A2A)
-- Model Context Protocol (MCP)
+- Experiment Planning Agent
+- Literature Review Generation
+- Report Generation
 - Knowledge Graph Generation
 - Citation Network Analysis
 - Research Trend Prediction
-- Automated Benchmark Recommendation
+- Multi-Agent Collaboration
+- Agent-to-Agent Communication (A2A)
+- Model Context Protocol (MCP)
 - Research Memory
-- Team Collaboration
+- Automatic Benchmark Recommendation
 - Cloud Deployment
 
 ---
