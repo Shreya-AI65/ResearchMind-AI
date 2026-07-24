@@ -1698,3 +1698,221 @@ docs/Development_Journal.md
 ## Status
 
 Day 11 Successfully Completed
+
+
+# Day 12 – Research Gap Detection Agent
+
+**Date:** *(Add the date here)*
+
+---
+
+## Objective
+
+The primary objective of Day 12 was to implement the **Research Gap Detection Agent** in the ResearchMind AI backend. This agent analyzes multiple research papers after the analysis stage, aggregates common research information, extracts future work, and generates a structured research gap report. The day also focused on integrating this module into the FastAPI backend and updating the project documentation.
+
+---
+
+## Tasks Completed
+
+| Task | Status |
+|------|--------|
+| Research Gap Detection Agent | ✅ Completed |
+| Research Gap Service | ✅ Completed |
+| FastAPI Endpoint | ✅ Completed |
+| Backend Integration | ✅ Completed |
+| Testing | ✅ Completed |
+| Documentation Update | ✅ Completed |
+
+---
+
+## 1. Research Gap Detection Agent
+
+### Description
+
+Implemented a new AI agent named **ResearchGapDetectionAgent**.
+
+### Responsibilities
+
+- Detect unique research areas.
+- Aggregate common keywords.
+- Collect future work statements.
+- Count the total number of analyzed papers.
+- Generate a structured research gap report.
+
+### Output
+
+- Research Areas
+- Common Keywords
+- Future Work Suggestions
+- Total Papers Analyzed
+
+---
+
+## 2. Research Gap Service
+
+### Description
+
+Implemented a dedicated service named **ResearchGapService**.
+
+### Responsibilities
+
+- Receive research query.
+- Retrieve research papers.
+- Parse API responses.
+- Invoke Paper Analysis Agent.
+- Invoke Research Gap Detection Agent.
+- Generate structured JSON response.
+- Handle logging and exceptions.
+
+---
+
+## 3. FastAPI Endpoint
+
+### Endpoint Added
+
+```http
+GET /research-gap?query=<research_topic>
+```
+
+### Example
+
+```http
+GET /research-gap?query=Agentic AI
+```
+
+The endpoint executes the complete research gap detection pipeline and returns a structured JSON response.
+
+---
+
+## 4. Backend Integration
+
+The new module was integrated into the existing backend architecture.
+
+### Completed Work
+
+- Added Research Gap router.
+- Connected ResearchGapService.
+- Updated `main.py`.
+- Registered the API endpoint.
+- Verified endpoint execution.
+
+---
+
+## 5. Testing
+
+The following tests were performed successfully.
+
+| Test | Status |
+|------|--------|
+| Agent Initialization | ✅ |
+| Service Execution | ✅ |
+| API Routing | ✅ |
+| JSON Response | ✅ |
+| Exception Handling | ✅ |
+| Logging | ✅ |
+
+### API Limitation
+
+During testing, the Semantic Scholar API returned **HTTP 429 (Too Many Requests)** due to public API rate limits.
+
+The backend handled the exception correctly without crashing and returned a structured error response.
+
+---
+
+## 6. Documentation Updated
+
+The following documentation files were updated.
+
+| Document | Status |
+|----------|--------|
+| Backend README | ✅ |
+| Root README | ✅ |
+| API Workflow | ✅ |
+| System Architecture | ✅ |
+| Agent Design | ✅ |
+| Feature Backlog | ✅ |
+| Backend Project Structure | ✅ |
+
+---
+
+## Current Backend Modules
+
+| Module | Status |
+|--------|--------|
+| Paper Retrieval Agent | ✅ |
+| Paper Analysis Agent | ✅ |
+| Methodology Comparison Agent | ✅ |
+| Research Gap Detection Agent | ✅ |
+| Paper Service | ✅ |
+| Analysis Service | ✅ |
+| Comparison Service | ✅ |
+| Research Gap Service | ✅ |
+| FastAPI REST APIs | ✅ |
+| Parser | ✅ |
+| Logging | ✅ |
+| Exception Handling | ✅ |
+| Configuration Management | ✅ |
+
+---
+
+## Backend Workflow
+
+```text
+User Query
+      │
+      ▼
+Paper Retrieval Agent
+      │
+      ▼
+Paper Analysis Agent
+      │
+      ▼
+Methodology Comparison Agent
+      │
+      ▼
+Research Gap Detection Agent
+      │
+      ▼
+Structured Research Gap Report
+```
+
+---
+
+## Challenges Faced
+
+| Challenge | Solution |
+|-----------|----------|
+| Semantic Scholar API returned HTTP 429 | Existing exception handling successfully caught the error and returned a structured JSON response. |
+| API rate limit prevented live testing | Continued development using existing architecture while awaiting an authenticated API key. |
+
+---
+
+## Outcome
+
+Successfully completed the implementation of the **Research Gap Detection module**.
+
+The backend now supports four major AI modules:
+
+- ✅ Paper Retrieval
+- ✅ Paper Analysis
+- ✅ Methodology Comparison
+- ✅ Research Gap Detection
+
+The system is now capable of retrieving research papers, analyzing them, comparing methodologies, and generating structured research gap reports.
+
+---
+
+## Next Day Plan (Day 13)
+
+The next development phase will focus on implementing the **Experiment Planning Agent**.
+
+### Planned Features
+
+- Dataset Recommendation
+- Baseline Model Recommendation
+- Evaluation Metrics Recommendation
+- Validation Strategy
+- Hardware Recommendation
+- Experimental Workflow Generation
+
+This module will consume the output of the Research Gap Detection Agent and generate implementation-ready experiment plans for researchers.

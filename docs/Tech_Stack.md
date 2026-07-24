@@ -46,6 +46,30 @@ ResearchMind AI is designed as a modern AI-powered research assistant built usin
 
 ---
 
+## Backend Components
+
+- FastAPI
+- Uvicorn
+- Requests
+- Pydantic
+- Semantic Scholar API
+
+## AI Modules Implemented
+
+- Paper Retrieval Agent
+- Paper Analysis Agent
+- Methodology Comparison Agent
+- Research Gap Detection Agent
+
+## Services
+
+- Paper Service
+- Analysis Service
+- Comparison Service
+- Research Gap Service
+
+---
+
 ## HTTP Client
 - Requests
 

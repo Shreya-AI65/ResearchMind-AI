@@ -179,6 +179,18 @@ ResearchMind AI aims to provide:
 
 ---
 
+## Implementation Status
+
+Current implementation performs rule-based research gap detection by aggregating:
+
+- Research Areas
+- Common Keywords
+- Future Work Statements
+
+Future versions will use LLMs to identify implicit research gaps, conflicting methodologies, and emerging research directions.
+
+---
+
 # 7. Conclusion
 
 The evaluation of NotebookLM, SciSpace, Elicit, and Consensus demonstrates that AI has significantly improved literature search and document understanding. However, the transition from information retrieval to intelligent scientific reasoning remains incomplete.

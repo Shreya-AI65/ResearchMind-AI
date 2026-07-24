@@ -19,7 +19,11 @@ The backend of **ResearchMind AI** is built using **FastAPI** and provides the c
 * Exception Handling
 * Logging System
 * Rule-Based Paper Analysis
+* Methodology Comparison Agent
+* Research Gap Detection Agent
 * Paper Quality Assessment
+* Comparison Service
+* Research Gap Service
 * Unit Testing
 * Integration Testing
 
@@ -37,13 +41,17 @@ FastAPI Routes
 Services
    │
    ├── Paper Service
-   └── Analysis Service
+   ├── Analysis Service
+   ├── Comparison Service
+   └── Research Gap Service
    │
    ▼
 AI Agents
    │
    ├── Paper Retrieval Agent
-   └── Paper Analysis Agent
+   ├── Paper Analysis Agent
+   ├── Methodology Comparison Agent
+   └── Research Gap Detection Agent
    │
    ▼
 Utilities
@@ -63,40 +71,58 @@ Semantic Scholar API
 ```text
 backend/
 │
+├── README.md
+├── requirements.txt
+├── sample_response.json
+│
 ├── app/
+│   │
+│   ├── __init__.py
+│   ├── main.py
+│   │
 │   ├── agents/
+│   │   ├── __init__.py
 │   │   ├── paper_retrieval.py
-│   │   └── paper_analysis.py
+│   │   ├── paper_analysis.py
+│   │   ├── methodology_comparison.py
+│   │   └── research_gap_detection.py
 │   │
 │   ├── api/
-│   │   ├── paper_routes.py
-│   │   └── analysis_routes.py
-│   │
-│   ├── services/
-│   │   ├── paper_service.py
-│   │   └── analysis_service.py
-│   │
-│   ├── models/
-│   │   ├── paper.py
-│   │   └── paper_analysis.py
-│   │
-│   ├── utils/
-│   │   ├── parser.py
-│   │   ├── logger.py
-│   │   └── exceptions.py
+│   │   ├── __init__.py
+│   │   ├── search.py
+│   │   ├── analyze.py
+│   │   ├── compare.py
+│   │   └── research_gap.py
 │   │
 │   ├── core/
+│   │   ├── __init__.py
 │   │   └── config.py
 │   │
-│   └── main.py
+│   ├── models/
+│   │   ├── __init__.py
+│   │   └── paper.py
+│   │
+│   ├── services/
+│   │   ├── __init__.py
+│   │   ├── paper_service.py
+│   │   ├── analysis_service.py
+│   │   ├── comparison_service.py
+│   │   └── research_gap_service.py
+│   │
+│   └── utils/
+│       ├── __init__.py
+│       ├── parser.py
+│       ├── logger.py
+│       └── exceptions.py
 │
-├── tests/
-│   ├── test_parser.py
-│   ├── test_analysis.py
-│   └── test_analysis_pipeline.py
-│
-├── requirements.txt
-└── README.md
+└── tests/
+    ├── __init__.py
+    ├── test_parser.py
+    ├── test_analysis.py
+    ├── test_analysis_pipeline.py
+    ├── test_comparison.py
+    └── test_research_gap.py
+
 ```
 
 ---
@@ -162,7 +188,7 @@ http://127.0.0.1:8000/docs
 
 # Available API Endpoints
 
-## Search Papers
+## 1. Search Papers
 
 ```http
 GET /search?query=<research_topic>
@@ -176,7 +202,7 @@ GET /search?query=Agentic AI
 
 ---
 
-## Analyze Papers
+## 2. Analyze Papers
 
 ```http
 GET /analyze?query=<research_topic>
@@ -186,6 +212,34 @@ Example:
 
 ```
 GET /analyze?query=Agentic AI
+```
+
+---
+
+## 3. Compare Papers
+
+```http
+GET /compare?query=<research_topic>
+```
+
+Example:
+
+```
+GET /compare?query=Agentic AI
+```
+
+---
+
+## 4. Research Gap Detection
+
+```http
+GET /research-gap?query=<research_topic>
+```
+
+Example:
+
+```
+GET /research-gap?query=Agentic AI
 ```
 
 ---
@@ -204,10 +258,22 @@ Run the paper analysis test:
 python -m tests.test_analysis
 ```
 
-Run the complete analysis pipeline test:
+Run the complete analysis pipeline:
 
 ```bash
 python -m tests.test_analysis_pipeline
+```
+
+Run the methodology comparison test:
+
+```bash
+python -m tests.test_comparison
+```
+
+Run the research gap detection test:
+
+```bash
+python -m tests.test_research_gap
 ```
 
 ---
@@ -216,90 +282,124 @@ python -m tests.test_analysis_pipeline
 
 The backend currently supports:
 
-* Research paper retrieval from Semantic Scholar
-* Parsing raw API responses into structured paper objects
-* Rule-based paper analysis
-* Extraction of:
+- Research paper retrieval from Semantic Scholar
+- Parsing raw API responses into structured paper objects
+- Rule-based paper analysis
+- Paper quality assessment
+- Methodology comparison across multiple papers
+- Research gap detection
+- Research area aggregation
+- Keyword aggregation
+- Future work extraction
+- Highest cited paper detection
+- Latest paper detection
+- Structured logging
+- Exception handling
+- REST API services
+- Modular multi-agent architecture
+- Unit and integration testing
 
-  * Research Problem
-  * Methodology
-  * Key Contributions
-  * Future Work
-  * Keywords
-  * Research Area
-* Paper quality scoring
-* Paper quality classification
-* Structured logging
-* Exception handling
-* REST API services
-* Unit and integration testing
+The Paper Analysis Agent extracts:
 
+- Research Problem
+- Methodology
+- Key Contributions
+- Future Work
+- Keywords
+- Research Area
+- Quality Score
+- Quality Classification
 ---
 
 # Technologies Used
 
-* Python 3
-* FastAPI
-* Requests
-* Pydantic
-* Uvicorn
-* Semantic Scholar API
+- Python 3
+- FastAPI
+- Requests
+- Pydantic
+- Uvicorn
+- Semantic Scholar Graph API
+- Logging Module
 
 ---
 
-## Implemented Services
+# Implemented Services
 
-### Paper Retrieval
+## Paper Retrieval Service
 
 - Semantic Scholar API Integration
+- Metadata Retrieval
+- API Error Handling
 - Paper Parsing
-- Metadata Extraction
 
-### Paper Analysis
+---
 
+## Analysis Service
+
+- Rule-Based Paper Analysis
 - Research Problem Extraction
 - Methodology Detection
 - Keyword Extraction
 - Research Area Detection
 - Future Work Detection
-- Paper Quality Scoring
+- Quality Score Calculation
+- Quality Classification
 
-### Methodology Comparison
+---
 
-- Compare analyzed papers
-- Compare methodologies
-- Compare research areas
-- Compare keywords
-- Compare citation counts
-- Highest cited paper detection
-- Latest paper detection
+## Comparison Service
+
+- Compare Multiple Papers
+- Methodology Comparison
+- Research Area Comparison
+- Keyword Comparison
+- Citation Count Comparison
+- Highest Cited Paper Detection
+- Latest Paper Detection
+
+---
+
+## Research Gap Service
+
+- Research Area Aggregation
+- Common Keyword Extraction
+- Future Work Aggregation
+- Structured Research Gap Report Generation
 
 ---
 
 # Future Enhancements
 
-Upcoming backend modules include:
+The following modules are planned for future development:
 
-* Research Gap Detection Agent
-* Methodology Comparison Agent
-* Paper Recommendation Engine
-* Report Generation Agent
-* Knowledge Graph Construction
-* Vector Database Integration
-* Multi-Agent Communication
-* LLM-based Paper Analysis
-* Authentication and User Management
+- Experiment Planning Agent
+- Literature Review Agent
+- Report Generation Agent
+- Knowledge Graph Generation
+- Citation Network Analysis
+- Research Trend Prediction
+- Benchmark Recommendation Agent
+- Persistent Research Memory
+- Vector Database Integration (ChromaDB)
+- LLM-based Paper Analysis
+- Multi-Agent Communication
+- Agent-to-Agent (A2A) Communication
+- Model Context Protocol (MCP)
+- Authentication & User Management
+- Cloud Deployment
 
 ---
 
 # Notes
 
-* The backend currently uses the Semantic Scholar Graph API for paper retrieval.
-* If the Semantic Scholar API rate limit (HTTP 429) is reached, the backend returns a structured error response without crashing.
-* The rule-based analysis pipeline is designed to be replaced or enhanced with LLM-powered techniques in future development phases.
-
+- The backend currently uses the Semantic Scholar Graph API as the primary research paper source.
+- Public API requests are subject to rate limits (HTTP 429). An API key will be integrated in future versions to increase request capacity.
+- The current paper analysis pipeline is rule-based and is designed to be upgraded with LLM-powered analysis in future releases.
+- The backend follows a modular multi-agent architecture, allowing independent development of specialized AI agents.
 ---
 
 # License
 
-This backend is part of the **ResearchMind AI** academic research project and is intended for educational and research purposes.
+ResearchMind AI is an academic research project developed for educational, research, and learning purposes.
+
+This project is currently under active development.

@@ -8,257 +8,331 @@ The API Workflow of ResearchMind AI defines how a user's research query flows th
 
 # Workflow
 
-## Paper Search Workflow
-User Research Query
-        │
-        ▼
-FastAPI Endpoint
-        │
-        ▼
-Comparison Service
-        │
-        ▼
+## Search Workflow
+
+```text
+User
+   │
+   ▼
+GET /search
+   │
+   ▼
+Paper Service
+   │
+   ▼
 Paper Retrieval Agent
-        │
-        ▼
+   │
+   ▼
 Semantic Scholar API
-        │
-        ▼
+   │
+   ▼
 Paper Parser
-        │
-        ▼
-Paper Analysis Agent
-        │
-        ▼
-Methodology Comparison Agent
-        │
-        ▼
-Structured Comparison Result
-        │
-        ▼
+   │
+   ▼
+Structured Paper Objects
+   │
+   ▼
 JSON Response
+```
+
+---
+
+## Analysis Workflow
+
+```text
+User
+   │
+   ▼
+GET /analyze
+   │
+   ▼
+Analysis Service
+   │
+   ▼
+Paper Retrieval Agent
+   │
+   ▼
+Semantic Scholar API
+   │
+   ▼
+Paper Parser
+   │
+   ▼
+Paper Analysis Agent
+   │
+   ▼
+Paper Quality Assessment
+   │
+   ▼
+Structured Analysis Result
+   │
+   ▼
+JSON Response
+```
 
 ---
 
 ## Comparison Workflow
 
-The Methodology Comparison workflow performs the following operations:
-
-1. Receive a research query.
-2. Retrieve relevant research papers.
-3. Parse the API response.
-4. Analyze each paper.
-5. Compare analyzed papers.
-6. Generate structured comparison data.
-7. Return the comparison result as JSON.
-
----
-
-## Paper Analysis Workflow
-
 ```text
-User enters Research Topic
-            │
-            ▼
-FastAPI Analysis Endpoint (/analyze)
-            │
-            ▼
-Analysis Service
-            │
-            ▼
+User
+   │
+   ▼
+GET /compare
+   │
+   ▼
+Comparison Service
+   │
+   ▼
 Paper Retrieval Agent
-            │
-            ▼
-Semantic Scholar Graph API
-            │
-            ▼
+   │
+   ▼
+Semantic Scholar API
+   │
+   ▼
 Paper Parser
-            │
-            ▼
+   │
+   ▼
 Paper Analysis Agent
-            │
-            ▼
-Paper Quality Assessment
-            │
-            ▼
-Structured Analysis Result
-            │
-            ▼
+   │
+   ▼
+Methodology Comparison Agent
+   │
+   ▼
+Comparison Report
+   │
+   ▼
 JSON Response
 ```
 
+---
+
+## Research Gap Workflow
+
+```text
+User
+   │
+   ▼
+GET /research-gap
+   │
+   ▼
+Research Gap Service
+   │
+   ▼
+Paper Retrieval Agent
+   │
+   ▼
+Semantic Scholar API
+   │
+   ▼
+Paper Parser
+   │
+   ▼
+Paper Analysis Agent
+   │
+   ▼
+Research Gap Detection Agent
+   │
+   ▼
+Research Gap Report
+   │
+   ▼
+JSON Response
+```
 ---
 
 # Component Description
 
 ## 1. User
 
-The workflow begins when the user enters a research topic or keyword through the frontend interface.
+The workflow begins when the user submits a research topic through one of the available API endpoints.
 
-Example:
+Example queries:
 
 - Agentic AI
-- Retrieval-Augmented Generation
 - Large Language Models
+- Retrieval-Augmented Generation
+- Graph Neural Networks
 
 ---
 
-## 2. FastAPI Endpoint
+## 2. FastAPI Endpoints
 
-The FastAPI backend receives the user's search query through the `/search` endpoint.
+The FastAPI backend exposes multiple REST endpoints.
 
-Responsibilities:
-- Accept user requests
-- Validate input
-- Forward the query to the Paper Retrieval Agent
+Implemented endpoints:
 
----
+- GET /search
+- GET /analyze
+- GET /compare
+- GET /research-gap
 
-## 3. Paper Retrieval Agent
+Responsibilities
 
-The Paper Retrieval Agent is responsible for communicating with external academic databases.
-
-Current Source:
-- Semantic Scholar Graph API
-
-Responsibilities:
-- Send search requests
-- Receive research paper metadata
-- Handle API errors
-- Return raw JSON responses
-
-Future Enhancement:
-- Support multiple academic databases
+- Receive requests
+- Validate query parameters
+- Forward requests to the appropriate service
+- Return JSON responses
 
 ---
 
-## 4. Semantic Scholar Graph API
+## 3. Service Layer
 
-The Semantic Scholar API provides academic paper metadata including:
+The Service Layer coordinates the complete backend workflow.
 
-- Title
-- Authors
-- Abstract
-- Publication Year
-- Citation Count
-- URL
+Implemented services:
 
-During development, API requests are temporarily limited because the public endpoint enforces request limits. An API key request has been submitted for authenticated access.
+- Paper Service
+- Analysis Service
+- Comparison Service
+- Research Gap Service
 
----
+Responsibilities
 
-## 5. Paper Parser
-
-The Paper Parser converts raw API responses into a standardized format.
-
-Responsibilities:
-- Extract titles
-- Extract authors
-- Extract abstracts
-- Extract publication year
-- Extract citation count
-- Extract paper URL
-
-This ensures that downstream components receive clean and consistent data.
-
----
-
-## 6. Paper Model
-
-The Paper Model defines a standard structure for representing research papers across the application.
-
-Fields include:
-- Title
-- Authors
-- Abstract
-- Publication Year
-- Citation Count
-- URL
-
-Using a common data model ensures consistency throughout the project.
-
----
-
-## 7. Paper Service
-
-The Paper Service acts as the bridge between the Paper Retrieval Agent and the parser.
-
-Responsibilities:
-- Retrieve raw paper data
+- Coordinate AI agents
+- Handle business logic
 - Parse API responses
-- Return structured paper objects
-- Handle error responses
+- Manage logging
+- Handle exceptions
 
 ---
 
-## 8. Analysis Service
+## 4. Paper Retrieval Agent
 
-The Analysis Service coordinates the complete paper analysis pipeline.
+Responsibilities
 
-### Responsibilities
+- Search Semantic Scholar
+- Retrieve paper metadata
+- Handle API communication
+- Handle API failures
 
-* Receive analysis requests from the FastAPI endpoint.
-* Retrieve papers using the Paper Retrieval Agent.
-* Parse research paper metadata.
-* Invoke the Paper Analysis Agent.
-* Handle logging and exception management.
-* Return structured analysis results.
+Output
+
+- Raw paper metadata
 
 ---
 
-## 9. Paper Analysis Agent
+## 5. Semantic Scholar API
 
-The Paper Analysis Agent performs rule-based analysis of research papers.
+Current external data source.
 
-### Extracted Information
+Retrieved fields include:
 
-* Research Problem
-* Methodology
-* Key Contributions
-* Future Work
-* Keywords
-* Research Area
-* Paper Quality Score
-* Paper Quality Classification
+- Title
+- Authors
+- Abstract
+- Year
+- Citation Count
+- URL
 
-The extracted information is returned as structured JSON, allowing future AI agents to reuse the analysis.
+Current limitation:
+
+The public API is rate-limited (HTTP 429). Support for authenticated API keys is planned.
+
 ---
 
+## 6. Paper Parser
+
+Responsibilities
+
+- Parse raw JSON
+- Normalize metadata
+- Produce structured paper objects
+
+Extracted fields
+
+- Title
+- Authors
+- Abstract
+- Year
+- Citation Count
+- URL
+
+---
+
+## 7. Paper Analysis Agent
+
+Responsibilities
+
+- Detect research problem
+- Detect methodology
+- Extract key contributions
+- Detect future work
+- Extract keywords
+- Detect research area
+- Calculate quality score
+- Assign quality classification
+
+Output
+
+Structured paper analysis.
+
+---
+
+## 8. Methodology Comparison Agent
+
+Responsibilities
+
+- Compare methodologies
+- Compare research areas
+- Compare keywords
+- Compare citation counts
+- Detect highest cited paper
+- Detect latest paper
+
+Output
+
+Comparison report.
+
+---
+
+## 9. Research Gap Detection Agent
+
+Responsibilities
+
+- Aggregate research areas
+- Aggregate common keywords
+- Aggregate future work
+- Generate research gap report
+
+Output
+
+Research gap analysis.
+
+---
 ## 10. Future AI Agents
 
-Once structured paper data is available, it will be processed by specialized AI agents.
+Planned modules include:
 
-Planned agents include:
-
+- Experiment Planning Agent
 - Literature Review Agent
-- Paper Comparison Agent
-- Research Gap Detection Agent
-- Research Report Generator
+- Report Generation Agent
 - Citation Analysis Agent
-
-These agents will collaboratively generate high-quality research outputs.
+- Knowledge Graph Agent
+- AI Reviewer
 
 ---
+
 
 # Current Workflow Status
 
-| Component                 | Status      |
-| ------------------------- | ----------- |
-| FastAPI Backend           | ✅ Completed |
-| Search API                | ✅ Completed |
-| Analysis API              | ✅ Completed |
-| Paper Retrieval Agent     | ✅ Completed |
-| Paper Parser              | ✅ Completed |
-| Paper Model               | ✅ Completed |
-| Paper Service             | ✅ Completed |
-| Paper Analysis Agent      | ✅ Completed |
-| Analysis Service          | ✅ Completed |
-| Logging                   | ✅ Completed |
-| Exception Handling        | ✅ Completed |
-| Parser Testing            | ✅ Completed |
-| Analysis Unit Testing     | ✅ Completed |
-| Integration Testing       | ✅ Completed |
-| Multi-Agent Collaboration | ⏳ Planned   |
+| Component | Status |
+|------------|---------|
+| FastAPI Backend | ✅ Completed |
+| Search API | ✅ Completed |
+| Analysis API | ✅ Completed |
+| Comparison API | ✅ Completed |
+| Research Gap API | ✅ Completed |
+| Paper Retrieval Agent | ✅ Completed |
+| Paper Parser | ✅ Completed |
+| Paper Analysis Agent | ✅ Completed |
+| Methodology Comparison Agent | ✅ Completed |
+| Research Gap Detection Agent | ✅ Completed |
+| Paper Service | ✅ Completed |
+| Analysis Service | ✅ Completed |
+| Comparison Service | ✅ Completed |
+| Research Gap Service | ✅ Completed |
+| Multi-Agent Collaboration | ⏳ Planned |
 
 ---
 
@@ -287,7 +361,7 @@ The current API workflow establishes a modular backend architecture for Research
 ```text
 User
 ↓
-/search API
+GET /search
 ↓
 Paper Service
 ↓
@@ -309,7 +383,7 @@ JSON Response
 ```text
 User
 ↓
-/analyze API
+GET /analyze
 ↓
 Analysis Service
 ↓
@@ -323,7 +397,57 @@ Paper Analysis Agent
 ↓
 Paper Quality Assessment
 ↓
-Structured Analysis Result
+JSON Response
+```
+
+---
+
+## Comparison Pipeline
+
+```text
+User
+↓
+GET /compare
+↓
+Comparison Service
+↓
+Paper Retrieval Agent
+↓
+Semantic Scholar API
+↓
+Paper Parser
+↓
+Paper Analysis Agent
+↓
+Methodology Comparison Agent
+↓
+Comparison Report
+↓
+JSON Response
+```
+
+---
+
+## Research Gap Pipeline
+
+```text
+User
+↓
+GET /research-gap
+↓
+Research Gap Service
+↓
+Paper Retrieval Agent
+↓
+Semantic Scholar API
+↓
+Paper Parser
+↓
+Paper Analysis Agent
+↓
+Research Gap Detection Agent
+↓
+Research Gap Report
 ↓
 JSON Response
 ```
@@ -345,3 +469,11 @@ Logger
 ↓
 Structured JSON Error Response
 ```
+
+---
+
+# Conclusion
+
+The current API workflow provides a modular backend architecture that supports research paper retrieval, rule-based paper analysis, methodology comparison, and research gap detection through independent service layers and AI agents.
+
+The architecture cleanly separates API endpoints, services, AI agents, utilities, and external API communication, making the backend scalable, maintainable, and ready for future multi-agent extensions such as Experiment Planning, Literature Review Generation, Report Generation, and Knowledge Graph construction.

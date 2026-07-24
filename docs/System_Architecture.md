@@ -12,74 +12,43 @@ Each agent is responsible for a specific task while sharing information with oth
 
 ## Current Backend Workflow
 
-User
-
-↓
-
-FastAPI Backend
-
-↓
-
-Paper Retrieval Agent
-
-↓
-
-Semantic Scholar API
-
-↓
-
-Paper Parser
-
-↓
-
-Paper Analysis Agent
-
-↓
-
-Methodology Comparison Agent
-
-↓
-
-Future AI Agents
-
-↓
-
-Research Gap Detection Agent
-
-↓
-
-Experiment Planning Agent
-
-↓
-
-Final Report
----
-
-## Future Multi-Agent Workflow
-
 ```text
-User Research Query
-          │
-          ▼
-Paper Retrieval Agent
-          │
-          ▼
-Paper Analysis Agent
-          │
-          ▼
-Methodology Comparison Agent
-          │
-          ▼
-Research Gap Detection Agent
-          │
-          ▼
-Experiment Planning Agent
-          │
-          ▼
-Report Generation Module
-          │
-          ▼
-Final Research Report
+                      User
+                        │
+                        ▼
+                 FastAPI Backend
+                        │
+                        ▼
+              API Endpoint (/search,
+            /analyze, /compare,
+              /research-gap)
+                        │
+                        ▼
+                 Service Layer
+        (Paper / Analysis / Comparison /
+          Research Gap Services)
+                        │
+                        ▼
+             Paper Retrieval Agent
+                        │
+                        ▼
+          Semantic Scholar Graph API
+                        │
+                        ▼
+                 Paper Parser
+                        │
+                        ▼
+             Paper Analysis Agent
+                        │
+                        ▼
+        ┌───────────────────────────────┐
+        │                               │
+        ▼                               ▼
+Methodology Comparison Agent   Research Gap Detection Agent
+        │                               │
+        └──────────────┬────────────────┘
+                       ▼
+            Structured JSON Response
 ```
 
 ---
@@ -112,83 +81,84 @@ Output
 
 ## 2. Paper Retrieval Agent
 
-Responsibilities
+### Responsibilities
 
-* Search research databases.
-* Retrieve relevant papers.
-* Rank papers.
-* Remove duplicates.
-* Collect metadata.
+- Search Semantic Scholar.
+- Retrieve research papers.
+- Fetch metadata.
+- Handle API communication.
+- Handle API errors.
 
-Possible APIs
+### Output
 
-* Semantic Scholar
-* Crossref
-* arXiv
-* PubMed
-
-Output
-
-* Ranked research papers.
-
+- Structured paper metadata.
 ---
 
 ## 3. Paper Analysis Agent
 
 ### Responsibilities
 
-* Analyze retrieved research papers.
-* Extract the research problem.
-* Identify methodologies.
-* Detect key contributions.
-* Identify future work.
-* Extract keywords.
-* Detect research area.
-* Perform paper quality assessment.
-* Generate structured analysis output.
+- Analyze paper abstracts.
+- Extract research problems.
+- Detect methodologies.
+- Extract key contributions.
+- Detect future work.
+- Extract keywords.
+- Detect research area.
+- Calculate quality score.
+- Assign quality classification.
 
 ### Output
 
-* Structured paper analysis.
+- Structured paper analysis.
 
 ---
 
 ## 4. Methodology Comparison Agent
 
-Responsibilities
+### Responsibilities
 
-Compare papers based on
+- Compare multiple analyzed papers.
+- Compare methodologies.
+- Compare research areas.
+- Compare keywords.
+- Compare citation counts.
+- Identify highest cited paper.
+- Identify latest published paper.
 
-* Models
-* Architectures
-* Datasets
-* Metrics
-* Advantages
-* Limitations
-* Computational cost
+### Output
 
-Output
-
-Comparison tables.
+- Structured comparison report.
 
 ---
 
 ## 5. Research Gap Detection Agent
 
-Responsibilities
+### Responsibilities
 
-Analyze all retrieved papers to identify
+- Aggregate research areas.
+- Aggregate common keywords.
+- Aggregate future work statements.
+- Generate structured research gap report.
 
-* Missing research directions.
-* Open challenges.
-* Conflicting results.
-* Future work suggestions.
-* Emerging trends.
+### Output
 
-Output
+- Research gap report.
 
-Research gap report.
+### Current Status
 
+✅ Implemented
+
+### Current Implementation
+
+Completed
+
+Capabilities
+
+- Research area extraction
+- Keyword aggregation
+- Future work extraction
+- Structured research gap report generation
 ---
 
 ## 6. Experiment Planning Agent
@@ -232,30 +202,34 @@ Export Formats
 
 # Data Flow
 
-## Current Implementation
+## Current Backend Data Flow
 
 ```text
-User Query
-      │
-      ▼
+User
+   │
+   ▼
 FastAPI Endpoint
-      │
-      ▼
+   │
+   ▼
+Service Layer
+   │
+   ▼
 Paper Retrieval Agent
-      │
-      ▼
+   │
+   ▼
 Semantic Scholar API
-      │
-      ▼
+   │
+   ▼
 Paper Parser
-      │
-      ▼
+   │
+   ▼
 Paper Analysis Agent
-      │
-      ▼
-Analysis Service
-      │
-      ▼
+   │
+   ├──────────────► Methodology Comparison Agent
+   │
+   └──────────────► Research Gap Detection Agent
+   │
+   ▼
 Structured JSON Response
 ```
 
@@ -289,54 +263,63 @@ Report Generation
 
 # Current Implementation Status
 
-| Component                    | Status      |
-| ---------------------------- | ----------- |
-| FastAPI Backend              | ✅ Completed |
-| Paper Retrieval Agent        | ✅ Completed |
-| Semantic Scholar Integration | ✅ Completed |
-| Paper Parser                 | ✅ Completed |
-| Paper Service                | ✅ Completed |
-| Paper Analysis Agent         | ✅ Completed |
-| Analysis Service             | ✅ Completed |
-| Search API                   | ✅ Completed |
-| Analysis API                 | ✅ Completed |
-| Logging                      | ✅ Completed |
-| Exception Handling           | ✅ Completed |
-| Unit Testing                 | ✅ Completed |
-| Integration Testing          | ✅ Completed |
-| Methodology Comparison Agent | ⏳ Planned   |
-| Research Gap Detection Agent | ⏳ Planned   |
-| Experiment Planning Agent    | ⏳ Planned   |
-| Report Generation Module     | ⏳ Planned   |
-
+| Component | Status |
+|------------|---------|
+| FastAPI Backend | ✅ Completed |
+| Search API | ✅ Completed |
+| Analysis API | ✅ Completed |
+| Comparison API | ✅ Completed |
+| Research Gap API | ✅ Completed |
+| Paper Retrieval Agent | ✅ Completed |
+| Paper Analysis Agent | ✅ Completed |
+| Methodology Comparison Agent | ✅ Completed |
+| Research Gap Detection Agent | ✅ Completed |
+| Paper Parser | ✅ Completed |
+| Paper Service | ✅ Completed |
+| Analysis Service | ✅ Completed |
+| Comparison Service | ✅ Completed |
+| Research Gap Service | ✅ Completed |
+| Logging | ✅ Completed |
+| Exception Handling | ✅ Completed |
+| Unit Testing | ✅ Completed |
+| Integration Testing | ✅ Completed |
+| Experiment Planning Agent | ⏳ Planned |
+| Report Generation Module | ⏳ Planned |
 ---
 
 # Advantages of Multi-Agent Architecture
 
-* Modular design
-* Easy scalability
-* Better reasoning
-* Reduced hallucination
-* Specialized decision making
-* Reusable agents
-* Parallel execution
-* Better maintainability
-
+- Modular backend design
+- Independent AI agents
+- Easy maintenance
+- High scalability
+- Better separation of responsibilities
+- Easier testing
+- Reusable components
+- Structured JSON communication
+- Easy integration of future AI agents
+- Reduced code coupling
 ---
 
 # Future Extensions
 
-* Knowledge Graph Generation
-* Citation Network Analysis
-* Benchmark Recommendation
-* Automatic Code Generation
-* Research Trend Prediction
-* Collaborative Team Workspace
-* AI Reviewer
-* Presentation Generation
+- Experiment Planning Agent
+- Literature Review Agent
+- Report Generation Agent
+- Citation Analysis Agent
+- Knowledge Graph Generation
+- Research Trend Prediction
+- Benchmark Recommendation Agent
+- AI Reviewer
+- Multi-Agent Collaboration
+- Agent-to-Agent (A2A) Communication
+- Model Context Protocol (MCP)
+- Persistent Research Memory
 
 ---
 
 # Conclusion
 
-The proposed architecture enables ResearchMind AI to function as a collaborative research assistant rather than a simple chatbot. By dividing responsibilities among specialized AI agents, the system can provide deeper analysis, better reasoning, and comprehensive research support throughout the entire research lifecycle.
+The current backend architecture of ResearchMind AI provides a modular and extensible foundation for intelligent research assistance. It successfully integrates research paper retrieval, rule-based paper analysis, methodology comparison, and research gap detection into independent AI agents coordinated through FastAPI service layers.
+
+This architecture enables easy addition of future agents such as Experiment Planning, Literature Review Generation, Knowledge Graph Construction, and Report Generation without modifying the existing pipeline, ensuring scalability, maintainability, and efficient multi-agent collaboration.

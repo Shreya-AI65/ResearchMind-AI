@@ -119,10 +119,14 @@ The goal of Version 1 is to build a functional platform that assists researchers
 
 ### Features
 
-* Detect common research gaps.
-* Identify future research opportunities.
-* Recommend benchmark datasets.
-* Suggest potential research directions.
+* ✅ Detect common research gaps.
+* ✅ Identify future research opportunities.
+* ✅ Extract common research areas.
+* ✅ Aggregate common keywords.
+* ✅ Generate structured research gap reports.
+* ⏳ Recommend benchmark datasets. *(Planned)*
+* ⏳ Suggest potential research directions. *(Planned)*
+* ⏳ Intelligent research novelty detection. *(Future Version)*
 
 ---
 
