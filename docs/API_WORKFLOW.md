@@ -23,7 +23,7 @@ Paper Service
 Paper Retrieval Agent
    │
    ▼
-Semantic Scholar API
+Authenticated Semantic Scholar API
    │
    ▼
 Paper Parser
@@ -52,7 +52,7 @@ Analysis Service
 Paper Retrieval Agent
    │
    ▼
-Semantic Scholar API
+Authenticated Semantic Scholar API
    │
    ▼
 Paper Parser
@@ -87,7 +87,7 @@ Comparison Service
 Paper Retrieval Agent
    │
    ▼
-Semantic Scholar API
+Authenticated Semantic Scholar API
    │
    ▼
 Paper Parser
@@ -122,7 +122,7 @@ Research Gap Service
 Paper Retrieval Agent
    │
    ▼
-Semantic Scholar API
+Authenticated Semantic Scholar API
    │
    ▼
 Paper Parser
@@ -367,7 +367,7 @@ Paper Service
 ↓
 Paper Retrieval Agent
 ↓
-Semantic Scholar API
+Authenticated Semantic Scholar API
 ↓
 Paper Parser
 ↓
@@ -389,7 +389,7 @@ Analysis Service
 ↓
 Paper Retrieval Agent
 ↓
-Semantic Scholar API
+Authenticated Semantic Scholar API
 ↓
 Paper Parser
 ↓
@@ -413,7 +413,7 @@ Comparison Service
 ↓
 Paper Retrieval Agent
 ↓
-Semantic Scholar API
+Authenticated Semantic Scholar API
 ↓
 Paper Parser
 ↓
@@ -439,7 +439,7 @@ Research Gap Service
 ↓
 Paper Retrieval Agent
 ↓
-Semantic Scholar API
+Authenticated Semantic Scholar API
 ↓
 Paper Parser
 ↓

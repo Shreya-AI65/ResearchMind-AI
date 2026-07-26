@@ -217,7 +217,7 @@ Service Layer
 Paper Retrieval Agent
    │
    ▼
-Semantic Scholar API
+Authenticated Semantic Scholar API
    │
    ▼
 Paper Parser

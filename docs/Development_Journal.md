@@ -1702,7 +1702,8 @@ Day 11 Successfully Completed
 
 # Day 12 – Research Gap Detection Agent
 
-**Date:** *(Add the date here)*
+## Date:
+24 July 2026
 
 ---
 
@@ -1916,3 +1917,360 @@ The next development phase will focus on implementing the **Experiment Planning 
 - Experimental Workflow Generation
 
 This module will consume the output of the Research Gap Detection Agent and generate implementation-ready experiment plans for researchers.
+
+
+# Day 13: Experiment Planning Module
+
+## Date:
+25 July 2026
+
+## Objective
+
+The primary objective of Day 13 was to extend the ResearchMind AI pipeline by implementing the **Experiment Planning Module**. This module is responsible for generating a structured experimental roadmap after identifying research gaps from the analyzed literature. The goal was to assist researchers by automatically suggesting appropriate datasets, baseline models, evaluation metrics, hardware requirements, validation strategies, and an experimental workflow based on the detected research domain.
+
+---
+
+## Work Completed
+
+### 1. Developed the Experiment Planning Agent
+
+Created a new AI agent named **ExperimentPlanningAgent** to generate experiment recommendations from the research gap report. The agent was designed using a modular architecture consisting of multiple helper functions, each responsible for generating a specific part of the experimental plan.
+
+The following functionalities were implemented:
+
+* Dataset recommendation
+* Baseline model recommendation
+* Evaluation metric recommendation
+* Hardware requirement recommendation
+* Validation strategy recommendation
+* Experimental workflow generation
+
+---
+
+### 2. Implemented Dataset Recommendation
+
+A rule-based dataset recommendation system was implemented to suggest publicly available benchmark datasets according to the detected research area.
+
+Examples include:
+
+* ImageNet
+* COCO
+* OpenML
+* UCI Machine Learning Repository
+* GLUE
+* SQuAD
+* AgentBench
+* GAIA Benchmark
+* Hugging Face Datasets
+* HotpotQA
+
+Support was also added for **Agentic AI**, enabling the system to recommend datasets specifically relevant to autonomous AI agents.
+
+---
+
+### 3. Implemented Baseline Model Recommendation
+
+The module was enhanced to recommend baseline models for comparison during experimentation.
+
+Depending on the detected research area, the agent now suggests suitable baseline models such as:
+
+* Random Forest
+* Decision Tree
+* Logistic Regression
+* CNN
+* ResNet
+* Vision Transformer
+* BERT
+* RoBERTa
+* GPT
+* Llama 3
+* Claude
+* Gemini
+* DeepSeek
+
+Support for **Agentic AI** baseline models was also incorporated.
+
+---
+
+### 4. Implemented Evaluation Metrics
+
+The Experiment Planning Agent now automatically recommends commonly used evaluation metrics, including:
+
+* Accuracy
+* Precision
+* Recall
+* F1-Score
+* ROC-AUC
+
+These metrics provide a standard evaluation framework for machine learning and artificial intelligence experiments.
+
+---
+
+### 5. Implemented Hardware Recommendation
+
+A hardware recommendation module was added to estimate the computational resources required for conducting experiments.
+
+The generated recommendations include:
+
+* CPU configuration
+* RAM requirement
+* GPU requirement
+* Storage requirement
+
+This helps researchers estimate the minimum hardware needed before starting experimentation.
+
+---
+
+### 6. Implemented Validation Strategy
+
+To encourage reliable experimental evaluation, the module recommends validation techniques such as:
+
+* Train-Test Split
+* K-Fold Cross Validation
+* Hyperparameter Tuning
+* Statistical Significance Testing
+
+These strategies improve the reliability and reproducibility of research experiments.
+
+---
+
+### 7. Implemented Experimental Workflow
+
+A standardized experimental pipeline was created to guide users through the research process.
+
+The generated workflow consists of:
+
+1. Collect Dataset
+2. Preprocess Data
+3. Train Baseline Models
+4. Train Proposed Model
+5. Evaluate Performance
+6. Compare Results
+7. Analyze Errors
+8. Draw Conclusions
+
+This provides users with a complete roadmap for executing their experiments.
+
+---
+
+### 8. Developed Experiment Planning Service
+
+Implemented the **ExperimentPlanningService**, which integrates multiple backend components into a single workflow.
+
+The service performs the following sequence:
+
+* Retrieves research papers from Semantic Scholar
+* Parses the retrieved papers
+* Analyzes each paper
+* Detects research gaps
+* Generates the final experiment plan
+
+This service acts as the orchestration layer for the Experiment Planning module.
+
+---
+
+### 9. Developed Experiment Planning API
+
+Created a new FastAPI endpoint:
+
+`GET /experiment-plan`
+
+The endpoint accepts a research query, invokes the Experiment Planning Service, and returns a structured experiment plan in JSON format.
+
+---
+
+### 10. Integration Testing
+
+Performed end-to-end testing of the complete experiment planning pipeline.
+
+The workflow successfully executed the following sequence:
+
+Research Query → Paper Retrieval → Paper Analysis → Research Gap Detection → Experiment Planning
+
+Several integration issues were identified and resolved during testing, including:
+
+* Semantic Scholar API rate-limit handling
+* Research gap integration issues
+* Research area mapping for Agentic AI
+* Dataset and baseline model recommendation logic
+* API response validation
+
+After these corrections, the pipeline generated structured experiment plans successfully.
+
+---
+
+## Technical Decisions
+
+A rule-based recommendation system was selected for the initial implementation to ensure deterministic behavior, fast execution, and independence from external large language models. The Experiment Planning Agent was designed with a modular architecture, allowing future replacement of rule-based logic with AI-driven planning algorithms without affecting the overall backend pipeline.
+
+---
+
+## Outcome
+
+The Experiment Planning module was successfully integrated into ResearchMind AI. The system can now automatically generate a structured experimental roadmap from retrieved research papers, including recommended datasets, baseline models, evaluation metrics, hardware specifications, validation strategies, and an end-to-end experimental workflow. This significantly enhances the practical usability of the platform by assisting researchers in planning and executing experiments efficiently.
+
+---
+
+## Status
+
+**Completed Successfully** 
+
+
+## Day 14 – Task 4: Literature Review Generation Documentation
+
+## Date:
+
+26 July 2026
+
+### Objective
+
+The objective of this task was to document the implementation of the Literature Review Generation module, including its architecture, workflow, API endpoint, and integration with the existing multi-agent research pipeline.
+
+---
+
+## Components Implemented
+
+### Literature Review Agent
+
+Implemented the `LiteratureReviewAgent` responsible for automatically generating a structured literature review from analyzed research papers.
+
+The generated review includes:
+
+* Introduction
+* Summary of Existing Research
+* Research Trends
+* Identified Research Gaps
+* Future Research Directions
+* Conclusion
+
+---
+
+### Literature Review Service
+
+Implemented the `LiteratureReviewService` that coordinates the complete workflow.
+
+Responsibilities include:
+
+* Retrieving papers from Semantic Scholar
+* Parsing retrieved papers
+* Performing paper analysis
+* Detecting research gaps
+* Generating the literature review
+* Returning a standardized API response
+
+---
+
+### Literature Review API
+
+Created the following REST endpoint:
+
+```
+GET /literature-review?query=<research_topic>
+```
+
+Example:
+
+```
+GET /literature-review?query=Agentic AI
+```
+
+Response Format:
+
+```json
+{
+    "success": true,
+    "message": "Literature review generated successfully.",
+    "data": {
+        ...
+    }
+}
+```
+
+---
+
+## Workflow
+
+User Query
+
+↓
+
+Paper Retrieval Agent
+
+↓
+
+Paper Parser
+
+↓
+
+Paper Analysis Agent
+
+↓
+
+Research Gap Detection Agent
+
+↓
+
+Literature Review Agent
+
+↓
+
+Structured Literature Review
+
+---
+
+## Files Created
+
+```
+app/
+│
+├── agents/
+│   └── literature_review.py
+│
+├── services/
+│   └── literature_review_service.py
+│
+├── api/
+│   └── literature_review.py
+```
+
+Updated Files
+
+```
+app/main.py
+```
+
+---
+
+## Technical Decisions
+
+* Reused the existing retrieval and analysis pipeline to avoid duplication.
+* Used a service-oriented architecture to keep API routing lightweight.
+* Generated literature reviews using rule-based summarization.
+* Maintained a modular design to support future LLM-based generation.
+
+---
+
+## Testing
+
+The Literature Review API was tested using FastAPI Swagger UI.
+
+Verified:
+
+* Successful paper retrieval
+* Correct parsing of papers
+* Research gap generation
+* Literature review generation
+* Proper exception handling
+* Standardized JSON response
+
+---
+
+## Outcome
+
+Successfully implemented an automated Literature Review Generation module that integrates seamlessly with the existing ResearchMind AI backend. The module produces structured literature reviews by combining outputs from multiple AI agents while maintaining modularity, scalability, and consistent API responses.
+
+---
+
+### Status
+
+**Completed Successfully** 
