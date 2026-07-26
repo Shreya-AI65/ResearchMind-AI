@@ -26,7 +26,8 @@ The backend of **ResearchMind AI** is built using **FastAPI** and provides the c
 * Research Gap Service
 * Unit Testing
 * Integration Testing
-
+* Semantic Scholar API Key Authentication
+* Secure Environment Variable Configuration (.env)
 ---
 
 # Backend Architecture
@@ -162,6 +163,16 @@ Install dependencies:
 pip install -r requirements.txt
 ```
 
+---
+# Environment Variables
+
+Create a `.env` file inside the backend directory.
+
+Example:
+
+```env
+SEMANTIC_SCHOLAR_API_KEY=s2k-9ueklnk8h80DuN1ZojtXRiy6LQXWFovdkTgJxRpU
+```
 ---
 
 # Running the Backend
@@ -316,6 +327,7 @@ The Paper Analysis Agent extracts:
 - Python 3
 - FastAPI
 - Requests
+- python-dotenv
 - Pydantic
 - Uvicorn
 - Semantic Scholar Graph API
@@ -325,12 +337,14 @@ The Paper Analysis Agent extracts:
 
 # Implemented Services
 
-## Paper Retrieval Service
+### Paper Retrieval
 
-- Semantic Scholar API Integration
-- Metadata Retrieval
-- API Error Handling
+- Semantic Scholar Graph API Integration
+- Authenticated API Access using API Key
 - Paper Parsing
+- Metadata Extraction
+- Automatic Error Handling
+- Structured JSON Output
 
 ---
 

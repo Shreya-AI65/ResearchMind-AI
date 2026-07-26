@@ -13,7 +13,8 @@ class PaperService:
         self.retrieval_agent = PaperRetrievalAgent()
 
     def search_papers(self, query: str):
-
+        print(">>> PaperRetrievalAgent.search_papers() is running <<<")
+        print("Query:", query)
         logger.info(f"Received search query: {query}")
 
         try:

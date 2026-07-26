@@ -22,13 +22,13 @@ class ResearchGapDetectionAgent:
         areas = []
 
         for paper in papers:
-
             area = paper.get("research_area")
 
             if area:
                 areas.append(area)
 
         return sorted(list(set(areas)))
+
     def detect_common_keywords(self, papers):
         """
         Detect common keywords from analyzed papers.
@@ -37,12 +37,12 @@ class ResearchGapDetectionAgent:
         keywords = []
 
         for paper in papers:
-
             keywords.extend(
                 paper.get("keywords", [])
             )
 
         return sorted(list(set(keywords)))
+
     def detect_future_work(self, papers):
         """
         Collect future work suggestions from analyzed papers.
@@ -51,12 +51,12 @@ class ResearchGapDetectionAgent:
         future_work = []
 
         for paper in papers:
-
             future_work.extend(
                 paper.get("future_work", [])
             )
 
         return sorted(list(set(future_work)))
+
     def generate_gap_report(self, papers):
         """
         Generate a structured research gap report.
@@ -68,3 +68,10 @@ class ResearchGapDetectionAgent:
             "common_keywords": self.detect_common_keywords(papers),
             "future_work": self.detect_future_work(papers)
         }
+
+    # Wrapper method used by services
+    def detect_gaps(self, papers):
+        """
+        Detect research gaps and return structured report.
+        """
+        return self.generate_gap_report(papers)

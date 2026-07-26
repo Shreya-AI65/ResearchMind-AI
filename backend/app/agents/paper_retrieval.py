@@ -1,3 +1,5 @@
+from urllib import response
+
 import requests
 
 from app.utils.exceptions import (
@@ -6,17 +8,23 @@ from app.utils.exceptions import (
     InvalidQueryException,
     EmptyResponseException
 )
+
+from app.utils.logger import setup_logger
+
 from app.core.config import (
     SEMANTIC_SCHOLAR_BASE_URL,
     SEARCH_ENDPOINT,
     DEFAULT_PAPER_LIMIT,
-    REQUEST_TIMEOUT
+    REQUEST_TIMEOUT,
+    SEMANTIC_SCHOLAR_API_KEY
 )
+
+logger = setup_logger(__name__)
 
 
 class PaperRetrievalAgent:
-    BASE_URL = SEMANTIC_SCHOLAR_BASE_URL
 
+    BASE_URL = SEMANTIC_SCHOLAR_BASE_URL
     SEARCH_ENDPOINT = SEARCH_ENDPOINT
 
     def __init__(self):
@@ -25,9 +33,12 @@ class PaperRetrievalAgent:
 
     def search_papers(self, query: str):
 
-    # Check for empty query
         if not query.strip():
-            raise InvalidQueryException("Search query cannot be empty.")
+            raise InvalidQueryException(
+                "Search query cannot be empty."
+            )
+
+        logger.info(f"Searching papers for query: {query}")
 
         params = {
             "query": query,
@@ -35,38 +46,57 @@ class PaperRetrievalAgent:
             "fields": "title,authors,abstract,year,citationCount,url"
         }
 
-        print(self.BASE_URL + self.SEARCH_ENDPOINT)
-        print(params)
-
+        headers = {
+            "x-api-key": SEMANTIC_SCHOLAR_API_KEY
+        }
+        print("API Key:", SEMANTIC_SCHOLAR_API_KEY)
+        print("Base URL:", self.BASE_URL)
+        print("Endpoint:", self.SEARCH_ENDPOINT)
+        print("Headers:", headers)
+        print("Params:", params)
         response = requests.get(
             self.BASE_URL + self.SEARCH_ENDPOINT,
             params=params,
+            headers=headers,
             timeout=REQUEST_TIMEOUT
         )
 
-        print("=" * 50)
+        print("=" * 80)
+        print("URL:", response.url)
         print("Status Code:", response.status_code)
         print("Headers:", response.headers)
-        print("Response Text:", response.text)
-        print("=" * 50)
-
-    # Handle API rate limit
+        print("Body:")
+        print(response.text)
+        print("=" * 80)
+        
+        logger.info(f"Semantic Scholar Response Status: {response.status_code}")
         if response.status_code == 429:
             raise APIRateLimitException(
-            "Semantic Scholar API rate limit exceeded."
+                "Semantic Scholar API rate limit exceeded."
             )
 
-    # Handle any other API error
+        if response.status_code == 401:
+            raise PaperRetrievalException(
+                "Invalid or unauthorized Semantic Scholar API Key."
+            )
+
+        if response.status_code == 403:
+            raise PaperRetrievalException(
+                "Access forbidden. Please verify your API key permissions."
+            )
+
         if response.status_code != 200:
             raise PaperRetrievalException(
-            f"API returned status code {response.status_code}"
+                f"Status: {response.status_code}\nResponse: {response.text}"
         )
 
         data = response.json()
 
-    # Handle empty results
         if "data" not in data or len(data["data"]) == 0:
-            raise EmptyResponseException("No papers found.")
+            raise EmptyResponseException(
+                "No papers found."
+            )
 
-        
+        logger.info(f"Successfully retrieved {len(data['data'])} papers.")
+
         return data
