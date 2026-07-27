@@ -2,7 +2,9 @@
 
 ## Overview
 
-The backend of **ResearchMind AI** is built using **FastAPI** and provides the core services required for intelligent research paper retrieval, parsing, analysis, and future multi-agent collaboration. It follows a modular architecture where each AI agent performs a specific responsibility, making the system scalable and easy to maintain.
+The backend of **ResearchMind AI** is developed using **FastAPI** and serves as the intelligent core of the ResearchMind AI platform. It follows a modular multi-agent architecture where specialized AI agents collaborate to retrieve, analyze, compare, summarize, and generate structured research knowledge.
+
+The backend currently supports the complete research analysis pipeline including paper retrieval, analysis, methodology comparison, research gap detection, experiment planning, literature review generation, and automated research report generation.
 
 ---
 
@@ -10,24 +12,33 @@ The backend of **ResearchMind AI** is built using **FastAPI** and provides the c
 
 ## Implemented
 
-* FastAPI Backend
-* Paper Retrieval Agent
-* Paper Analysis Agent
-* Paper Parser
-* Analysis Service
-* REST API Endpoints
-* Exception Handling
-* Logging System
-* Rule-Based Paper Analysis
-* Methodology Comparison Agent
-* Research Gap Detection Agent
-* Paper Quality Assessment
-* Comparison Service
-* Research Gap Service
-* Unit Testing
-* Integration Testing
-* Semantic Scholar API Key Authentication
-* Secure Environment Variable Configuration (.env)
+- FastAPI Backend
+- REST API Architecture
+- Paper Retrieval Agent
+- Paper Analysis Agent
+- Methodology Comparison Agent
+- Research Gap Detection Agent
+- Experiment Planning Agent
+- Literature Review Agent
+- Report Generation Agent
+- Paper Parser
+- Paper Service
+- Analysis Service
+- Comparison Service
+- Research Gap Service
+- Experiment Planning Service
+- Literature Review Service
+- Report Generation Service
+- Structured Logging
+- Exception Handling
+- Rule-Based Research Analysis
+- Semantic Scholar API Integration
+- API Key Authentication
+- Environment Variable Configuration (.env)
+- Unit Testing
+- Integration Testing
+- End-to-End Pipeline Testing
+
 ---
 
 # Backend Architecture
@@ -39,29 +50,44 @@ Client
 FastAPI Routes
    │
    ▼
-Services
-   │
-   ├── Paper Service
-   ├── Analysis Service
-   ├── Comparison Service
-   └── Research Gap Service
-   │
-   ▼
-AI Agents
-   │
-   ├── Paper Retrieval Agent
-   ├── Paper Analysis Agent
-   ├── Methodology Comparison Agent
-   └── Research Gap Detection Agent
+───────────────────────────────────────────────
+                SERVICES
+───────────────────────────────────────────────
+
+Paper Service
+Analysis Service
+Comparison Service
+Research Gap Service
+Experiment Planning Service
+Literature Review Service
+Report Generation Service
+
    │
    ▼
-Utilities
-   │
-   ├── Parser
-   ├── Logger
-   └── Exceptions
+
+───────────────────────────────────────────────
+                 AI AGENTS
+───────────────────────────────────────────────
+
+Paper Retrieval Agent
+Paper Analysis Agent
+Methodology Comparison Agent
+Research Gap Detection Agent
+Experiment Planning Agent
+Literature Review Agent
+Report Generation Agent
+
    │
    ▼
+
+Parser
+Logger
+Exceptions
+Configuration
+
+   │
+   ▼
+
 Semantic Scholar API
 ```
 
@@ -71,125 +97,131 @@ Semantic Scholar API
 
 ```text
 backend/
+
 │
 ├── README.md
 ├── requirements.txt
 ├── sample_response.json
 │
 ├── app/
-│   │
-│   ├── __init__.py
-│   ├── main.py
-│   │
-│   ├── agents/
-│   │   ├── __init__.py
-│   │   ├── paper_retrieval.py
-│   │   ├── paper_analysis.py
-│   │   ├── methodology_comparison.py
-│   │   └── research_gap_detection.py
-│   │
-│   ├── api/
-│   │   ├── __init__.py
-│   │   ├── search.py
-│   │   ├── analyze.py
-│   │   ├── compare.py
-│   │   └── research_gap.py
-│   │
-│   ├── core/
-│   │   ├── __init__.py
-│   │   └── config.py
-│   │
-│   ├── models/
-│   │   ├── __init__.py
-│   │   └── paper.py
-│   │
-│   ├── services/
-│   │   ├── __init__.py
-│   │   ├── paper_service.py
-│   │   ├── analysis_service.py
-│   │   ├── comparison_service.py
-│   │   └── research_gap_service.py
-│   │
-│   └── utils/
-│       ├── __init__.py
-│       ├── parser.py
-│       ├── logger.py
-│       └── exceptions.py
+│
+├── agents/
+│   ├── paper_retrieval.py
+│   ├── paper_analysis.py
+│   ├── methodology_comparison.py
+│   ├── research_gap_detection.py
+│   ├── experiment_planning.py
+│   ├── literature_review.py
+│   └── report_generation.py
+│
+├── api/
+│   ├── search.py
+│   ├── analyze.py
+│   ├── compare.py
+│   ├── research_gap.py
+│   ├── experiment_plan.py
+│   ├── literature_review.py
+│   └── report.py
+│
+├── core/
+│   └── config.py
+│
+├── models/
+│   └── paper.py
+│
+├── services/
+│   ├── paper_service.py
+│   ├── analysis_service.py
+│   ├── comparison_service.py
+│   ├── research_gap_service.py
+│   ├── experiment_planning_service.py
+│   ├── literature_review_service.py
+│   └── report_generation_service.py
+│
+├── utils/
+│   ├── parser.py
+│   ├── logger.py
+│   ├── exceptions.py
+│   └── response_formatter.py
 │
 └── tests/
-    ├── __init__.py
     ├── test_parser.py
     ├── test_analysis.py
     ├── test_analysis_pipeline.py
     ├── test_comparison.py
-    └── test_research_gap.py
-
+    ├── test_research_gap.py
+    ├── test_experiment_planning.py
+    ├── test_literature_review.py
+    └── test_report_generation.py
 ```
 
 ---
 
 # Installation
 
-Clone the repository:
+Clone the repository
 
 ```bash
 git clone <repository-url>
+```
+
+Move into backend
+
+```bash
 cd ResearchMind_AI/backend
 ```
 
-Create a virtual environment:
+Create virtual environment
 
 ```bash
 python -m venv venv
 ```
 
-Activate the virtual environment.
-
-### Windows
+Windows
 
 ```bash
 venv\Scripts\activate
 ```
 
-### Linux / macOS
+Linux / macOS
 
 ```bash
 source venv/bin/activate
 ```
 
-Install dependencies:
+Install dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
 ---
+
 # Environment Variables
 
-Create a `.env` file inside the backend directory.
+Create a `.env` file inside backend.
 
-Example:
+Example
 
 ```env
-SEMANTIC_SCHOLAR_API_KEY=s2k-9ueklnk8h80DuN1ZojtXRiy6LQXWFovdkTgJxRpU
+SEMANTIC_SCHOLAR_API_KEY=YOUR_API_KEY
 ```
+
 ---
 
-# Running the Backend
-
-Start the FastAPI server:
+# Running Backend
 
 ```bash
 uvicorn app.main:app --reload
 ```
 
-The backend will be available at:
+Backend URL
 
 ```
 http://127.0.0.1:8000
 ```
 
-Interactive API Documentation:
+Swagger Documentation
 
 ```
 http://127.0.0.1:8000/docs
@@ -197,223 +229,302 @@ http://127.0.0.1:8000/docs
 
 ---
 
-# Available API Endpoints
+# Available APIs
 
-## 1. Search Papers
-
-```http
-GET /search?query=<research_topic>
-```
-
-Example:
+## Search Papers
 
 ```
-GET /search?query=Agentic AI
+GET /search
 ```
 
----
-
-## 2. Analyze Papers
-
-```http
-GET /analyze?query=<research_topic>
-```
-
-Example:
+Example
 
 ```
-GET /analyze?query=Agentic AI
+/search?query=Agentic AI
 ```
 
 ---
 
-## 3. Compare Papers
-
-```http
-GET /compare?query=<research_topic>
-```
-
-Example:
+## Analyze Papers
 
 ```
-GET /compare?query=Agentic AI
+GET /analyze
 ```
 
 ---
 
-## 4. Research Gap Detection
-
-```http
-GET /research-gap?query=<research_topic>
-```
-
-Example:
+## Compare Methodologies
 
 ```
-GET /research-gap?query=Agentic AI
+GET /compare
+```
+
+---
+
+## Research Gap Detection
+
+```
+GET /research-gap
+```
+
+---
+
+## Experiment Planning
+
+```
+GET /experiment-plan
+```
+
+---
+
+## Literature Review
+
+```
+GET /literature-review
+```
+
+---
+
+## Research Report Generation
+
+```
+GET /report
 ```
 
 ---
 
 # Testing
 
-Run the parser test:
+Parser
 
 ```bash
 python -m tests.test_parser
 ```
 
-Run the paper analysis test:
+Paper Analysis
 
 ```bash
 python -m tests.test_analysis
 ```
 
-Run the complete analysis pipeline:
+Analysis Pipeline
 
 ```bash
 python -m tests.test_analysis_pipeline
 ```
 
-Run the methodology comparison test:
+Comparison
 
 ```bash
 python -m tests.test_comparison
 ```
 
-Run the research gap detection test:
+Research Gap
 
 ```bash
 python -m tests.test_research_gap
+```
+
+Experiment Planning
+
+```bash
+python -m tests.test_experiment_planning
+```
+
+Literature Review
+
+```bash
+python -m tests.test_literature_review
+```
+
+Report Generation
+
+```bash
+python -m tests.test_report_generation
 ```
 
 ---
 
 # Current Capabilities
 
-The backend currently supports:
+The backend currently performs
 
-- Research paper retrieval from Semantic Scholar
-- Parsing raw API responses into structured paper objects
-- Rule-based paper analysis
-- Paper quality assessment
-- Methodology comparison across multiple papers
-- Research gap detection
-- Research area aggregation
-- Keyword aggregation
-- Future work extraction
-- Highest cited paper detection
-- Latest paper detection
-- Structured logging
-- Exception handling
-- REST API services
-- Modular multi-agent architecture
-- Unit and integration testing
+- Research Paper Retrieval
+- Paper Parsing
+- Metadata Extraction
+- Research Problem Extraction
+- Methodology Extraction
+- Keyword Extraction
+- Research Area Detection
+- Future Work Detection
+- Paper Quality Assessment
+- Paper Quality Classification
+- Methodology Comparison
+- Citation Comparison
+- Latest Paper Detection
+- Highest Cited Paper Detection
+- Research Gap Detection
+- Dataset Recommendation
+- Baseline Model Recommendation
+- Evaluation Metric Recommendation
+- Hardware Recommendation
+- Validation Strategy Recommendation
+- Literature Review Generation
+- Automated Research Report Generation
+- Structured JSON Responses
+- Exception Handling
+- Logging
+- Modular AI Agent Architecture
 
-The Paper Analysis Agent extracts:
+---
 
+# AI Agents
+
+## Paper Retrieval Agent
+
+Responsible for retrieving papers from Semantic Scholar.
+
+---
+
+## Paper Analysis Agent
+
+Extracts
+
+- Summary
 - Research Problem
 - Methodology
-- Key Contributions
+- Contributions
 - Future Work
 - Keywords
 - Research Area
 - Quality Score
 - Quality Classification
+
+---
+
+## Methodology Comparison Agent
+
+Compares
+
+- Methodologies
+- Keywords
+- Research Areas
+- Citation Counts
+- Latest Paper
+- Highest Cited Paper
+
+---
+
+## Research Gap Detection Agent
+
+Detects
+
+- Missing Research Areas
+- Future Work
+- Research Opportunities
+- Open Problems
+
+---
+
+## Experiment Planning Agent
+
+Generates
+
+- Dataset Recommendations
+- Baseline Models
+- Evaluation Metrics
+- Hardware Requirements
+- Validation Strategies
+- Experimental Workflow
+
+---
+
+## Literature Review Agent
+
+Generates
+
+- Introduction
+- Paper Summaries
+- Research Trends
+- Research Gaps
+- Future Scope
+- Conclusion
+
+---
+
+## Report Generation Agent
+
+Generates a complete research report containing
+
+- Executive Summary
+- Literature Review
+- Methodology Comparison
+- Research Gaps
+- Experiment Plan
+- Recommended Datasets
+- Baseline Models
+- Evaluation Metrics
+- Future Research Directions
+- Conclusion
+
 ---
 
 # Technologies Used
 
-- Python 3
+- Python
 - FastAPI
 - Requests
-- python-dotenv
 - Pydantic
+- python-dotenv
 - Uvicorn
 - Semantic Scholar Graph API
-- Logging Module
-
----
-
-# Implemented Services
-
-### Paper Retrieval
-
-- Semantic Scholar Graph API Integration
-- Authenticated API Access using API Key
-- Paper Parsing
-- Metadata Extraction
-- Automatic Error Handling
-- Structured JSON Output
-
----
-
-## Analysis Service
-
-- Rule-Based Paper Analysis
-- Research Problem Extraction
-- Methodology Detection
-- Keyword Extraction
-- Research Area Detection
-- Future Work Detection
-- Quality Score Calculation
-- Quality Classification
-
----
-
-## Comparison Service
-
-- Compare Multiple Papers
-- Methodology Comparison
-- Research Area Comparison
-- Keyword Comparison
-- Citation Count Comparison
-- Highest Cited Paper Detection
-- Latest Paper Detection
-
----
-
-## Research Gap Service
-
-- Research Area Aggregation
-- Common Keyword Extraction
-- Future Work Aggregation
-- Structured Research Gap Report Generation
 
 ---
 
 # Future Enhancements
 
-The following modules are planned for future development:
+The following modules are planned
 
-- Experiment Planning Agent
-- Literature Review Agent
-- Report Generation Agent
-- Knowledge Graph Generation
+- Knowledge Graph Agent
 - Citation Network Analysis
 - Research Trend Prediction
 - Benchmark Recommendation Agent
-- Persistent Research Memory
-- Vector Database Integration (ChromaDB)
-- LLM-based Paper Analysis
-- Multi-Agent Communication
-- Agent-to-Agent (A2A) Communication
+- Research Memory
+- ChromaDB Integration
+- PostgreSQL Integration
+- LLM-Based Paper Analysis
+- Multi-Agent Collaboration
+- Agent-to-Agent Communication (A2A)
 - Model Context Protocol (MCP)
-- Authentication & User Management
+- User Authentication
 - Cloud Deployment
+- Docker Support
+- CI/CD Pipeline
 
 ---
 
 # Notes
 
-- The backend currently uses the Semantic Scholar Graph API as the primary research paper source.
-- Public API requests are subject to rate limits (HTTP 429). An API key will be integrated in future versions to increase request capacity.
-- The current paper analysis pipeline is rule-based and is designed to be upgraded with LLM-powered analysis in future releases.
-- The backend follows a modular multi-agent architecture, allowing independent development of specialized AI agents.
+- ResearchMind AI currently uses the Semantic Scholar Graph API as the primary research paper source.
+- Public API requests may return HTTP 429 (Too Many Requests) due to Semantic Scholar rate limits.
+- Using a registered API key increases the available request quota.
+- The backend currently uses rule-based analysis and is designed for future integration with Large Language Models (LLMs).
+- The modular architecture allows independent development and testing of each AI agent.
+
 ---
 
 # License
 
 ResearchMind AI is an academic research project developed for educational, research, and learning purposes.
 
-This project is currently under active development.
+The project is currently under active development.
+
+---
+
+# Author
+
+**Shreya Singh**
+
+B.Tech Computer Science Engineering (Artificial Intelligence & Data Science)
+
+ResearchMind AI — Multi-Agent Research Intelligence Platform

@@ -1,3 +1,4 @@
+import time
 from urllib import response
 
 import requests
@@ -54,6 +55,7 @@ class PaperRetrievalAgent:
         print("Endpoint:", self.SEARCH_ENDPOINT)
         print("Headers:", headers)
         print("Params:", params)
+        time.sleep(1.2)
         response = requests.get(
             self.BASE_URL + self.SEARCH_ENDPOINT,
             params=params,

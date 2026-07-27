@@ -68,7 +68,7 @@ class LiteratureReviewAgent:
             "opportunities for future work and further experimentation."
         )
 
-    def generate_review(self, analyzed_papers):
+    def generate_review(self, analyzed_papers, research_gap):
 
         return {
 
@@ -82,10 +82,10 @@ class LiteratureReviewAgent:
                 self.extract_research_trends(analyzed_papers),
 
             "research_gaps":
-                self.extract_research_gaps(analyzed_papers),
+                research_gap.get("future_work", []),
 
             "future_scope":
-                self.extract_research_gaps(analyzed_papers),
+                research_gap.get("future_work", []),
 
             "conclusion":
                 self.generate_conclusion(analyzed_papers)

@@ -17,8 +17,8 @@ class MethodologyComparisonAgent:
                 "keywords": paper.get("keywords"),
                 "year": paper.get("year"),
                 "citation_count": paper.get("citation_count"),
-                "quality_score": paper.get("quality_score"),
-                "quality_classification": paper.get("quality_classification")
+                "quality_score": paper.get("paper_score"),
+                "quality_classification": paper.get("paper_quality")
             })
 
         return {
