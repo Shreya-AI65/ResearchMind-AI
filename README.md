@@ -56,6 +56,7 @@ The backend currently supports:
 * Research Gap Detection Agent
 * Experiment Planning Agent
 * Literature Review Agent
+* Report Generation Agent
 
 ## Services
 
@@ -91,6 +92,7 @@ The backend currently supports:
 * `/research-gap`
 * `/experiment-plan`
 * `/literature-review`
+* `/report`
 
 ---
 
