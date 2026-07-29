@@ -2382,3 +2382,217 @@ Report generation depends on live responses from the Semantic Scholar API. Durin
 ### Status
 
 **Completed Successfully** ✅
+
+
+# Day 16 – Report Generation and PDF Export Module
+
+## Date
+
+29 July 2026
+
+## Objective
+
+The objective of this task was to implement the final report generation pipeline by integrating all AI agents into a unified workflow. This included generating comprehensive research reports, exporting reports as PDF documents, providing download functionality through FastAPI, and validating the complete end-to-end pipeline.
+
+---
+
+## Components Implemented
+
+### Report Generation Service
+
+Implemented the `ReportGenerationService` responsible for coordinating the complete research workflow.
+
+Responsibilities include:
+
+* Retrieving research papers
+* Performing paper analysis
+* Generating literature reviews
+* Comparing methodologies
+* Detecting research gaps
+* Creating experiment plans
+* Generating the final structured research report
+
+---
+
+### Report Generation Agent
+
+Implemented the `ReportGenerationAgent` to combine outputs from all AI agents into a single structured report.
+
+The generated report contains:
+
+* Research Topic
+* Executive Summary
+* Literature Review
+* Methodology Comparison
+* Research Gap Analysis
+* Experiment Plan
+* Report Summary
+* Future Research Directions
+* Conclusion
+
+Additional metadata included:
+
+* Report title
+* Generator information
+* Timestamp
+* Total analyzed papers
+
+---
+
+### PDF Generator Utility
+
+Implemented the PDF generation module using the ReportLab library.
+
+Features include:
+
+* Professional report formatting
+* Automatic section generation
+* Executive Summary
+* Literature Review
+* Methodology Comparison
+* Research Gap Analysis
+* Experiment Plan
+* Report Summary
+* Conclusion
+* Automatic PDF file creation inside the `generated_reports` directory
+
+---
+
+### Report Download API
+
+Implemented a dedicated API endpoint for downloading generated reports.
+
+Endpoint:
+
+```text
+GET /report/download?query=<research_topic>
+```
+
+Example:
+
+```text
+GET /report/download?query=Agentic AI
+```
+
+The endpoint automatically:
+
+* Generates the latest research report
+* Converts it into PDF format
+* Returns the PDF as a downloadable file
+
+---
+
+## Workflow
+
+```text
+User Query
+
+↓
+
+Paper Retrieval Agent
+
+↓
+
+Paper Analysis Agent
+
+↓
+
+Methodology Comparison Agent
+
+↓
+
+Research Gap Detection Agent
+
+↓
+
+Literature Review Agent
+
+↓
+
+Experiment Planning Agent
+
+↓
+
+Report Generation Agent
+
+↓
+
+PDF Generator
+
+↓
+
+Download Research Report
+```
+
+---
+
+## Files Created
+
+```text
+app/
+│
+├── agents/
+│   └── report_generation.py
+│
+├── services/
+│   └── report_generation_service.py
+│
+├── api/
+│   └── report_generation.py
+│
+├── utils/
+│   └── pdf_generator.py
+│
+└── generated_reports/
+    └── Research_Report.pdf
+```
+
+---
+
+## Updated Files
+
+```text
+app/main.py
+```
+
+---
+
+## Technical Decisions
+
+* Designed a service-oriented architecture to coordinate all AI agents.
+* Reused outputs from previously implemented agents instead of duplicating logic.
+* Implemented modular PDF generation using the ReportLab library.
+* Added automatic report downloading through FastAPI.
+* Maintained a standardized report structure for future DOCX and PPT export support.
+
+---
+
+## Testing
+
+The complete report generation pipeline was tested using FastAPI Swagger UI.
+
+Verified:
+
+* Successful paper retrieval
+* Paper analysis execution
+* Methodology comparison
+* Research gap detection
+* Literature review generation
+* Experiment plan generation
+* Final report generation
+* PDF creation
+* PDF download endpoint
+* Proper handling of Semantic Scholar API rate-limit (HTTP 429) responses
+* Successful report generation after valid API responses
+
+---
+
+## Outcome
+
+Successfully implemented the complete Research Report Generation module for the ResearchMind AI backend. The system now integrates outputs from multiple AI agents into a unified research report, supports automatic PDF generation, and provides downloadable reports through REST APIs. This marks the completion of the backend report generation pipeline and establishes the foundation for future DOCX, PPT, and frontend integration.
+
+---
+
+## Status
+
+**Completed Successfully** ✅

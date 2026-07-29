@@ -293,6 +293,163 @@ GET /report
 
 ---
 
+# Latest Features
+
+The backend currently supports a complete multi-agent research analysis pipeline.
+
+## Implemented AI Agents
+
+* Paper Retrieval Agent
+* Paper Analysis Agent
+* Methodology Comparison Agent
+* Research Gap Detection Agent
+* Literature Review Agent
+* Experiment Planning Agent
+* Report Generation Agent
+
+---
+
+# Available API Endpoints
+
+| Endpoint                 | Description                       |
+| ------------------------ | --------------------------------- |
+| GET `/search`            | Retrieve research papers          |
+| GET `/analyze`           | Analyze research papers           |
+| GET `/compare`           | Compare research methodologies    |
+| GET `/research-gap`      | Detect research gaps              |
+| GET `/literature-review` | Generate literature review        |
+| GET `/report`            | Generate complete research report |
+| GET `/report/download`   | Download report as PDF            |
+
+---
+
+# Report Generation Pipeline
+
+```text
+User Query
+      │
+      ▼
+Paper Retrieval Agent
+      │
+      ▼
+Paper Analysis Agent
+      │
+      ▼
+Methodology Comparison Agent
+      │
+      ▼
+Research Gap Detection Agent
+      │
+      ▼
+Literature Review Agent
+      │
+      ▼
+Experiment Planning Agent
+      │
+      ▼
+Report Generation Agent
+      │
+      ▼
+PDF Generator
+      │
+      ▼
+Research_Report.pdf
+```
+
+---
+
+# Running the Project
+
+Start the FastAPI server:
+
+```bash
+uvicorn app.main:app --reload
+```
+
+Open Swagger UI:
+
+```text
+http://127.0.0.1:8000/docs
+```
+
+---
+
+# Running Tests
+
+Run unit tests:
+
+```bash
+python -m tests.test_analysis
+```
+
+Run integration tests:
+
+```bash
+python -m tests.test_analysis_pipeline
+```
+
+Run comparison, research gap, and report generation tests:
+
+```bash
+python -m tests.test_new_agents
+```
+
+Run complete report generation pipeline:
+
+```bash
+python -m tests.test_report_generation
+```
+
+---
+
+# Generated Reports
+
+Generated PDF reports are automatically saved inside:
+
+```text
+generated_reports/
+```
+
+Example:
+
+```text
+generated_reports/
+└── Research_Report.pdf
+```
+
+---
+
+# Current Project Status
+
+| Module                | Status |
+| --------------------- | ------ |
+| Search API            | ✅      |
+| Analysis API          | ✅      |
+| Comparison API        | ✅      |
+| Research Gap API      | ✅      |
+| Literature Review API | ✅      |
+| Report Generation API | ✅      |
+| PDF Download API      | ✅      |
+| Multi-Agent Pipeline  | ✅      |
+| PDF Export            | ✅      |
+| Integration Testing   | ✅      |
+
+---
+
+# Next Development Phase
+
+The next phase of ResearchMind AI will focus on:
+
+* DOCX report generation
+* PowerPoint report generation
+* React frontend integration
+* Multi-source academic search
+* Knowledge graph visualization
+* Citation analysis
+* AI-powered research recommendations
+
+---
+
 # Testing
 
 Parser

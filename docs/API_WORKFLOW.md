@@ -2,7 +2,7 @@
 
 ## Overview
 
-The API Workflow of ResearchMind AI defines how a user's research query flows through the backend system. The backend follows a modular architecture where each component is responsible for a specific task, making the system scalable, maintainable, and easy to extend with additional AI agents.
+The API Workflow of ResearchMind AI defines how a user's research query flows through the backend system. The backend follows a modular multi-agent architecture where each service coordinates specialized AI agents responsible for paper retrieval, analysis, comparison, research gap detection, literature review generation, experiment planning, report generation, and PDF export.
 
 ---
 
@@ -23,7 +23,7 @@ Paper Service
 Paper Retrieval Agent
    │
    ▼
-Authenticated Semantic Scholar API
+Semantic Scholar API
    │
    ▼
 Paper Parser
@@ -52,7 +52,7 @@ Analysis Service
 Paper Retrieval Agent
    │
    ▼
-Authenticated Semantic Scholar API
+Semantic Scholar API
    │
    ▼
 Paper Parser
@@ -61,10 +61,7 @@ Paper Parser
 Paper Analysis Agent
    │
    ▼
-Paper Quality Assessment
-   │
-   ▼
-Structured Analysis Result
+Structured Analysis
    │
    ▼
 JSON Response
@@ -87,7 +84,7 @@ Comparison Service
 Paper Retrieval Agent
    │
    ▼
-Authenticated Semantic Scholar API
+Semantic Scholar API
    │
    ▼
 Paper Parser
@@ -122,7 +119,7 @@ Research Gap Service
 Paper Retrieval Agent
    │
    ▼
-Authenticated Semantic Scholar API
+Semantic Scholar API
    │
    ▼
 Paper Parser
@@ -139,334 +136,196 @@ Research Gap Report
    ▼
 JSON Response
 ```
----
-
-# Component Description
-
-## 1. User
-
-The workflow begins when the user submits a research topic through one of the available API endpoints.
-
-Example queries:
-
-- Agentic AI
-- Large Language Models
-- Retrieval-Augmented Generation
-- Graph Neural Networks
 
 ---
 
-## 2. FastAPI Endpoints
+## Literature Review Workflow
 
-The FastAPI backend exposes multiple REST endpoints.
-
-Implemented endpoints:
-
-- GET /search
-- GET /analyze
-- GET /compare
-- GET /research-gap
-
-Responsibilities
-
-- Receive requests
-- Validate query parameters
-- Forward requests to the appropriate service
-- Return JSON responses
-
----
-
-## 3. Service Layer
-
-The Service Layer coordinates the complete backend workflow.
-
-Implemented services:
-
-- Paper Service
-- Analysis Service
-- Comparison Service
-- Research Gap Service
-
-Responsibilities
-
-- Coordinate AI agents
-- Handle business logic
-- Parse API responses
-- Manage logging
-- Handle exceptions
+```text
+User
+   │
+   ▼
+GET /literature-review
+   │
+   ▼
+Literature Review Service
+   │
+   ▼
+Paper Retrieval Agent
+   │
+   ▼
+Semantic Scholar API
+   │
+   ▼
+Paper Parser
+   │
+   ▼
+Paper Analysis Agent
+   │
+   ▼
+Research Gap Detection Agent
+   │
+   ▼
+Literature Review Agent
+   │
+   ▼
+Literature Review
+   │
+   ▼
+JSON Response
+```
 
 ---
 
-## 4. Paper Retrieval Agent
+## Report Generation Workflow
 
-Responsibilities
-
-- Search Semantic Scholar
-- Retrieve paper metadata
-- Handle API communication
-- Handle API failures
-
-Output
-
-- Raw paper metadata
-
----
-
-## 5. Semantic Scholar API
-
-Current external data source.
-
-Retrieved fields include:
-
-- Title
-- Authors
-- Abstract
-- Year
-- Citation Count
-- URL
-
-Current limitation:
-
-The public API is rate-limited (HTTP 429). Support for authenticated API keys is planned.
-
----
-
-## 6. Paper Parser
-
-Responsibilities
-
-- Parse raw JSON
-- Normalize metadata
-- Produce structured paper objects
-
-Extracted fields
-
-- Title
-- Authors
-- Abstract
-- Year
-- Citation Count
-- URL
+```text
+User
+   │
+   ▼
+GET /report
+   │
+   ▼
+Report Generation Service
+   │
+   ▼
+Paper Retrieval Agent
+   │
+   ▼
+Semantic Scholar API
+   │
+   ▼
+Paper Parser
+   │
+   ▼
+Paper Analysis Agent
+   │
+   ▼
+Methodology Comparison Agent
+   │
+   ▼
+Research Gap Detection Agent
+   │
+   ▼
+Literature Review Agent
+   │
+   ▼
+Experiment Planning Agent
+   │
+   ▼
+Report Generation Agent
+   │
+   ▼
+Structured Research Report
+   │
+   ▼
+JSON Response
+```
 
 ---
 
-## 7. Paper Analysis Agent
+## PDF Report Download Workflow
 
-Responsibilities
-
-- Detect research problem
-- Detect methodology
-- Extract key contributions
-- Detect future work
-- Extract keywords
-- Detect research area
-- Calculate quality score
-- Assign quality classification
-
-Output
-
-Structured paper analysis.
-
----
-
-## 8. Methodology Comparison Agent
-
-Responsibilities
-
-- Compare methodologies
-- Compare research areas
-- Compare keywords
-- Compare citation counts
-- Detect highest cited paper
-- Detect latest paper
-
-Output
-
-Comparison report.
-
----
-
-## 9. Research Gap Detection Agent
-
-Responsibilities
-
-- Aggregate research areas
-- Aggregate common keywords
-- Aggregate future work
-- Generate research gap report
-
-Output
-
-Research gap analysis.
-
----
-## 10. Future AI Agents
-
-Planned modules include:
-
-- Experiment Planning Agent
-- Literature Review Agent
-- Report Generation Agent
-- Citation Analysis Agent
-- Knowledge Graph Agent
-- AI Reviewer
+```text
+User
+   │
+   ▼
+GET /report/download
+   │
+   ▼
+Report Generation Service
+   │
+   ▼
+Paper Retrieval Agent
+   │
+   ▼
+Paper Analysis Agent
+   │
+   ▼
+Methodology Comparison Agent
+   │
+   ▼
+Research Gap Detection Agent
+   │
+   ▼
+Literature Review Agent
+   │
+   ▼
+Experiment Planning Agent
+   │
+   ▼
+Report Generation Agent
+   │
+   ▼
+PDF Generator
+   │
+   ▼
+Research_Report.pdf
+   │
+   ▼
+File Download
+```
 
 ---
 
+# Implemented REST Endpoints
+
+* GET `/search`
+* GET `/analyze`
+* GET `/compare`
+* GET `/research-gap`
+* GET `/literature-review`
+* GET `/report`
+* GET `/report/download`
+
+---
 
 # Current Workflow Status
 
-| Component | Status |
-|------------|---------|
-| FastAPI Backend | ✅ Completed |
-| Search API | ✅ Completed |
-| Analysis API | ✅ Completed |
-| Comparison API | ✅ Completed |
-| Research Gap API | ✅ Completed |
-| Paper Retrieval Agent | ✅ Completed |
-| Paper Parser | ✅ Completed |
-| Paper Analysis Agent | ✅ Completed |
+| Component                    | Status      |
+| ---------------------------- | ----------- |
+| FastAPI Backend              | ✅ Completed |
+| Search API                   | ✅ Completed |
+| Analysis API                 | ✅ Completed |
+| Comparison API               | ✅ Completed |
+| Research Gap API             | ✅ Completed |
+| Literature Review API        | ✅ Completed |
+| Report Generation API        | ✅ Completed |
+| PDF Download API             | ✅ Completed |
+| Paper Retrieval Agent        | ✅ Completed |
+| Paper Parser                 | ✅ Completed |
+| Paper Analysis Agent         | ✅ Completed |
 | Methodology Comparison Agent | ✅ Completed |
 | Research Gap Detection Agent | ✅ Completed |
-| Paper Service | ✅ Completed |
-| Analysis Service | ✅ Completed |
-| Comparison Service | ✅ Completed |
-| Research Gap Service | ✅ Completed |
-| Multi-Agent Collaboration | ⏳ Planned |
+| Literature Review Agent      | ✅ Completed |
+| Experiment Planning Agent    | ✅ Completed |
+| Report Generation Agent      | ✅ Completed |
+| PDF Generator                | ✅ Completed |
+| Multi-Agent Pipeline         | ✅ Completed |
 
 ---
 
-# Future Improvements
-
-The workflow will be expanded to support multiple academic data sources, including:
-
-- Semantic Scholar
-- OpenAlex
-- arXiv
-- Crossref
-- IEEE Xplore (subject to licensing and access)
-
-Future versions of ResearchMind AI will combine results from multiple sources before passing them to downstream AI agents, improving coverage and reducing dependence on a single provider.
-
----
-
-# Conclusion
-
-The current API workflow establishes a modular backend architecture for ResearchMind AI. It separates paper retrieval, parsing, modeling, and service logic into independent components, making the system easier to maintain and extend. This design provides a strong foundation for implementing advanced AI agents for literature review generation, research gap identification, and automated research assistance.
-
-# Final Backend Pipelines
-
-## Search Pipeline
-
-```text
-User
-↓
-GET /search
-↓
-Paper Service
-↓
-Paper Retrieval Agent
-↓
-Authenticated Semantic Scholar API
-↓
-Paper Parser
-↓
-Structured Paper Objects
-↓
-JSON Response
-```
-
----
-
-## Analysis Pipeline
-
-```text
-User
-↓
-GET /analyze
-↓
-Analysis Service
-↓
-Paper Retrieval Agent
-↓
-Authenticated Semantic Scholar API
-↓
-Paper Parser
-↓
-Paper Analysis Agent
-↓
-Paper Quality Assessment
-↓
-JSON Response
-```
-
----
-
-## Comparison Pipeline
-
-```text
-User
-↓
-GET /compare
-↓
-Comparison Service
-↓
-Paper Retrieval Agent
-↓
-Authenticated Semantic Scholar API
-↓
-Paper Parser
-↓
-Paper Analysis Agent
-↓
-Methodology Comparison Agent
-↓
-Comparison Report
-↓
-JSON Response
-```
-
----
-
-## Research Gap Pipeline
-
-```text
-User
-↓
-GET /research-gap
-↓
-Research Gap Service
-↓
-Paper Retrieval Agent
-↓
-Authenticated Semantic Scholar API
-↓
-Paper Parser
-↓
-Paper Analysis Agent
-↓
-Research Gap Detection Agent
-↓
-Research Gap Report
-↓
-JSON Response
-```
-
----
-
-## Error Handling Pipeline
+# Error Handling Workflow
 
 ```text
 User Request
-↓
+      │
+      ▼
 API Endpoint
-↓
+      │
+      ▼
 Service Layer
-↓
-Exception Handling
-↓
+      │
+      ▼
+AI Agents
+      │
+      ▼
+Exception Handler
+      │
+      ▼
 Logger
-↓
+      │
+      ▼
 Structured JSON Error Response
 ```
 
@@ -474,6 +333,4 @@ Structured JSON Error Response
 
 # Conclusion
 
-The current API workflow provides a modular backend architecture that supports research paper retrieval, rule-based paper analysis, methodology comparison, and research gap detection through independent service layers and AI agents.
-
-The architecture cleanly separates API endpoints, services, AI agents, utilities, and external API communication, making the backend scalable, maintainable, and ready for future multi-agent extensions such as Experiment Planning, Literature Review Generation, Report Generation, and Knowledge Graph construction.
+The current API workflow implements a complete multi-agent research automation pipeline. The backend now supports research paper retrieval, paper analysis, methodology comparison, research gap detection, literature review generation, experiment planning, comprehensive report generation, and PDF export. Its modular architecture enables scalability, maintainability, and straightforward integration of future AI agents and additional academic data sources.

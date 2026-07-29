@@ -1,3 +1,4 @@
+
 import time
 from urllib import response
 
@@ -31,15 +32,16 @@ class PaperRetrievalAgent:
     def __init__(self):
         self.agent_name = "Paper Retrieval Agent"
         self.status = "Initialized"
+        self.base_url = "https://api.semanticscholar.org/graph/v1"
+        self.endpoint = "/paper/search"
 
-    def search_papers(self, query: str):
 
-        if not query.strip():
+    def search_papers(self, query):
+
+        if not query or len(query.strip()) < 3:
             raise InvalidQueryException(
-                "Search query cannot be empty."
+                "Query must contain at least 3 characters."
             )
-
-        logger.info(f"Searching papers for query: {query}")
 
         params = {
             "query": query,
@@ -50,55 +52,55 @@ class PaperRetrievalAgent:
         headers = {
             "x-api-key": SEMANTIC_SCHOLAR_API_KEY
         }
-        print("API Key:", SEMANTIC_SCHOLAR_API_KEY)
-        print("Base URL:", self.BASE_URL)
-        print("Endpoint:", self.SEARCH_ENDPOINT)
-        print("Headers:", headers)
-        print("Params:", params)
-        time.sleep(1.2)
+
+        logger.info(f"Searching papers for query: {query}")
+
         response = requests.get(
-            self.BASE_URL + self.SEARCH_ENDPOINT,
-            params=params,
+            self.base_url + self.endpoint,
             headers=headers,
+            params=params,
             timeout=REQUEST_TIMEOUT
         )
 
-        print("=" * 80)
-        print("URL:", response.url)
-        print("Status Code:", response.status_code)
-        print("Headers:", response.headers)
-        print("Body:")
-        print(response.text)
-        print("=" * 80)
-        
-        logger.info(f"Semantic Scholar Response Status: {response.status_code}")
+        logger.info(
+            f"Semantic Scholar Response Status: {response.status_code}"
+        )
+
         if response.status_code == 429:
             raise APIRateLimitException(
                 "Semantic Scholar API rate limit exceeded."
             )
 
-        if response.status_code == 401:
-            raise PaperRetrievalException(
-                "Invalid or unauthorized Semantic Scholar API Key."
-            )
-
-        if response.status_code == 403:
-            raise PaperRetrievalException(
-                "Access forbidden. Please verify your API key permissions."
-            )
-
         if response.status_code != 200:
             raise PaperRetrievalException(
-                f"Status: {response.status_code}\nResponse: {response.text}"
-        )
+                f"Semantic Scholar API Error: {response.status_code}"
+            )
 
         data = response.json()
 
-        if "data" not in data or len(data["data"]) == 0:
+        if not data.get("data"):
             raise EmptyResponseException(
                 "No papers found."
             )
 
-        logger.info(f"Successfully retrieved {len(data['data'])} papers.")
+        papers = []
 
-        return data
+        for paper in data.get("data", []):
+
+            papers.append({
+                "title": paper.get("title"),
+                "authors": [
+                    author.get("name")
+                    for author in paper.get("authors", [])
+                ],
+                "abstract": paper.get("abstract"),
+                "year": paper.get("year"),
+                "citation_count": paper.get("citationCount"),
+                "url": paper.get("url")
+            })
+
+        logger.info(
+            f"Successfully retrieved {len(papers)} papers."
+        )
+
+        return papers

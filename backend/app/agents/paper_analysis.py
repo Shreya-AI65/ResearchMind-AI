@@ -7,9 +7,95 @@ information that can be used by downstream AI agents such as
 research-gap detection, methodology comparison, and report generation.
 """
 
-
+import re
 class PaperAnalysisAgent:
-
+    STOP_WORDS = {
+    
+        "the",
+        "and",
+        "with",
+        "that",
+        "this",
+        "from",
+        "into",
+        "their",
+        "there",
+        "these",
+        "those",
+        "using",
+        "based",
+        "proposed",
+        "paper",
+        "study",
+        "research",
+        "approach",
+        "method",
+        "methods",
+        "result",
+        "results",
+        "show",
+        "shows",
+        "used",
+        "also",
+        "can",
+        "been",
+        "have",
+        "has",
+        "had",
+        "are",
+        "was",
+        "were",
+        "being",
+        "than",
+        "more",
+        "most",
+        "into",
+        "over",
+        "such",
+        "very",
+        "high",
+        "low",
+        "new",
+        "novel",
+        "propose",
+        "proposes",
+        "provide",
+        "provides",
+        "emerging",
+        "future",
+        "presents",
+        "present",
+        "paradigm",
+        "includes",
+        "include",
+        "including",
+        "improving",
+        "intelligent",
+        "comprehensive",
+        "work",
+        }
+    DOMAIN_KEYWORDS = {
+    
+        "llm",
+        "rag",
+        "transformer",
+        "bert",
+        "gpt",
+        "reinforcement",
+        "robotics",
+        "vision",
+        "reasoning",
+        "planning",
+        "memory",
+        "autonomous",
+        "agent",
+        "multi-agent",
+        "benchmark",
+        "dataset",
+        "knowledge",
+        "graph"
+    
+        }
     def __init__(self):
         self.agent_name = "Paper Analysis Agent"
         self.status = "Initialized"
@@ -25,6 +111,7 @@ class PaperAnalysisAgent:
         year = paper.get("year", "")
         citation_count = paper.get("citation_count", 0)
         score = self.calculate_paper_score(paper)
+        
         return {
             "title": title,
             "authors": authors,
@@ -41,32 +128,42 @@ class PaperAnalysisAgent:
             "paper_quality": self.paper_quality(score)
         }
 
-    def extract_keywords(self, abstract: str):
-        """
-        Extract simple keywords from the abstract.
-        (Rule-based implementation for Day 10)
-        """
+    def extract_keywords(self, text):
 
-        if not abstract:
+        if not text:
             return []
 
-        words = abstract.lower().split()
+        text = text.lower()
 
-        stopwords = {
-            "the", "is", "are", "and", "of", "to", "in",
-            "for", "on", "with", "a", "an", "this",
-            "that", "by", "as", "from", "be", "at",
-            "it", "its", "their", "into", "than"
-        }
+        words = re.findall(r"[a-zA-Z\-]+", text)
 
         keywords = []
 
         for word in words:
-            word = word.strip(".,()[]{}:;!?\"'")
-            if len(word) > 4 and word not in stopwords:
-                keywords.append(word)
 
-        return sorted(list(set(keywords)))[:10]
+            if len(word) < 4:
+                continue
+
+            # Convert simple plurals to singular
+            # Singularize only common plural forms
+            if word.endswith("ies") and len(word) > 5:
+                word = word[:-3] + "y"
+            elif (
+                word.endswith("s")
+                and not word.endswith(("ss", "ous", "is"))
+                and len(word) > 5
+            ):
+                word = word[:-1]
+
+            if word in self.STOP_WORDS:
+                continue
+
+            keywords.append(word)
+
+        # Remove duplicates while preserving order
+        keywords = list(dict.fromkeys(keywords))
+
+        return keywords[:15]
 
     def detect_research_area(self, title: str, abstract: str):
         """
