@@ -2596,3 +2596,204 @@ Successfully implemented the complete Research Report Generation module for the 
 ## Status
 
 **Completed Successfully** ✅
+
+
+# Day 17 – Research Report Generation and Export Module
+
+## Date
+
+29 July 2026
+
+---
+
+# Objective
+
+The objective of this task was to extend the ResearchMind AI backend by implementing a complete research report export system. The work focused on generating reports in multiple formats, maintaining a history of generated reports, and exposing APIs for downloading reports and viewing report history.
+
+---
+
+# Components Implemented
+
+## 1. PDF Report Generator
+
+Implemented a PDF generation utility using **ReportLab**.
+
+### Features
+
+* Generates structured research reports in PDF format.
+* Includes:
+
+  * Basic Information
+  * Executive Summary
+  * Literature Review
+  * Methodology Comparison
+  * Research Gap Analysis
+  * Experiment Plan
+  * Report Summary
+  * Conclusion
+* Automatically creates timestamped filenames.
+* Stores generated reports inside the `generated_reports` directory.
+
+---
+
+## 2. DOCX Report Generator
+
+Implemented a Microsoft Word report generator using **python-docx**.
+
+### Features
+
+* Generates editable `.docx` research reports.
+* Preserves report hierarchy using headings.
+* Automatically saves reports with timestamped filenames.
+
+---
+
+## 3. Markdown Report Generator
+
+Implemented a Markdown export utility.
+
+### Features
+
+* Generates `.md` research reports.
+* Supports Markdown headings and formatted sections.
+* Produces lightweight reports suitable for GitHub and documentation.
+
+---
+
+## 4. Report History Manager
+
+Implemented a report history management utility.
+
+### Features
+
+* Automatically records every generated report.
+* Stores:
+
+  * Research Topic
+  * Generation Time
+  * PDF filename
+  * DOCX filename
+  * Markdown filename
+* Saves history in:
+
+```text
+generated_reports/report_history.json
+```
+
+---
+
+## 5. Report History API
+
+Created a REST endpoint for retrieving report history.
+
+### Endpoint
+
+```text
+GET /reports/history
+```
+
+### Response
+
+```json
+{
+    "total_reports": 1,
+    "history": [
+        {
+            "research_topic": "Agentic AI",
+            "generated_at": "2026-07-29 18:11:13",
+            "pdf": "Research_Report_20260729_181113.pdf",
+            "docx": "Research_Report_20260729_181113.docx",
+            "markdown": "Research_Report_20260729_181113.md"
+        }
+    ]
+}
+```
+
+---
+
+## 6. Download APIs
+
+Implemented download endpoints for multiple report formats.
+
+### Endpoints
+
+```text
+GET /report/download
+```
+
+Downloads the generated PDF report.
+
+```text
+GET /report/download/docx
+```
+
+Downloads the generated DOCX report.
+
+```text
+GET /report/download/markdown
+```
+
+Downloads the generated Markdown report.
+
+---
+
+# Updated Files
+
+```text
+app/
+│
+├── api/
+│   ├── report_generation.py
+│   └── report_history.py
+│
+├── services/
+│   └── report_generation_service.py
+│
+├── utils/
+│   ├── pdf_generator.py
+│   ├── docx_generator.py
+│   ├── markdown_generator.py
+│   └── report_history.py
+```
+
+---
+
+# Technical Decisions
+
+* Used **ReportLab** for PDF generation.
+* Used **python-docx** for editable Word document generation.
+* Used native file writing for Markdown generation.
+* Added timestamp-based filenames to prevent overwriting previous reports.
+* Introduced a JSON-based history manager to maintain generated report metadata.
+* Exposed report history through a dedicated REST API.
+* Maintained the existing modular service-oriented architecture.
+
+---
+
+# Testing
+
+The implementation was tested using FastAPI Swagger UI.
+
+### Verified
+
+* PDF report generation
+* DOCX report generation
+* Markdown report generation
+* Timestamped filenames
+* Report download APIs
+* Report history recording
+* Report history retrieval API
+* Automatic creation of `generated_reports` directory
+* Proper file generation and download functionality
+
+---
+
+# Outcome
+
+Successfully implemented a complete multi-format report export system for ResearchMind AI. The backend can now generate research reports in PDF, DOCX, and Markdown formats, maintain a history of generated reports, and provide REST APIs for downloading reports and viewing report history.
+
+---
+
+# Status
+
+**Completed Successfully** ✅

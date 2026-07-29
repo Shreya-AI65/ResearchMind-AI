@@ -5,6 +5,9 @@ Coordinates all AI agents to generate the final
 research report.
 """
 from app.utils.pdf_generator import generate_pdf
+from app.utils.docx_generator import generate_docx
+from app.utils.markdown_generator import generate_markdown
+from app.utils.report_history import ReportHistoryManager
 import logging
 import time
 
@@ -30,6 +33,7 @@ class ReportGenerationService:
         self.gap_agent = ResearchGapDetectionAgent()
         self.experiment_agent = ExperimentPlanningAgent()
         self.report_agent = ReportGenerationAgent()
+        self.history = ReportHistoryManager()
 
     def generate_report(self, query: str):
 
@@ -81,7 +85,14 @@ class ReportGenerationService:
                 experiment_plan=experiment_plan
             )
             pdf_file = generate_pdf(report)
-            
+            docx_file = generate_docx(report)
+            markdown_file = generate_markdown(report)
+            self.history.save_history(
+                query,
+                pdf_file,
+                docx_file,
+                markdown_file
+            )
             execution_time = round(
                 time.perf_counter() - start_time,
                 2
@@ -95,6 +106,8 @@ class ReportGenerationService:
                 "status": "success",
                 "execution_time": execution_time,
                 "pdf_file": pdf_file,
+                "docx_file":docx_file,
+                "markdown_file":markdown_file,
                 "report": report
             }
         except Exception as e:

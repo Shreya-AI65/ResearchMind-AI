@@ -1,6 +1,5 @@
 from fastapi import APIRouter, HTTPException
 from fastapi.responses import FileResponse
-
 from app.services.report_generation_service import (
     ReportGenerationService
 )
@@ -23,6 +22,39 @@ def generate_report(query: str):
 
     return result
 
+@router.get("/report/download/markdown")
+def download_markdown(query: str):
+
+    result = service.generate_report(query)
+
+    if result["status"] == "failed":
+        raise HTTPException(
+            status_code=500,
+            detail=result["error"]
+        )
+
+    return FileResponse(
+        path=result["markdown_file"],
+        media_type="text/markdown",
+        filename="Research_Report.md"
+    )
+
+@router.get("/report/download/docx")
+def download_docx(query: str):
+
+    result = service.generate_report(query)
+
+    if result["status"] == "failed":
+        raise HTTPException(
+            status_code=500,
+            detail=result["error"]
+        )
+
+    return FileResponse(
+        path=result["docx_file"],
+        media_type="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        filename="Research_Report.docx"
+    )
 
 @router.get("/report/download")
 def download_report(query: str):

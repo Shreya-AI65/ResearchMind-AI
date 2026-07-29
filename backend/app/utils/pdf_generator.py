@@ -4,7 +4,7 @@ PDF Generator Utility
 Purpose:
 Generate a PDF version of the final research report.
 """
-
+from datetime import datetime
 import os
 from reportlab.platypus import (
     SimpleDocTemplate,
@@ -116,9 +116,11 @@ def generate_pdf(
 
     os.makedirs(output_dir, exist_ok=True)
 
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+
     filename = os.path.join(
         output_dir,
-        "Research_Report.pdf"
+        f"Research_Report_{timestamp}.pdf"
     )
 
     document = SimpleDocTemplate(filename)
