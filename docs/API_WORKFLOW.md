@@ -2,7 +2,7 @@
 
 ## Overview
 
-The API Workflow of ResearchMind AI defines how a user's research query flows through the backend system. The backend follows a modular multi-agent architecture where each service coordinates specialized AI agents responsible for paper retrieval, analysis, comparison, research gap detection, literature review generation, experiment planning, report generation, and PDF export.
+The API Workflow of ResearchMind AI defines how a user's research query flows through the backend system. The backend follows a modular multi-agent architecture where each service coordinates specialized AI agents responsible for paper retrieval, analysis, comparison, research gap detection, literature review generation, experiment planning, citation analysis, report generation, and multi-format report export.
 
 ---
 
@@ -177,6 +177,41 @@ JSON Response
 
 ---
 
+## Citation Analysis Workflow
+
+```text
+User
+   │
+   ▼
+GET /citation-analysis
+   │
+   ▼
+Citation Analysis Service
+   │
+   ▼
+Paper Retrieval Agent
+   │
+   ▼
+Semantic Scholar API
+   │
+   ▼
+Paper Parser
+   │
+   ▼
+Paper Analysis Agent
+   │
+   ▼
+Citation Analysis Agent
+   │
+   ▼
+Citation Statistics
+   │
+   ▼
+JSON Response
+```
+
+---
+
 ## Report Generation Workflow
 
 ```text
@@ -205,6 +240,9 @@ Methodology Comparison Agent
    │
    ▼
 Research Gap Detection Agent
+   │
+   ▼
+Citation Analysis Agent
    │
    ▼
 Literature Review Agent
@@ -236,24 +274,6 @@ GET /report/download
 Report Generation Service
    │
    ▼
-Paper Retrieval Agent
-   │
-   ▼
-Paper Analysis Agent
-   │
-   ▼
-Methodology Comparison Agent
-   │
-   ▼
-Research Gap Detection Agent
-   │
-   ▼
-Literature Review Agent
-   │
-   ▼
-Experiment Planning Agent
-   │
-   ▼
 Report Generation Agent
    │
    ▼
@@ -268,40 +288,101 @@ File Download
 
 ---
 
+## DOCX Report Download Workflow
+
+```text
+User
+   │
+   ▼
+GET /report/download/docx
+   │
+   ▼
+Report Generation Service
+   │
+   ▼
+Report Generation Agent
+   │
+   ▼
+DOCX Generator
+   │
+   ▼
+Research_Report.docx
+   │
+   ▼
+File Download
+```
+
+---
+
+## Markdown Report Download Workflow
+
+```text
+User
+   │
+   ▼
+GET /report/download/markdown
+   │
+   ▼
+Report Generation Service
+   │
+   ▼
+Report Generation Agent
+   │
+   ▼
+Markdown Generator
+   │
+   ▼
+Research_Report.md
+   │
+   ▼
+File Download
+```
+
+---
+
 # Implemented REST Endpoints
 
-* GET `/search`
-* GET `/analyze`
-* GET `/compare`
-* GET `/research-gap`
-* GET `/literature-review`
-* GET `/report`
-* GET `/report/download`
+- GET `/search`
+- GET `/analyze`
+- GET `/compare`
+- GET `/research-gap`
+- GET `/literature-review`
+- GET `/citation-analysis`
+- GET `/report`
+- GET `/report/download`
+- GET `/report/download/docx`
+- GET `/report/download/markdown`
 
 ---
 
 # Current Workflow Status
 
-| Component                    | Status      |
-| ---------------------------- | ----------- |
-| FastAPI Backend              | ✅ Completed |
-| Search API                   | ✅ Completed |
-| Analysis API                 | ✅ Completed |
-| Comparison API               | ✅ Completed |
-| Research Gap API             | ✅ Completed |
-| Literature Review API        | ✅ Completed |
-| Report Generation API        | ✅ Completed |
-| PDF Download API             | ✅ Completed |
-| Paper Retrieval Agent        | ✅ Completed |
-| Paper Parser                 | ✅ Completed |
-| Paper Analysis Agent         | ✅ Completed |
+| Component | Status |
+|------------|---------|
+| FastAPI Backend | ✅ Completed |
+| Search API | ✅ Completed |
+| Analysis API | ✅ Completed |
+| Comparison API | ✅ Completed |
+| Research Gap API | ✅ Completed |
+| Literature Review API | ✅ Completed |
+| Citation Analysis API | ✅ Completed |
+| Report Generation API | ✅ Completed |
+| PDF Download API | ✅ Completed |
+| DOCX Download API | ✅ Completed |
+| Markdown Download API | ✅ Completed |
+| Paper Retrieval Agent | ✅ Completed |
+| Paper Parser | ✅ Completed |
+| Paper Analysis Agent | ✅ Completed |
 | Methodology Comparison Agent | ✅ Completed |
 | Research Gap Detection Agent | ✅ Completed |
-| Literature Review Agent      | ✅ Completed |
-| Experiment Planning Agent    | ✅ Completed |
-| Report Generation Agent      | ✅ Completed |
-| PDF Generator                | ✅ Completed |
-| Multi-Agent Pipeline         | ✅ Completed |
+| Literature Review Agent | ✅ Completed |
+| Citation Analysis Agent | ✅ Completed |
+| Experiment Planning Agent | ✅ Completed |
+| Report Generation Agent | ✅ Completed |
+| PDF Generator | ✅ Completed |
+| DOCX Generator | ✅ Completed |
+| Markdown Generator | ✅ Completed |
+| Multi-Agent Pipeline | ✅ Completed |
 
 ---
 
@@ -333,4 +414,4 @@ Structured JSON Error Response
 
 # Conclusion
 
-The current API workflow implements a complete multi-agent research automation pipeline. The backend now supports research paper retrieval, paper analysis, methodology comparison, research gap detection, literature review generation, experiment planning, comprehensive report generation, and PDF export. Its modular architecture enables scalability, maintainability, and straightforward integration of future AI agents and additional academic data sources.
+The current API workflow implements a complete multi-agent research automation pipeline. The backend now supports research paper retrieval, paper analysis, methodology comparison, research gap detection, literature review generation, citation analysis, experiment planning, comprehensive report generation, and export of research reports in **PDF**, **DOCX**, and **Markdown** formats. The modular architecture ensures scalability, maintainability, and straightforward integration of future AI agents, additional academic databases, and advanced research intelligence capabilities.

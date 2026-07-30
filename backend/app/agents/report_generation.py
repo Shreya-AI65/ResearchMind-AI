@@ -21,7 +21,8 @@ class ReportGenerationAgent:
         literature_review,
         methodology_comparison,
         research_gap,
-        experiment_plan
+        experiment_plan,
+        citation_analysis
     ):
 
         report = {
@@ -54,6 +55,9 @@ class ReportGenerationAgent:
 
         "experiment_plan":
             experiment_plan,
+
+        "citation_analysis":
+            citation_analysis,
 
         "recommended_datasets":
             experiment_plan.get(

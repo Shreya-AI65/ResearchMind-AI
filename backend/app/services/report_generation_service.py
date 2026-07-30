@@ -18,6 +18,7 @@ from app.agents.methodology_comparison import MethodologyComparisonAgent
 from app.agents.research_gap_detection import ResearchGapDetectionAgent
 from app.agents.experiment_planning import ExperimentPlanningAgent
 from app.agents.report_generation import ReportGenerationAgent
+from app.agents.citation_analysis import CitationAnalysisAgent
 
 logger = logging.getLogger(__name__)
 
@@ -34,6 +35,7 @@ class ReportGenerationService:
         self.experiment_agent = ExperimentPlanningAgent()
         self.report_agent = ReportGenerationAgent()
         self.history = ReportHistoryManager()
+        self.citation_agent = CitationAnalysisAgent()
 
     def generate_report(self, query: str):
 
@@ -75,6 +77,9 @@ class ReportGenerationService:
             experiment_plan = self.experiment_agent.generate_plan(
                 research_gap
             )
+            citation_analysis = self.citation_agent.analyze_citations(
+                analyzed_papers
+            )
 
             # Step 7: Generate final report
             report = self.report_agent.generate_report(
@@ -82,7 +87,8 @@ class ReportGenerationService:
                 literature_review=literature_review,
                 methodology_comparison=methodology,
                 research_gap=research_gap,
-                experiment_plan=experiment_plan
+                experiment_plan=experiment_plan,
+                citation_analysis=citation_analysis
             )
             pdf_file = generate_pdf(report)
             docx_file = generate_docx(report)

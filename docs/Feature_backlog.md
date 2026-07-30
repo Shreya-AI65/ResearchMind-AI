@@ -93,11 +93,14 @@ The goal of Version 1 is to build a functional platform that assists researchers
 * ✅ Experiment Planning Agent
 * ✅ Report Generation Agent
 * ✅ PDF Generator Utility
+* ✅ DOCX Generator Utility
+* ✅ Markdown Generator Utility
 * ✅ Paper Service
 * ✅ Analysis Service
 * ✅ Comparison Service
 * ✅ Research Gap Service
 * ✅ Literature Review Service
+* ✅ Citation Analysis Service
 * ✅ Report Generation Service
 * ✅ REST API Endpoints
 * ✅ /search API
@@ -107,6 +110,8 @@ The goal of Version 1 is to build a functional platform that assists researchers
 * ✅ /literature-review API
 * ✅ /report API
 * ✅ /report/download API
+* ✅ /report/download/docx API
+* ✅ /report/download/markdown API
 * ✅ Logging System
 * ✅ Custom Exception Handling
 * ✅ Configuration Management
@@ -148,6 +153,19 @@ The goal of Version 1 is to build a functional platform that assists researchers
 
 ---
 
+### Citation Analysis
+
+- ✅ Citation Analysis Agent
+- ✅ Citation Analysis Service
+- ✅ Citation Analysis API
+- ✅ Citation Ranking
+- ✅ Highest Cited Paper Detection
+- ✅ Lowest Cited Paper Detection
+- ✅ Average Citation Calculation
+- ✅ Citation Statistics Integration into Report
+
+---
+
 ## 8. Literature Review Generation
 
 ### Features
@@ -160,7 +178,8 @@ The goal of Version 1 is to build a functional platform that assists researchers
 * ✅ Future scope generation.
 * ✅ Conclusion generation.
 * ✅ Export reports as PDF.
-* ⏳ Export reports as Markdown. *(Planned)*
+* ✅ Export reports as DOCX.
+* ✅ Export reports as Markdown.
 ---
 
 ## 9. Report Generation
@@ -173,11 +192,16 @@ The goal of Version 1 is to build a functional platform that assists researchers
 * ✅ Include methodology comparison.
 * ✅ Include research gap analysis.
 * ✅ Include literature review.
+* ✅ Include citation analysis.
 * ✅ Include experiment planning.
 * ✅ Generate report summary.
 * ✅ Generate conclusion.
 * ✅ PDF report generation.
-* ✅ Download report using API.
+* ✅ DOCX report generation.
+* ✅ Markdown report generation.
+* ✅ Download PDF report.
+* ✅ Download DOCX report.
+* ✅ Download Markdown report.
 ---
 
 # Version 2 (Future Enhancements)
@@ -211,7 +235,7 @@ Provide explanations tailored to different user levels such as Beginner, Undergr
 
 ## Agentic AI Enhancements
 
-* ✅ Multi-agent collaboration.
+* ✅ Multi-agent research pipeline.
 * ✅ Research planning agent.
 * ✅ Experiment recommendation agent.
 * ✅ Literature Review Agent.
@@ -253,8 +277,7 @@ Provide explanations tailored to different user levels such as Beginner, Undergr
 
 # Future Vision
 
-ResearchMind AI aims to become an intelligent multi-agent research assistant capable of supporting researchers throughout the complete research lifecycle. The platform now supports automated paper retrieval, paper analysis, methodology comparison, research gap detection, literature review generation, experiment planning, report generation, and PDF export. Future versions will incorporate knowledge graphs, citation analysis, AI reviewers, collaborative research workspaces, and autonomous research planning..
-
+ResearchMind AI aims to become an intelligent multi-agent research assistant capable of supporting researchers throughout the complete research lifecycle. The platform now supports automated paper retrieval, paper analysis, methodology comparison, research gap detection, literature review generation, citation analysis, experiment planning, report generation, and export of research reports in PDF, DOCX, and Markdown formats. 
 
 # Version 3 (Advanced Research Intelligence)
 

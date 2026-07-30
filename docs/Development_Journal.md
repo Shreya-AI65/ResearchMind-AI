@@ -2606,15 +2606,15 @@ Successfully implemented the complete Research Report Generation module for the 
 
 ---
 
-# Objective
+## Objective
 
 The objective of this task was to extend the ResearchMind AI backend by implementing a complete research report export system. The work focused on generating reports in multiple formats, maintaining a history of generated reports, and exposing APIs for downloading reports and viewing report history.
 
 ---
 
-# Components Implemented
+## Components Implemented
 
-## 1. PDF Report Generator
+### 1. PDF Report Generator
 
 Implemented a PDF generation utility using **ReportLab**.
 
@@ -2636,7 +2636,7 @@ Implemented a PDF generation utility using **ReportLab**.
 
 ---
 
-## 2. DOCX Report Generator
+### 2. DOCX Report Generator
 
 Implemented a Microsoft Word report generator using **python-docx**.
 
@@ -2648,7 +2648,7 @@ Implemented a Microsoft Word report generator using **python-docx**.
 
 ---
 
-## 3. Markdown Report Generator
+### 3. Markdown Report Generator
 
 Implemented a Markdown export utility.
 
@@ -2660,7 +2660,7 @@ Implemented a Markdown export utility.
 
 ---
 
-## 4. Report History Manager
+### 4. Report History Manager
 
 Implemented a report history management utility.
 
@@ -2682,7 +2682,7 @@ generated_reports/report_history.json
 
 ---
 
-## 5. Report History API
+### 5. Report History API
 
 Created a REST endpoint for retrieving report history.
 
@@ -2711,7 +2711,7 @@ GET /reports/history
 
 ---
 
-## 6. Download APIs
+### 6. Download APIs
 
 Implemented download endpoints for multiple report formats.
 
@@ -2737,7 +2737,7 @@ Downloads the generated Markdown report.
 
 ---
 
-# Updated Files
+## Updated Files
 
 ```text
 app/
@@ -2758,7 +2758,7 @@ app/
 
 ---
 
-# Technical Decisions
+## Technical Decisions
 
 * Used **ReportLab** for PDF generation.
 * Used **python-docx** for editable Word document generation.
@@ -2770,7 +2770,7 @@ app/
 
 ---
 
-# Testing
+## Testing
 
 The implementation was tested using FastAPI Swagger UI.
 
@@ -2788,12 +2788,229 @@ The implementation was tested using FastAPI Swagger UI.
 
 ---
 
-# Outcome
+## Outcome
 
 Successfully implemented a complete multi-format report export system for ResearchMind AI. The backend can now generate research reports in PDF, DOCX, and Markdown formats, maintain a history of generated reports, and provide REST APIs for downloading reports and viewing report history.
 
 ---
 
+## Status
+
+**Completed Successfully** 
+
+
+# Day 18 – Citation Analysis Module Documentation
+
+## Date
+
+30 July 2026
+
+---
+
+# Objective
+
+The objective of this task was to implement the **Citation Analysis Module**, which analyzes citation statistics from retrieved research papers and integrates the results into the final research report. The module provides insights into paper impact, citation rankings, and overall citation statistics through a dedicated REST API.
+
+---
+
+# Components Implemented
+
+## Citation Analysis Agent
+
+Implemented the `CitationAnalysisAgent` responsible for analyzing citation-related information from analyzed research papers.
+
+The generated analysis includes:
+
+- Total Papers
+- Total Citations
+- Average Citations
+- Highest Cited Paper
+- Lowest Cited Paper
+- Citation Ranking
+
+---
+
+## Citation Analysis Service
+
+Implemented the `CitationAnalysisService` that coordinates the complete citation analysis workflow.
+
+Responsibilities include:
+
+- Retrieving research papers
+- Performing paper analysis
+- Calculating citation statistics
+- Ranking papers based on citation count
+- Returning standardized API responses
+
+---
+
+## Citation Analysis API
+
+Created the following REST endpoint:
+
+```
+GET /citation-analysis?query=<research_topic>
+```
+
+Example:
+
+```
+GET /citation-analysis?query=Agentic AI
+```
+
+Response Format:
+
+```json
+{
+    "status": "success",
+    "execution_time": 2.35,
+    "citation_analysis": {
+        "total_papers": 5,
+        "total_citations": 1325,
+        "average_citations": 265.0,
+        "highest_cited_paper": {},
+        "lowest_cited_paper": {},
+        "citation_ranking": []
+    }
+}
+```
+
+---
+
+# Workflow
+
+```
+User Query
+        │
+        ▼
+GET /citation-analysis
+        │
+        ▼
+Citation Analysis Service
+        │
+        ▼
+Paper Retrieval Agent
+        │
+        ▼
+Semantic Scholar API
+        │
+        ▼
+Paper Parser
+        │
+        ▼
+Paper Analysis Agent
+        │
+        ▼
+Citation Analysis Agent
+        │
+        ▼
+Citation Statistics
+        │
+        ▼
+JSON Response
+```
+
+---
+
+# Report Generation Integration
+
+The Citation Analysis module was integrated into the Report Generation pipeline.
+
+Updated workflow:
+
+```
+Paper Retrieval Agent
+        │
+        ▼
+Paper Analysis Agent
+        │
+        ├───────────────┐
+        ▼               ▼
+Methodology        Citation Analysis
+Comparison              Agent
+        │               │
+        └──────┬────────┘
+               ▼
+Research Gap Detection
+               ▼
+Experiment Planning
+               ▼
+Literature Review
+               ▼
+Report Generation
+               ▼
+PDF / DOCX / Markdown
+```
+
+---
+
+# Files Created
+
+```
+app/
+│
+├── agents/
+│   └── citation_analysis.py
+│
+├── services/
+│   └── citation_analysis_service.py
+│
+├── api/
+│   └── citation_analysis.py
+```
+
+---
+
+# Files Updated
+
+```
+app/
+│
+├── agents/
+│   └── report_generation.py
+│
+├── services/
+│   └── report_generation_service.py
+│
+├── main.py
+```
+
+---
+
+# Technical Decisions
+
+- Implemented citation analysis as an independent AI agent.
+- Maintained the modular architecture consistent with existing agents.
+- Reused the existing retrieval and analysis pipeline.
+- Integrated citation statistics directly into the final research report.
+- Followed a service-oriented architecture to separate API routing from business logic.
+
+---
+
+# Testing
+
+The Citation Analysis API was tested using FastAPI Swagger UI.
+
+Verified:
+
+- Successful paper retrieval
+- Citation statistics generation
+- Citation ranking
+- Highest cited paper detection
+- Lowest cited paper detection
+- Average citation calculation
+- Integration with report generation
+- Standardized JSON response
+- Proper exception handling for API rate-limit scenarios
+
+---
+
+# Outcome
+
+Successfully implemented a **Citation Analysis Module** that analyzes the citation impact of retrieved research papers and integrates citation statistics into the final research report. The module enhances ResearchMind AI by providing quantitative insights into research impact while maintaining the modular multi-agent architecture.
+
+---
+
 # Status
 
-**Completed Successfully** ✅
+**Completed Successfully** 

@@ -40,6 +40,14 @@ The backend currently supports the complete research analysis pipeline including
 - End-to-End Pipeline Testing
 
 ---
+## Export Formats
+
+Research reports can be exported as:
+
+- PDF (.pdf)
+- Microsoft Word (.docx)
+- Markdown (.md)
+---
 
 # Backend Architecture
 
@@ -320,6 +328,7 @@ The backend currently supports a complete multi-agent research analysis pipeline
 | GET `/literature-review` | Generate literature review        |
 | GET `/report`            | Generate complete research report |
 | GET `/report/download`   | Download report as PDF            |
+| GET `/citation-analysis` | Returns citation statistics            |    
 
 ---
 
