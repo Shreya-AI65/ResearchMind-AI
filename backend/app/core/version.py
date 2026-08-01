@@ -1,0 +1,5 @@
+API_PREFIX = "/api/v1"
+
+
+
+PROJECT_VERSION = "1.0.0"

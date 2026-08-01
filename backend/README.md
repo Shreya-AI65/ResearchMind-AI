@@ -332,6 +332,26 @@ The backend currently supports a complete multi-agent research analysis pipeline
 
 ---
 
+## API Version
+
+ResearchMind AI currently uses versioned REST APIs.
+
+Base URL:
+
+```
+/api/v1
+```
+
+Example:
+
+```
+GET /api/v1/search?query=Agentic AI
+GET /api/v1/analyze?query=Agentic AI
+GET /api/v1/report?query=Agentic AI
+```
+
+---
+
 # Report Generation Pipeline
 
 ```text
