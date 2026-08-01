@@ -14,7 +14,7 @@ The API Workflow of ResearchMind AI defines how a user's research query flows th
 User
    │
    ▼
-GET /search
+GET /api/v1/search
    │
    ▼
 Paper Service
@@ -43,7 +43,7 @@ JSON Response
 User
    │
    ▼
-GET /analyze
+GET /api/v1/analyze
    │
    ▼
 Analysis Service
@@ -75,7 +75,7 @@ JSON Response
 User
    │
    ▼
-GET /compare
+GET /api/v1/compare
    │
    ▼
 Comparison Service
@@ -110,7 +110,7 @@ JSON Response
 User
    │
    ▼
-GET /research-gap
+GET /api/v1/research-gap
    │
    ▼
 Research Gap Service
@@ -145,7 +145,7 @@ JSON Response
 User
    │
    ▼
-GET /literature-review
+GET /api/v1/literature-review
    │
    ▼
 Literature Review Service
@@ -183,7 +183,7 @@ JSON Response
 User
    │
    ▼
-GET /citation-analysis
+GET /api/v1/citation-analysis
    │
    ▼
 Citation Analysis Service
@@ -218,7 +218,7 @@ JSON Response
 User
    │
    ▼
-GET /report
+GET /api/v1/report
    │
    ▼
 Report Generation Service
@@ -268,7 +268,7 @@ JSON Response
 User
    │
    ▼
-GET /report/download
+GET /api/v1/report/download
    │
    ▼
 Report Generation Service
@@ -294,7 +294,7 @@ File Download
 User
    │
    ▼
-GET /report/download/docx
+GET /api/v1/report/download/docx
    │
    ▼
 Report Generation Service
@@ -320,7 +320,7 @@ File Download
 User
    │
    ▼
-GET /report/download/markdown
+GET /api/v1/report/download/markdown
    │
    ▼
 Report Generation Service
@@ -342,16 +342,16 @@ File Download
 
 # Implemented REST Endpoints
 
-- GET `/search`
-- GET `/analyze`
-- GET `/compare`
-- GET `/research-gap`
-- GET `/literature-review`
-- GET `/citation-analysis`
-- GET `/report`
-- GET `/report/download`
-- GET `/report/download/docx`
-- GET `/report/download/markdown`
+- GET `/api/v1/search`
+- GET `/api/v1/analyze`
+- GET `/api/v1/compare`
+- GET `/api/v1/research-gap`
+- GET `/api/v1/literature-review`
+- GET `/api/v1/citation-analysis`
+- GET `/api/v1/report`
+- GET `/api/v1/report/download`
+- GET `/api/v1/report/download/docx`
+- GET `/api/v1/report/download/markdown`
 
 ---
 

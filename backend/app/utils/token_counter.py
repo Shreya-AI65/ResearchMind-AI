@@ -1,12 +1,5 @@
 """
 Token Counter Utility
-
-Purpose:
-Estimate the number of tokens used by different
-ResearchMind AI agents.
-
-This utility provides an approximate token count
-without requiring an external tokenizer.
 """
 
 import logging
@@ -15,18 +8,9 @@ logger = logging.getLogger(__name__)
 
 
 class TokenCounter:
-    """
-    Utility class for estimating token usage.
-    """
 
     @staticmethod
-    def estimate_tokens(text: str) -> int:
-        """
-        Estimate token count.
-
-        Rule:
-        Approximately 1 token ≈ 4 characters.
-        """
+    def estimate_tokens(text: str):
 
         if not text:
             return 0
@@ -34,65 +18,73 @@ class TokenCounter:
         return max(1, len(text) // 4)
 
     @staticmethod
-    def count_query(query: str) -> int:
-        """
-        Count tokens in user query.
-        """
+    def count_query(query):
 
-        tokens = TokenCounter.estimate_tokens(query)
-
-        logger.info(
-            f"User Query Tokens: {tokens}"
-        )
-
-        return tokens
+        return TokenCounter.estimate_tokens(query)
 
     @staticmethod
-    def count_papers(papers: list) -> int:
-        """
-        Count tokens used by retrieved papers.
-        """
+    def count_papers(papers):
 
         total = 0
 
         for paper in papers:
 
-            abstract = paper.get("abstract", "")
-
             total += TokenCounter.estimate_tokens(
-                abstract
+                paper.get("abstract", "")
             )
 
-        logger.info(
-            f"Retrieved Paper Tokens: {total}"
-        )
-
         return total
 
     @staticmethod
-    def count_text(name: str, text: str) -> int:
-        """
-        Count tokens for any generated text.
-        """
+    def count_text(text):
 
-        tokens = TokenCounter.estimate_tokens(text)
-
-        logger.info(
-            f"{name} Tokens: {tokens}"
-        )
-
-        return tokens
+        return TokenCounter.estimate_tokens(text)
 
     @staticmethod
-    def total_usage(*values) -> int:
-        """
-        Calculate total estimated token usage.
-        """
+    def build_usage(
+        query_tokens,
+        paper_tokens,
+        review_tokens,
+        report_tokens
+    ):
 
-        total = sum(values)
+        usage = {
+            "query": query_tokens,
+            "paper_retrieval": paper_tokens,
+            "literature_review": review_tokens,
+            "final_report": report_tokens
+        }
+
+        usage["total"] = sum(usage.values())
 
         logger.info(
-            f"Total Estimated Tokens: {total}"
+            f"Token Usage: {usage}"
         )
 
-        return total
+        return usage
+
+    @staticmethod
+    def compression_statistics(
+        original_tokens,
+        compressed_tokens
+    ):
+
+        saved_tokens = (
+            original_tokens - compressed_tokens
+        )
+
+        percentage = 0
+
+        if original_tokens > 0:
+
+            percentage = round(
+                (saved_tokens / original_tokens) * 100,
+                2
+            )
+
+        return {
+            "original_tokens": original_tokens,
+            "compressed_tokens": compressed_tokens,
+            "saved_tokens": saved_tokens,
+            "compression_percentage": percentage
+        }
