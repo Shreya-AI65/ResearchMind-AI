@@ -1,3 +1,9 @@
+"""
+Report History Manager
+
+Stores information about every generated report.
+"""
+
 import json
 import os
 from datetime import datetime
@@ -13,38 +19,41 @@ class ReportHistoryManager:
 
         if not os.path.exists(self.history_file):
 
-            with open(self.history_file, "w") as file:
-                json.dump([], file)
+            with open(self.history_file, "w", encoding="utf-8") as file:
+                json.dump([], file, indent=4)
 
     def save_history(
         self,
-        topic,
-        pdf_file,
-        docx_file,
-        markdown_file
+        query,
+        pdf_path,
+        docx_path,
+        markdown_path
     ):
+
         print("Saving report history...")
 
-        with open(self.history_file, "r") as file:
+        with open(self.history_file, "r", encoding="utf-8") as file:
             history = json.load(file)
 
         history.append({
 
-            "research_topic": topic,
+            "research_topic": query,
 
             "generated_at":
                 datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
 
             "pdf":
-                os.path.basename(pdf_file),
+                os.path.basename(pdf_path),
 
             "docx":
-                os.path.basename(docx_file),
+                os.path.basename(docx_path),
 
             "markdown":
-                os.path.basename(markdown_file)
+                os.path.basename(markdown_path)
 
         })
 
-        with open(self.history_file, "w") as file:
+        with open(self.history_file, "w", encoding="utf-8") as file:
             json.dump(history, file, indent=4)
+
+        return True

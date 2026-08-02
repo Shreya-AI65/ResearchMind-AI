@@ -3307,3 +3307,141 @@ Planned enhancements include:
 # Status
 
 **Completed Successfully** 
+
+
+# Day 21 – Task 7: Personalized Report Generation Documentation
+
+## Date
+
+02 August 2026
+
+---
+
+# Objective
+
+The objective of this task was to document the implementation of the Personalized Report Generation module, which adapts generated research reports according to the user's academic background, experience level, and preferred explanation style.
+
+---
+
+# Components Implemented
+
+## User Profile Model
+
+Implemented a structured `UserProfile` model to capture user-specific information used for personalization.
+
+The model stores:
+
+- Name
+- Age
+- Qualification
+- Experience Level
+- Explanation Style
+- Existing Research Experience
+
+---
+
+## User Mode Detection Service
+
+Implemented the `UserModeService` to automatically determine the user's expertise level.
+
+Supported modes include:
+
+- Beginner
+- Intermediate
+- Researcher
+
+The detection process prioritizes:
+
+1. Experience Level
+2. Existing Research Experience
+3. Academic Qualification
+
+---
+
+## Prompt Builder
+
+Implemented the `PromptBuilder` utility to dynamically generate personalized prompts for report generation.
+
+Different prompts are produced for:
+
+- Beginner users
+- Intermediate users
+- Researchers
+
+This allows the report generation pipeline to adapt the writing style according to the user's background.
+
+---
+
+## Personalized Report Generation
+
+Integrated personalization into the Report Generation Service.
+
+The service now:
+
+- Creates a UserProfile object
+- Detects the appropriate user mode
+- Generates a personalized prompt
+- Passes the prompt to the Report Generation Agent
+- Produces user-specific reports
+
+---
+
+## Personalized Report API
+
+Updated the Report Generation API to accept structured user information through the `ReportRequest` model.
+
+The endpoint now receives:
+
+- Research Query
+- Name
+- Age
+- Qualification
+- Experience Level
+- Explanation Style
+
+This allows the backend to generate customized research reports.
+
+---
+
+# Testing
+
+Created a dedicated test module:
+
+```
+tests/test_personalized_reports.py
+```
+
+The testing process verified:
+
+- Beginner user mode
+- Intermediate user mode
+- Researcher user mode
+- Personalized prompt generation
+- Successful report generation
+- Token usage calculation
+- Report history storage
+- Proper handling of Semantic Scholar API rate limiting
+
+---
+
+# Technical Decisions
+
+- Used a rule-based approach for user mode detection.
+- Kept personalization independent from report generation logic.
+- Introduced a Prompt Builder to centralize prompt creation.
+- Updated the API to use structured request models.
+- Maintained compatibility with the existing multi-agent architecture.
+
+---
+
+# Outcome
+
+Successfully implemented personalized report generation within the ResearchMind AI backend.
+
+The system now adapts generated research reports according to user expertise while maintaining compatibility with the existing paper retrieval, analysis, literature review, methodology comparison, research gap detection, experiment planning, citation analysis, and report generation pipeline.
+
+---
+
+# Status
+
+**Completed Successfully** 

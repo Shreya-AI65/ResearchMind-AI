@@ -10,7 +10,11 @@ logger = logging.getLogger(__name__)
 class TokenCounter:
 
     @staticmethod
-    def estimate_tokens(text: str):
+    def estimate_tokens(text: str) -> int:
+        """
+        Estimate tokens using the approximation:
+        1 token ≈ 4 characters
+        """
 
         if not text:
             return 0
@@ -18,17 +22,21 @@ class TokenCounter:
         return max(1, len(text) // 4)
 
     @staticmethod
-    def count_query(query):
-
+    def count_query(query: str) -> int:
+        """
+        Count tokens in user query.
+        """
         return TokenCounter.estimate_tokens(query)
 
     @staticmethod
-    def count_papers(papers):
+    def count_papers(papers: list) -> int:
+        """
+        Count total tokens across all paper abstracts.
+        """
 
         total = 0
 
         for paper in papers:
-
             total += TokenCounter.estimate_tokens(
                 paper.get("abstract", "")
             )
@@ -36,8 +44,10 @@ class TokenCounter:
         return total
 
     @staticmethod
-    def count_text(text):
-
+    def count_text(text: str) -> int:
+        """
+        Count tokens in any text.
+        """
         return TokenCounter.estimate_tokens(text)
 
     @staticmethod
@@ -47,6 +57,9 @@ class TokenCounter:
         review_tokens,
         report_tokens
     ):
+        """
+        Build token usage statistics.
+        """
 
         usage = {
             "query": query_tokens,
@@ -57,9 +70,7 @@ class TokenCounter:
 
         usage["total"] = sum(usage.values())
 
-        logger.info(
-            f"Token Usage: {usage}"
-        )
+        logger.info(f"Token Usage: {usage}")
 
         return usage
 
@@ -68,15 +79,15 @@ class TokenCounter:
         original_tokens,
         compressed_tokens
     ):
+        """
+        Calculate compression statistics.
+        """
 
-        saved_tokens = (
-            original_tokens - compressed_tokens
-        )
+        saved_tokens = original_tokens - compressed_tokens
 
         percentage = 0
 
         if original_tokens > 0:
-
             percentage = round(
                 (saved_tokens / original_tokens) * 100,
                 2

@@ -8,6 +8,10 @@ research report.
 import logging
 import time
 
+from app.utils.prompt_builder import PromptBuilder
+from app.services.user_mode_service import UserModeService
+from app.models.user_profile import UserProfile
+from app.models.report_request import ReportRequest
 from app.utils.pdf_generator import generate_pdf
 from app.utils.docx_generator import generate_docx
 from app.utils.markdown_generator import generate_markdown
@@ -23,6 +27,7 @@ from app.agents.research_gap_detection import ResearchGapDetectionAgent
 from app.agents.experiment_planning import ExperimentPlanningAgent
 from app.agents.report_generation import ReportGenerationAgent
 from app.agents.citation_analysis import CitationAnalysisAgent
+from backend.app.utils.exceptions import APIRateLimitException
 
 logger = logging.getLogger(__name__)
 
@@ -41,16 +46,41 @@ class ReportGenerationService:
         self.history = ReportHistoryManager()
         self.citation_agent = CitationAnalysisAgent()
 
-    def generate_report(self, query: str):
+    def generate_report(
+        self,
+        request: ReportRequest
+    ):
 
         start_time = time.perf_counter()
+
+        query = request.query
 
         logger.info(
             f"Generating report for query: {query}"
         )
 
         query_tokens = TokenCounter.count_query(query)
+        # --------------------------------------------------
+        # User Personalization
+        # --------------------------------------------------
 
+        user = UserProfile(
+            name=request.name,
+            age=request.age,
+            qualification=request.qualification,
+            experience_level=request.experience_level,
+            explanation_style=request.explanation_style
+        )
+
+        user_mode = UserModeService.detect_mode(user)
+
+        personalized_prompt = PromptBuilder.build_prompt(
+            user_mode,
+            query
+        )
+
+        logger.info(f"Detected User Mode: {user_mode}")
+        logger.info(f"Generated Prompt:\n{personalized_prompt}")
         try:
 
             # --------------------------------------------------
@@ -148,6 +178,8 @@ class ReportGenerationService:
 
             report = self.report_agent.generate_report(
                 query=query,
+                user_mode=user_mode,
+                personalized_prompt=personalized_prompt,
                 literature_review=literature_review,
                 methodology_comparison=methodology,
                 research_gap=research_gap,
@@ -234,12 +266,20 @@ class ReportGenerationService:
                 "markdown_file": markdown_file,
                 "report": report
             }
+        
+        
+        except APIRateLimitException as e:
+
+            logger.warning(str(e))
+
+            return {
+                "status": "failed",
+                "error": "Semantic Scholar API is temporarily rate-limited. Please try again after a few minutes."
+            }
 
         except Exception as e:
 
-            logger.exception(
-                "Report generation failed."
-            )
+            logger.exception("Report generation failed.")
 
             return {
                 "status": "failed",

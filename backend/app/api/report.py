@@ -1,6 +1,9 @@
 from fastapi import APIRouter, HTTPException
 from fastapi.responses import FileResponse
+
 from app.models.api_response import SuccessResponse
+from app.models.report_request import ReportRequest
+
 from app.services.report_generation_service import (
     ReportGenerationService
 )
@@ -10,10 +13,14 @@ router = APIRouter()
 service = ReportGenerationService()
 
 
-@router.get("/report")
-def generate_report(query: str):
+# --------------------------------------------------
+# Generate Research Report
+# --------------------------------------------------
 
-    result = service.generate_report(query)
+@router.post("/report")
+def generate_report(request: ReportRequest):
+
+    result = service.generate_report(request)
 
     if result["status"] == "failed":
         raise HTTPException(
@@ -27,10 +34,14 @@ def generate_report(query: str):
     )
 
 
-@router.get("/report/download/markdown")
-def download_markdown(query: str):
+# --------------------------------------------------
+# Download Markdown Report
+# --------------------------------------------------
 
-    result = service.generate_report(query)
+@router.post("/report/download/markdown")
+def download_markdown(request: ReportRequest):
+
+    result = service.generate_report(request)
 
     if result["status"] == "failed":
         raise HTTPException(
@@ -45,10 +56,14 @@ def download_markdown(query: str):
     )
 
 
-@router.get("/report/download/docx")
-def download_docx(query: str):
+# --------------------------------------------------
+# Download DOCX Report
+# --------------------------------------------------
 
-    result = service.generate_report(query)
+@router.post("/report/download/docx")
+def download_docx(request: ReportRequest):
+
+    result = service.generate_report(request)
 
     if result["status"] == "failed":
         raise HTTPException(
@@ -63,10 +78,14 @@ def download_docx(query: str):
     )
 
 
-@router.get("/report/download")
-def download_report(query: str):
+# --------------------------------------------------
+# Download PDF Report
+# --------------------------------------------------
 
-    result = service.generate_report(query)
+@router.post("/report/download")
+def download_report(request: ReportRequest):
+
+    result = service.generate_report(request)
 
     if result["status"] == "failed":
         raise HTTPException(

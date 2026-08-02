@@ -12,5 +12,47 @@
         "pdf": "Research_Report_20260730_192625.pdf",
         "docx": "Research_Report_20260730_192625.docx",
         "markdown": "Research_Report_20260730_192625.md"
+    },
+    {
+        "research_topic": "string",
+        "generated_at": "2026-08-02 16:13:08",
+        "pdf": "Research_Report_20260802_161308.pdf",
+        "docx": "Research_Report_20260802_161308.docx",
+        "markdown": "Research_Report_20260802_161308.md"
+    },
+    {
+        "research_topic": "Agentic AI",
+        "generated_at": "2026-08-02 16:17:31",
+        "pdf": "Research_Report_20260802_161731.pdf",
+        "docx": "Research_Report_20260802_161731.docx",
+        "markdown": "Research_Report_20260802_161731.md"
+    },
+    {
+        "research_topic": "Agentic AI",
+        "generated_at": "2026-08-02 16:17:33",
+        "pdf": "Research_Report_20260802_161733.pdf",
+        "docx": "Research_Report_20260802_161733.docx",
+        "markdown": "Research_Report_20260802_161733.md"
+    },
+    {
+        "research_topic": "Agentic AI",
+        "generated_at": "2026-08-02 16:17:40",
+        "pdf": "Research_Report_20260802_161740.pdf",
+        "docx": "Research_Report_20260802_161740.docx",
+        "markdown": "Research_Report_20260802_161740.md"
+    },
+    {
+        "research_topic": "Agentic AI",
+        "generated_at": "2026-08-02 16:20:46",
+        "pdf": "Research_Report_20260802_162045.pdf",
+        "docx": "Research_Report_20260802_162045.docx",
+        "markdown": "Research_Report_20260802_162046.md"
+    },
+    {
+        "research_topic": "Agentic AI",
+        "generated_at": "2026-08-02 16:20:47",
+        "pdf": "Research_Report_20260802_162047.pdf",
+        "docx": "Research_Report_20260802_162047.docx",
+        "markdown": "Research_Report_20260802_162047.md"
     }
 ]
