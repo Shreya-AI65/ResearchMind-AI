@@ -20,6 +20,8 @@ class ReportGenerationAgent:
         query,
         user_mode,
         personalized_prompt,
+        template,
+        template_prompt,
         literature_review,
         methodology_comparison,
         research_gap,
@@ -68,6 +70,10 @@ class ReportGenerationAgent:
             "user_mode": user_mode,
 
             "personalized_prompt": personalized_prompt,
+
+            "report_template": template,
+
+            "template_prompt": template_prompt,
 
             "total_papers": methodology_comparison.get(
                 "total_papers",

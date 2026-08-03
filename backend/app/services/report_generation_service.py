@@ -7,7 +7,9 @@ research report.
 
 import logging
 import time
-
+from app.utils.report_analytics import ReportAnalytics
+from app.utils.report_formatter import ReportFormatter
+from app.utils.report_templates import TEMPLATES
 from app.utils.prompt_builder import PromptBuilder
 from app.services.user_mode_service import UserModeService
 from app.models.user_profile import UserProfile
@@ -18,7 +20,7 @@ from app.utils.markdown_generator import generate_markdown
 from app.utils.report_history import ReportHistoryManager
 from app.utils.token_counter import TokenCounter
 from app.utils.paper_compressor import PaperCompressor
-
+from app.utils.report_quality import ReportQualityEvaluator
 from app.agents.paper_retrieval import PaperRetrievalAgent
 from app.agents.paper_analysis import PaperAnalysisAgent
 from app.agents.literature_review import LiteratureReviewAgent
@@ -27,7 +29,8 @@ from app.agents.research_gap_detection import ResearchGapDetectionAgent
 from app.agents.experiment_planning import ExperimentPlanningAgent
 from app.agents.report_generation import ReportGenerationAgent
 from app.agents.citation_analysis import CitationAnalysisAgent
-from backend.app.utils.exceptions import APIRateLimitException
+from app.utils.exceptions import APIRateLimitException
+
 
 logger = logging.getLogger(__name__)
 
@@ -77,6 +80,12 @@ class ReportGenerationService:
         personalized_prompt = PromptBuilder.build_prompt(
             user_mode,
             query
+        )
+        template_prompt = TEMPLATES.get(
+
+            request.template.lower(),
+
+            TEMPLATES["technical"]
         )
 
         logger.info(f"Detected User Mode: {user_mode}")
@@ -180,11 +189,19 @@ class ReportGenerationService:
                 query=query,
                 user_mode=user_mode,
                 personalized_prompt=personalized_prompt,
+                template=request.template,
+                template_prompt=template_prompt,
                 literature_review=literature_review,
                 methodology_comparison=methodology,
                 research_gap=research_gap,
                 experiment_plan=experiment_plan,
                 citation_analysis=citation_analysis
+            )
+            report = ReportFormatter.format_report(
+
+                request.template,
+
+                report
             )
 
             report_tokens = TokenCounter.count_text(
@@ -209,6 +226,10 @@ class ReportGenerationService:
 
             report["token_usage"] = token_usage
             report["compression"] = compression
+
+            quality = ReportQualityEvaluator.evaluate(report)
+
+            report["quality"] = quality
 
             # --------------------------------------------------
             # Step 10: Generate Files
@@ -251,6 +272,24 @@ class ReportGenerationService:
             logger.info(
                 f"Compression Statistics: {compression}"
             )
+            analytics = ReportAnalytics.generate(
+
+                report,
+
+                execution_time,
+
+                token_usage,
+
+                compression,
+
+                pdf_file,
+
+                docx_file,
+
+                markdown_file
+            )
+
+            report["analytics"] = analytics
 
             # --------------------------------------------------
             # Final Response
@@ -261,6 +300,7 @@ class ReportGenerationService:
                 "execution_time": execution_time,
                 "token_usage": token_usage,
                 "compression": compression,
+                "analytics": analytics,
                 "pdf_file": pdf_file,
                 "docx_file": docx_file,
                 "markdown_file": markdown_file,

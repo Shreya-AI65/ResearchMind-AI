@@ -14,3 +14,5 @@ class ReportRequest(BaseModel):
     experience_level: str = "Intermediate"
 
     explanation_style: str = "balanced"
+
+    template: str = "technical"

@@ -54,5 +54,33 @@
         "pdf": "Research_Report_20260802_162047.pdf",
         "docx": "Research_Report_20260802_162047.docx",
         "markdown": "Research_Report_20260802_162047.md"
+    },
+    {
+        "research_topic": "string",
+        "generated_at": "2026-08-03 20:15:55",
+        "pdf": "Research_Report_20260803_201555.pdf",
+        "docx": "Research_Report_20260803_201555.docx",
+        "markdown": "Research_Report_20260803_201555.md"
+    },
+    {
+        "research_topic": "string",
+        "generated_at": "2026-08-03 20:23:46",
+        "pdf": "Research_Report_20260803_202346.pdf",
+        "docx": "Research_Report_20260803_202346.docx",
+        "markdown": "Research_Report_20260803_202346.md"
+    },
+    {
+        "research_topic": "string",
+        "generated_at": "2026-08-03 20:31:04",
+        "pdf": "Research_Report_20260803_203103.pdf",
+        "docx": "Research_Report_20260803_203104.docx",
+        "markdown": "Research_Report_20260803_203104.md"
+    },
+    {
+        "research_topic": "Agentic AI",
+        "generated_at": "2026-08-03 20:35:59",
+        "pdf": "Research_Report_20260803_203559.pdf",
+        "docx": "Research_Report_20260803_203559.docx",
+        "markdown": "Research_Report_20260803_203559.md"
     }
 ]

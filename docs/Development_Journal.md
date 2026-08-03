@@ -3317,15 +3317,15 @@ Planned enhancements include:
 
 ---
 
-# Objective
+## Objective
 
 The objective of this task was to document the implementation of the Personalized Report Generation module, which adapts generated research reports according to the user's academic background, experience level, and preferred explanation style.
 
 ---
 
-# Components Implemented
+## Components Implemented
 
-## User Profile Model
+### User Profile Model
 
 Implemented a structured `UserProfile` model to capture user-specific information used for personalization.
 
@@ -3340,7 +3340,7 @@ The model stores:
 
 ---
 
-## User Mode Detection Service
+### User Mode Detection Service
 
 Implemented the `UserModeService` to automatically determine the user's expertise level.
 
@@ -3358,7 +3358,7 @@ The detection process prioritizes:
 
 ---
 
-## Prompt Builder
+### Prompt Builder
 
 Implemented the `PromptBuilder` utility to dynamically generate personalized prompts for report generation.
 
@@ -3372,7 +3372,7 @@ This allows the report generation pipeline to adapt the writing style according 
 
 ---
 
-## Personalized Report Generation
+### Personalized Report Generation
 
 Integrated personalization into the Report Generation Service.
 
@@ -3386,7 +3386,7 @@ The service now:
 
 ---
 
-## Personalized Report API
+### Personalized Report API
 
 Updated the Report Generation API to accept structured user information through the `ReportRequest` model.
 
@@ -3403,7 +3403,7 @@ This allows the backend to generate customized research reports.
 
 ---
 
-# Testing
+## Testing
 
 Created a dedicated test module:
 
@@ -3424,7 +3424,7 @@ The testing process verified:
 
 ---
 
-# Technical Decisions
+## Technical Decisions
 
 - Used a rule-based approach for user mode detection.
 - Kept personalization independent from report generation logic.
@@ -3434,7 +3434,7 @@ The testing process verified:
 
 ---
 
-# Outcome
+## Outcome
 
 Successfully implemented personalized report generation within the ResearchMind AI backend.
 
@@ -3442,6 +3442,147 @@ The system now adapts generated research reports according to user expertise whi
 
 ---
 
-# Status
+## Status
+
+**Completed Successfully** 
+
+
+# Day 22 – Personalized Report Generation and Analytics
+
+## Date
+
+03 August 2026
+
+## Objective
+
+The objective of this task was to improve the ResearchMind AI report generation pipeline by introducing personalized report generation based on user profiles, report quality evaluation, analytics generation, and comprehensive integration testing.
+
+---
+
+## Features Implemented
+
+### Personalized Report Generation
+
+Implemented a user profile–based report generation workflow.
+
+Added support for:
+
+- Name
+- Age
+- Qualification
+- Experience Level
+- Explanation Style
+
+The system automatically determines the appropriate user mode and generates reports using customized prompts.
+
+---
+
+### User Mode Detection
+
+Implemented automatic user classification into:
+
+- Beginner
+- Intermediate
+- Researcher
+
+The classification is based on academic qualification, experience level, and existing research background.
+
+---
+
+### Dynamic Prompt Builder
+
+Added a prompt generation module that automatically creates personalized prompts according to the detected user mode.
+
+Different prompt styles are generated for beginners, intermediate learners, and researchers.
+
+---
+
+### Report Quality Evaluation
+
+Implemented an automatic quality evaluation module.
+
+The report is scored based on the availability of major sections including:
+
+- Literature Review
+- Methodology Comparison
+- Research Gap Detection
+- Experiment Plan
+- Citation Analysis
+- Future Research Directions
+- Conclusion
+
+The generated report receives a quality label such as:
+
+- Excellent
+- Good
+- Average
+- Needs Improvement
+
+---
+
+### Report Analytics
+
+Implemented report analytics generation including:
+
+- Execution Time
+- Token Usage
+- Compression Statistics
+- Generated Files
+- Overall Quality Score
+
+These analytics are included in the final report response.
+
+---
+
+### Integration Testing
+
+Created an end-to-end integration test to verify:
+
+- Personalized report generation
+- User mode detection
+- Prompt generation
+- Report quality evaluation
+- Report analytics
+- File generation
+- Report history
+
+All tests completed successfully.
+
+---
+
+## Files Created
+* app/models/report_request.py
+
+* app/utils/report_quality.py
+
+* app/utils/report_analytics.py
+
+* tests/test_day22_features.py
+---
+
+
+---
+
+## Files Updated
+* app/api/report.py
+
+* app/services/report_generation_service.py
+
+* app/services/user_mode_service.py
+
+* app/agents/report_generation.py
+
+* README.md
+
+
+---
+
+## Outcome
+
+Successfully enhanced the ResearchMind AI backend with personalized report generation, automatic user mode detection, report quality evaluation, analytics generation, and comprehensive integration testing while maintaining compatibility with the existing multi-agent architecture.
+
+---
+
+## Status
 
 **Completed Successfully** 
