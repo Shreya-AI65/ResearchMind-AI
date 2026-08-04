@@ -3586,3 +3586,140 @@ Successfully enhanced the ResearchMind AI backend with personalized report gener
 ## Status
 
 **Completed Successfully** 
+
+
+# Day 23 – Report Management System
+
+## Objective
+
+The objective of this phase was to enhance the ResearchMind AI backend by implementing a complete Report Management System. The system allows users to manage generated reports efficiently through versioning, history tracking, searching, statistics, exporting, and deletion functionalities.
+
+---
+
+## Features Implemented
+
+### 1. Report Versioning
+
+* Automatic version generation for reports.
+* Reports with the same research topic are assigned incremental version numbers.
+* Generated report filenames include the version number.
+
+Example:
+
+* Research_Report_v1.pdf
+* Research_Report_v2.pdf
+
+---
+
+### 2. Report History
+
+Implemented an API to retrieve all generated reports.
+
+Endpoint:
+
+```
+GET /api/v1/reports/history
+```
+
+Features:
+
+* Displays report history.
+* Shows report version.
+* Displays generation time.
+* Lists PDF, DOCX, and Markdown filenames.
+
+---
+
+### 3. Report Search
+
+Implemented keyword-based report searching.
+
+Endpoint:
+
+```
+GET /api/v1/reports/search?query=<keyword>
+```
+
+Features:
+
+* Search by research topic.
+* Returns matching reports.
+
+---
+
+### 4. Report Statistics
+
+Implemented report analytics.
+
+Endpoint:
+
+```
+GET /api/v1/reports/statistics
+```
+
+Displays:
+
+* Total reports
+* Total research topics
+* Most frequently generated topic
+* Latest generated report
+
+---
+
+### 5. Report Export
+
+Implemented report history export.
+
+Endpoint:
+
+```
+GET /api/v1/reports/export
+```
+
+Features:
+
+* Downloads the complete report history in JSON format.
+
+---
+
+### 6. Report Deletion
+
+Implemented report deletion.
+
+Endpoint:
+
+```
+DELETE /api/v1/reports/delete?version=<version>
+```
+
+Features:
+
+* Deletes PDF, DOCX, and Markdown files.
+* Removes the selected report from history.
+
+---
+
+## Integration Testing
+
+Verified the following APIs:
+
+* Report Generation
+* Report History
+* Report Search
+* Report Statistics
+* Report Export
+* Report Delete
+
+All APIs were tested using FastAPI Swagger UI and custom integration test scripts.
+
+---
+
+## Outcome
+
+Successfully implemented a complete Report Management System that supports report versioning, searching, analytics, exporting, deletion, and history management while integrating seamlessly with the ResearchMind AI backend.
+
+---
+
+## Status
+
+**Completed Successfully** 

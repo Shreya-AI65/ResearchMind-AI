@@ -14,6 +14,7 @@ from docx.shared import Pt
 
 def generate_docx(
     report: dict,
+    version: int,
     output_dir: str = "generated_reports"
 ):
     """
@@ -29,7 +30,7 @@ def generate_docx(
 
     filename = os.path.join(
         output_dir,
-        f"Research_Report_{timestamp}.docx"
+        f"Research_Report_v{version}_{timestamp}.docx"
     )
 
     document = Document()

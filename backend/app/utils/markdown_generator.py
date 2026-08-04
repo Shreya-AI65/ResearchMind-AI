@@ -11,6 +11,7 @@ from datetime import datetime
 
 def generate_markdown(
     report: dict,
+    version: int,
     output_dir: str = "generated_reports"
 ):
     """
@@ -26,7 +27,7 @@ def generate_markdown(
 
     filename = os.path.join(
         output_dir,
-        f"Research_Report_{timestamp}.md"
+        f"Research_Report_v{version}_{timestamp}.md"
     )
 
     with open(

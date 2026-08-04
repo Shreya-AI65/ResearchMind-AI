@@ -30,7 +30,7 @@ from app.agents.experiment_planning import ExperimentPlanningAgent
 from app.agents.report_generation import ReportGenerationAgent
 from app.agents.citation_analysis import CitationAnalysisAgent
 from app.utils.exceptions import APIRateLimitException
-
+from app.utils.report_version_manager import ReportVersionManager
 
 logger = logging.getLogger(__name__)
 
@@ -48,6 +48,7 @@ class ReportGenerationService:
         self.report_agent = ReportGenerationAgent()
         self.history = ReportHistoryManager()
         self.citation_agent = CitationAnalysisAgent()
+        self.version_manager = ReportVersionManager()
 
     def generate_report(
         self,
@@ -57,6 +58,7 @@ class ReportGenerationService:
         start_time = time.perf_counter()
 
         query = request.query
+        version = self.version_manager.get_next_version(query)
 
         logger.info(
             f"Generating report for query: {query}"
@@ -235,18 +237,21 @@ class ReportGenerationService:
             # Step 10: Generate Files
             # --------------------------------------------------
 
-            pdf_file = generate_pdf(report)
+            version = self.history.get_next_version(query)
 
-            docx_file = generate_docx(report)
+            pdf_file = generate_pdf(report, version)
 
-            markdown_file = generate_markdown(report)
+            docx_file = generate_docx(report, version)
+
+            markdown_file = generate_markdown(report, version)
 
             # --------------------------------------------------
             # Step 11: Save Report History
             # --------------------------------------------------
 
             self.history.save_history(
-                query=query,
+                topic=query,
+                version=version,
                 pdf_path=pdf_file,
                 docx_path=docx_file,
                 markdown_path=markdown_file
@@ -290,6 +295,7 @@ class ReportGenerationService:
             )
 
             report["analytics"] = analytics
+            report["version"] = version
 
             # --------------------------------------------------
             # Final Response
@@ -297,6 +303,7 @@ class ReportGenerationService:
 
             return {
                 "status": "success",
+                "version": version,
                 "execution_time": execution_time,
                 "token_usage": token_usage,
                 "compression": compression,

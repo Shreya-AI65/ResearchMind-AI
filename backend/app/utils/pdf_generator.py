@@ -4,22 +4,21 @@ PDF Generator Utility
 Purpose:
 Generate a PDF version of the final research report.
 """
-from datetime import datetime
+
 import os
-from reportlab.platypus import (
-    SimpleDocTemplate,
-    Paragraph,
-    Spacer
-)
+from datetime import datetime
+
 from reportlab.lib.styles import getSampleStyleSheet
+from reportlab.platypus import (
+    Paragraph,
+    SimpleDocTemplate,
+    Spacer,
+)
 
 styles = getSampleStyleSheet()
 
 
 def add_section(elements, title, data):
-    """
-    Nicely render dictionaries, lists and strings.
-    """
 
     elements.append(
         Paragraph(f"<b>{title}</b>", styles["Heading2"])
@@ -34,8 +33,8 @@ def add_section(elements, title, data):
 
                 elements.append(
                     Paragraph(
-                        f"<b>{key.replace('_',' ').title()}</b>",
-                        styles["Heading3"]
+                        f"<b>{key.replace('_', ' ').title()}</b>",
+                        styles["Heading3"],
                     )
                 )
 
@@ -44,12 +43,15 @@ def add_section(elements, title, data):
                         elements.append(
                             Paragraph(
                                 f"• {item}",
-                                styles["BodyText"]
+                                styles["BodyText"],
                             )
                         )
                 else:
                     elements.append(
-                        Paragraph("None", styles["BodyText"])
+                        Paragraph(
+                            "None",
+                            styles["BodyText"],
+                        )
                     )
 
                 elements.append(Spacer(1, 4))
@@ -58,16 +60,17 @@ def add_section(elements, title, data):
 
                 elements.append(
                     Paragraph(
-                        f"<b>{key.replace('_',' ').title()}</b>",
-                        styles["Heading3"]
+                        f"<b>{key.replace('_', ' ').title()}</b>",
+                        styles["Heading3"],
                     )
                 )
 
                 for k, v in value.items():
+
                     elements.append(
                         Paragraph(
                             f"{k}: {v}",
-                            styles["BodyText"]
+                            styles["BodyText"],
                         )
                     )
 
@@ -77,30 +80,39 @@ def add_section(elements, title, data):
 
                 elements.append(
                     Paragraph(
-                        f"<b>{key.replace('_',' ').title()}:</b> {value}",
-                        styles["BodyText"]
+                        f"<b>{key.replace('_', ' ').title()}:</b> {value}",
+                        styles["BodyText"],
                     )
                 )
 
     elif isinstance(data, list):
 
         if data:
+
             for item in data:
                 elements.append(
                     Paragraph(
                         f"• {item}",
-                        styles["BodyText"]
+                        styles["BodyText"],
                     )
                 )
+
         else:
+
             elements.append(
-                Paragraph("None", styles["BodyText"])
+                Paragraph(
+                    "None",
+                    styles["BodyText"],
+                )
             )
 
     else:
 
         elements.append(
-            Paragraph(str(data), styles["BodyText"])
+            Paragraph(
+                str(data),
+                styles["BodyText"],
+            )
         )
 
     elements.append(Spacer(1, 12))
@@ -108,11 +120,9 @@ def add_section(elements, title, data):
 
 def generate_pdf(
     report: dict,
-    output_dir: str = "generated_reports"
+    version: int,
+    output_dir: str = "generated_reports",
 ):
-    """
-    Generate PDF report.
-    """
 
     os.makedirs(output_dir, exist_ok=True)
 
@@ -120,128 +130,92 @@ def generate_pdf(
 
     filename = os.path.join(
         output_dir,
-        f"Research_Report_{timestamp}.pdf"
+        f"Research_Report_v{version}_{timestamp}.pdf",
     )
 
     document = SimpleDocTemplate(filename)
 
     elements = []
 
-    # ----------------------------------------------------
-    # Title
-    # ----------------------------------------------------
-
     elements.append(
         Paragraph(
             "<b>Research Analysis Report</b>",
-            styles["Title"]
+            styles["Title"],
         )
     )
 
     elements.append(Spacer(1, 15))
 
-    # ----------------------------------------------------
-    # Basic Information
-    # ----------------------------------------------------
-
     elements.append(
         Paragraph(
             f"<b>Research Topic:</b> {report.get('research_topic','')}",
-            styles["BodyText"]
+            styles["BodyText"],
         )
     )
 
     elements.append(
         Paragraph(
             f"<b>Total Papers:</b> {report.get('total_papers',0)}",
-            styles["BodyText"]
+            styles["BodyText"],
         )
     )
 
     elements.append(
         Paragraph(
             f"<b>Generated By:</b> {report.get('generated_by','')}",
-            styles["BodyText"]
+            styles["BodyText"],
         )
     )
 
     elements.append(
         Paragraph(
             f"<b>Generated At:</b> {report.get('generated_at','')}",
-            styles["BodyText"]
+            styles["BodyText"],
         )
     )
 
     elements.append(Spacer(1, 12))
 
-    # ----------------------------------------------------
-    # Executive Summary
-    # ----------------------------------------------------
-
     add_section(
         elements,
         "Executive Summary",
-        report.get("executive_summary", "")
+        report.get("executive_summary", ""),
     )
-
-    # ----------------------------------------------------
-    # Literature Review
-    # ----------------------------------------------------
 
     add_section(
         elements,
         "Literature Review",
-        report.get("literature_review", {})
+        report.get("literature_review", {}),
     )
-
-    # ----------------------------------------------------
-    # Methodology Comparison
-    # ----------------------------------------------------
 
     add_section(
         elements,
         "Methodology Comparison",
-        report.get("methodology_comparison", {})
+        report.get("methodology_comparison", {}),
     )
-
-    # ----------------------------------------------------
-    # Research Gap
-    # ----------------------------------------------------
 
     add_section(
         elements,
         "Research Gap Analysis",
-        report.get("research_gap", {})
+        report.get("research_gap", {}),
     )
-
-    # ----------------------------------------------------
-    # Experiment Plan
-    # ----------------------------------------------------
 
     add_section(
         elements,
         "Experiment Plan",
-        report.get("experiment_plan", {})
+        report.get("experiment_plan", {}),
     )
-
-    # ----------------------------------------------------
-    # Report Summary
-    # ----------------------------------------------------
 
     add_section(
         elements,
         "Report Summary",
-        report.get("report_summary", {})
+        report.get("report_summary", {}),
     )
-
-    # ----------------------------------------------------
-    # Conclusion
-    # ----------------------------------------------------
 
     add_section(
         elements,
         "Conclusion",
-        report.get("conclusion", "")
+        report.get("conclusion", ""),
     )
 
     document.build(elements)
