@@ -1,428 +1,389 @@
-# ResearchMind AI
+# 🚀 ResearchMind AI
 
-## Overview
-
-ResearchMind AI is a multi-agent AI-powered research assistant designed to support researchers throughout the complete research lifecycle. Unlike existing research assistants that primarily focus on literature retrieval and summarization, ResearchMind AI automates higher-level research activities such as methodology comparison, research-gap detection, experiment planning, literature review generation, evidence-based report generation, and research workflow automation.
-
-The project follows a collaborative multi-agent architecture where specialized AI agents work together to retrieve, analyze, compare, synthesize, and summarize scientific literature to assist researchers in making informed research decisions.
+**ResearchMind AI** is a multi-agent AI-powered research assistant designed to automate the complete academic research workflow. It retrieves research papers, analyzes them, identifies research gaps, generates literature reviews, creates experiment plans, produces comprehensive reports, and provides an interactive web dashboard for managing research outputs.
 
 ---
 
-# Motivation
+# ✨ Features
 
-Researchers spend significant time performing repetitive tasks such as:
-
-* Searching research papers
-* Reading lengthy papers
-* Summarizing literature
-* Comparing methodologies
-* Finding research gaps
-* Selecting datasets
-* Choosing evaluation metrics
-* Planning experiments
-* Writing literature reviews
-
-Although platforms like NotebookLM, SciSpace, Consensus, and Elicit simplify literature search, many research activities still require considerable manual effort.
-
-ResearchMind AI aims to automate these activities using collaborative AI agents.
-
----
-
-# Project Objectives
-
-* Automate literature retrieval
-* Analyze research papers
-* Compare methodologies
-* Detect research gaps
-* Recommend datasets
-* Recommend baseline models
-* Suggest evaluation metrics
-* Generate experiment plans
-* Generate literature reviews
-* Generate research reports
-* Reduce manual effort throughout the research lifecycle
-
----
-
-# Current Implementation
-
-The backend currently supports:
-
-## AI Agents
+## 🤖 Backend
 
 * Paper Retrieval Agent
 * Paper Analysis Agent
 * Methodology Comparison Agent
 * Research Gap Detection Agent
+* Literature Review Generation
 * Experiment Planning Agent
-* Literature Review Agent
 * Report Generation Agent
-
-## Services
-
-* Paper Service
-* Analysis Service
-* Comparison Service
-* Research Gap Service
-* Experiment Planning Service
-* Literature Review Service
-
-## Core Components
-
-* FastAPI Backend
-* Semantic Scholar API Integration
-* Semantic Scholar API Key Authentication
-* Paper Parser
-* Response Formatter
-* Logger
-* Configuration Management
+* Report Versioning
+* Report History Management
+* Report Search
+* Report Statistics
+* Report Delete Management
+* PDF Report Export
+* DOCX Report Export
+* Markdown Report Export
+* REST API with FastAPI
+* Centralized Logging
 * Exception Handling
-
-## Testing
-
-* Unit Testing
-* Integration Testing
-* End-to-End Pipeline Testing
-
-## REST APIs
-
-* `/search`
-* `/analyze`
-* `/compare`
-* `/research-gap`
-* `/experiment-plan`
-* `/literature-review`
-* `/report`
+* Semantic Scholar Integration
 
 ---
 
-# Planned AI Agents
+## 💻 Frontend
 
-Currently Implemented
-
-* Paper Retrieval Agent
-* Paper Analysis Agent
-* Methodology Comparison Agent
-* Research Gap Detection Agent
-* Experiment Planning Agent
-* Literature Review Agent
-
-Upcoming
-
-* Report Generation Agent
-* Knowledge Graph Agent
-* Citation Analysis Agent
-* Research Trend Prediction Agent
-
----
-
-# Future Features
-
-* Knowledge Graph Generation
-* Citation Network Analysis
-* Research Trend Prediction
-* Persistent Research Memory
-* Automatic Benchmark Recommendation
-* AI-powered Report Generation
-* Multi-Agent Collaboration
-* Agent-to-Agent Communication (A2A)
-* Model Context Protocol (MCP)
-* Team Collaboration
-* Cloud Deployment
+* React + Vite
+* Tailwind CSS
+* Responsive Dashboard
+* Sidebar Navigation
+* Navbar
+* Dashboard Analytics
+* Report History Page
+* Report Viewer
+* Report Search
+* Statistics Page
+* Settings Page
+* Generate Report Page
+* Reusable UI Components
+* Loading Component
+* Analytics Cards
+* Report Cards
 
 ---
 
-# System Architecture
+# 🏗 Project Architecture
 
-```
-                        User
-                          │
-                          ▼
-                   FastAPI Backend
-                          │
- ┌──────────┬──────────┬──────────┬──────────────┬────────────────────┐
- ▼          ▼          ▼          ▼              ▼
-/search   /analyze   /compare  /research-gap  /experiment-plan
-                                                │
-                                                ▼
-                                         /literature-review
-                          │
-                          ▼
-                     Service Layer
-                          │
- ┌─────────────┬─────────────┬─────────────┬─────────────┐
- ▼             ▼             ▼             ▼
-PaperService AnalysisService ComparisonService ResearchGapService
-                          │
-               ┌──────────┴──────────┐
-               ▼                     ▼
-ExperimentPlanningService   LiteratureReviewService
-                          │
-                          ▼
-             Paper Retrieval Agent
-                          │
-                          ▼
-            Semantic Scholar API
-                          │
-                          ▼
-                 Paper Parser
-                          │
-                          ▼
-             Paper Analysis Agent
-                          │
-          ┌───────────────┼───────────────┐
-          ▼               ▼               ▼
-Methodology        Research Gap     Literature Review
-Comparison Agent   Detection Agent       Agent
-          │               │               │
-          └───────────────┼───────────────┘
-                          │
-                          ▼
-             Experiment Planning Agent
-                          │
-                          ▼
-                   JSON Response
+```text
+User
+
+        │
+
+        ▼
+
+React Frontend (Dashboard)
+
+        │
+
+Axios REST API
+
+        │
+
+        ▼
+
+FastAPI Backend
+
+        │
+
+──────────────────────────────────────
+
+Paper Retrieval Agent
+
+        │
+
+Paper Analysis Agent
+
+        │
+
+Methodology Comparison Agent
+
+        │
+
+Research Gap Detection Agent
+
+        │
+
+Literature Review Agent
+
+        │
+
+Experiment Planning Agent
+
+        │
+
+Report Generation Agent
+
+        │
+
+Report Management APIs
+
+        │
+
+PDF / DOCX / Markdown Reports
 ```
 
 ---
 
-# Technology Stack
+# 📂 Project Structure
 
-| Component       | Technology                                |
-| --------------- | ----------------------------------------- |
-| Frontend        | React                                     |
-| Backend         | FastAPI                                   |
-| Language        | Python                                    |
-| Database        | PostgreSQL (Planned)                      |
-| Vector Database | ChromaDB (Planned)                        |
-| AI Models       | GPT, Gemini, Open-source LLMs             |
-| Research APIs   | Semantic Scholar, Crossref, arXiv, PubMed |
-| Version Control | Git & GitHub                              |
-
----
-
-# Repository Structure
-
-```
+```text
 ResearchMind_AI/
 
 ├── backend/
+│
 │   ├── app/
 │   │
 │   ├── agents/
-│   │   ├── paper_retrieval.py
-│   │   ├── paper_analysis.py
-│   │   ├── methodology_comparison.py
-│   │   ├── research_gap_detection.py
-│   │   ├── experiment_planning.py
-│   │   └── literature_review.py
-│   │
-│   ├── services/
-│   │   ├── paper_service.py
-│   │   ├── analysis_service.py
-│   │   ├── comparison_service.py
-│   │   ├── research_gap_service.py
-│   │   ├── experiment_planning_service.py
-│   │   └── literature_review_service.py
-│   │
 │   ├── api/
-│   │   ├── search.py
-│   │   ├── analyze.py
-│   │   ├── compare.py
-│   │   ├── research_gap.py
-│   │   ├── experiment_plan.py
-│   │   └── literature_review.py
-│   │
+│   ├── models/
+│   ├── services/
+│   ├── utils/
+│   ├── generated_reports/
 │   ├── tests/
-│   ├── requirements.txt
 │   └── README.md
 │
 ├── frontend/
 │
-├── docs/
-│   ├── Problem_Statement.md
-│   ├── Product_Comparison.md
-│   ├── Feature_Backlog.md
-│   ├── Technology_Stack.md
-│   ├── Agent_Design.md
-│   ├── API_Workflow.md
-│   ├── Development_Roadmap.md
-│   ├── Development_Journal.md
-│   ├── System_Architecture.md
-│   └── ...
+│   ├── src/
+│   │
+│   ├── components/
+│   ├── layouts/
+│   ├── pages/
+│   ├── services/
+│   ├── assets/
+│   ├── styles/
+│   │
+│   ├── App.jsx
+│   ├── main.jsx
+│   └── README.md
 │
-├── data/
-├── scripts/
-├── docker/
+├── docs/
+│
+├── LICENSE
 └── README.md
 ```
 
 ---
 
-# Documentation
+# ⚙ Technology Stack
 
-The project documentation includes:
+## Backend
 
-* Problem Statement
-* Product Comparison
-* Competitor Analysis
-* Research Insights
-* Research Gap Analysis
-* Technology Stack
-* Feature Backlog
-* API Workflow
-* Agent Design
-* System Architecture
-* Development Roadmap
-* Development Journal
-* Paper Reading Notes
+* Python
+* FastAPI
+* Pydantic
+* ReportLab
+* python-docx
+* Markdown
+* Semantic Scholar API
+* Logging
+* JSON
 
 ---
 
-# Development Status
+## Frontend
 
-## Phase 1 — Research & Analysis
+* React
+* Vite
+* Tailwind CSS
+* React Router
+* Axios
+* React Icons
+* Recharts
+* Framer Motion
 
-✅ Completed
+---
 
-## Phase 2 — System Design
+# 📡 REST APIs
 
-✅ Completed
+## Research APIs
 
-## Phase 3 — Backend Foundation
+```text
+POST /api/v1/search
 
-✅ Completed
+POST /api/v1/analyze
 
-### Completed Components
+POST /api/v1/compare
 
-* FastAPI Backend
-* Semantic Scholar Integration
+POST /api/v1/research-gap
+
+POST /api/v1/literature-review
+
+POST /api/v1/experiment-plan
+
+POST /api/v1/report
+```
+
+---
+
+## Report Management APIs
+
+```text
+GET    /reports/history
+
+GET    /reports/statistics
+
+GET    /reports/search
+
+DELETE /reports/delete
+```
+
+---
+
+# 📑 Generated Reports
+
+The system automatically generates:
+
+* PDF Report
+* DOCX Report
+* Markdown Report
+
+Every generated report is automatically stored in:
+
+```text
+backend/generated_reports/
+```
+
+with complete version history.
+
+---
+
+# 🚀 Getting Started
+
+## Clone Repository
+
+```bash
+git clone https://github.com/Shreya-AI65/ResearchMind_AI.git
+```
+
+---
+
+# Backend Setup
+
+```bash
+cd backend
+
+pip install -r requirements.txt
+
+uvicorn app.main:app --reload
+```
+
+Backend URL
+
+```text
+http://127.0.0.1:8000
+```
+
+Swagger Documentation
+
+```text
+http://127.0.0.1:8000/docs
+```
+
+---
+
+# Frontend Setup
+
+```bash
+cd frontend
+
+npm install
+
+npm run dev
+```
+
+Frontend URL
+
+```text
+http://localhost:5173
+```
+
+---
+
+# Development Progress
+
+## ✅ Phase 1
+
+* Project Planning
+* Documentation
+* Repository Setup
+
+---
+
+## ✅ Phase 2
+
 * Paper Retrieval Agent
 * Paper Analysis Agent
-* Methodology Comparison Agent
-* Research Gap Detection Agent
-* Experiment Planning Agent
-* Literature Review Agent
-* Paper Parser
-* Response Formatter
-* Logger
-* Exception Handling
-* Configuration Management
 * Unit Testing
 * Integration Testing
-* End-to-End Pipeline Testing
-* Paper Service
-* Analysis Service
-* Comparison Service
-* Research Gap Service
-* Experiment Planning Service
-* Literature Review Service
-* `/search`
-* `/analyze`
-* `/compare`
-* `/research-gap`
-* `/experiment-plan`
-* `/literature-review`
 
 ---
 
-## Phase 4 — Multi-Agent AI Development
+## ✅ Phase 3
 
-🚧 In Progress
+* Methodology Comparison
+* Research Gap Detection
+
+---
+
+## ✅ Phase 4
+
+* Literature Review Generation
+* Experiment Planning
+* Report Generation
+* PDF Export
+* DOCX Export
+* Markdown Export
+
+---
+
+## ✅ Phase 5
+
+* Report Versioning
+* Report History
+* Report Search
+* Report Statistics
+* Report Delete API
+
+---
+
+## 🚧 Phase 6 (Current)
+
+### Frontend Development
 
 Completed
 
-* Experiment Planning Agent
-* Literature Review Agent
+* React + Vite Setup
+* Tailwind CSS Configuration
+* React Router Setup
+* Dashboard Layout
+* Sidebar
+* Navbar
+* Reusable Components
+* Analytics Cards
+* Loading Component
+* Report Card
+* Search Bar
 
 Upcoming
 
-* Report Generation Agent
-* Knowledge Graph Agent
-* Citation Analysis Agent
+* Backend API Integration
+* Interactive Charts
+* Report Viewer
+* Download Manager
+* Authentication
+* Dark Mode
+* Mobile Optimization
 
 ---
 
-## Phase 5 — Frontend Development
+# Future Roadmap
 
-📅 Planned
-
----
-
-## Phase 6 — Full System Integration
-
-📅 Planned
-
----
-
-# Current Project Progress
-
-## ✅ Completed
-
-* Backend Architecture
-* REST APIs
-* Semantic Scholar Integration
-* Paper Retrieval Pipeline
-* Paper Analysis Pipeline
-* Methodology Comparison
-* Research Gap Detection
-* Experiment Planning
-* Literature Review Generation
-* Logging
-* Exception Handling
-* Response Formatting
-* Unit Testing
-* Integration Testing
-* Documentation
-
----
-
-## 🚧 In Progress
-
-* Multi-Agent Expansion
-* Report Generation Agent
-
----
-
-## 📅 Upcoming
-
-* Knowledge Graph Generation
-* Citation Analysis
-* Trend Prediction
-* React Frontend
-* ChromaDB Integration
-* PostgreSQL Integration
-
----
-
-# Future Work
-
-Future versions of ResearchMind AI will include:
-
-* Report Generation Agent
-* Knowledge Graph Generation
+* Knowledge Graph Visualization
 * Citation Network Analysis
-* Research Trend Prediction
-* Multi-Agent Collaboration
-* Agent-to-Agent Communication (A2A)
-* Model Context Protocol (MCP)
-* Persistent Research Memory
-* Automatic Benchmark Recommendation
+* AI Chat Assistant
+* Multi-user Collaboration
+* Authentication & Authorization
 * Cloud Deployment
-
----
-
-# Long-Term Vision
-
-ResearchMind AI aims to become a comprehensive AI-powered research platform capable of assisting researchers from literature retrieval to experiment planning, methodology comparison, research-gap detection, literature review generation, report generation, and scientific decision-making through collaborative multi-agent intelligence.
-
-The long-term goal is to provide an end-to-end intelligent research ecosystem that accelerates scientific discovery while significantly reducing repetitive manual work.
+* Docker Support
+* LLM Integration
+* Research Trend Prediction
+* Vector Database Integration
 
 ---
 
 # License
 
-This project is currently under active development for academic and research purposes.
+This project is licensed under the **MIT License**.
 
 ---
 
@@ -430,6 +391,8 @@ This project is currently under active development for academic and research pur
 
 **Shreya Singh**
 
-B.Tech Computer Science Engineering (Artificial Intelligence & Data Science)
+B.Tech Computer Science Engineering (AI & Data Science)
 
-**ResearchMind AI — Multi-Agent Research Intelligence Platform**
+Pimpri Chinchwad University, Pune
+
+ResearchMind AI Project
