@@ -121,7 +121,34 @@ The goal of Version 1 is to build a functional platform that assists researchers
   
 ---  
 
-## 6. Paper Comparison
+## 6. Frontend Dashboard
+
+### Features
+
+* ✅ React + Vite setup.
+* ✅ Tailwind CSS integration.
+* ✅ Responsive dashboard layout.
+* ✅ Sidebar navigation.
+* ✅ Top navigation bar.
+* ✅ Generate Report page.
+* ✅ Report History page.
+* ✅ Report Search page.
+* ✅ Report Statistics page.
+* ✅ Settings page.
+* ✅ Axios API integration.
+* ✅ PDF report download.
+* ✅ DOCX report download.
+* ✅ Markdown report download.
+* ✅ Loading indicators.
+* ✅ Reusable UI components.
+* ⏳ Delete report from frontend. *(Next Sprint)*
+* ⏳ Export history from frontend. *(Next Sprint)*
+* ⏳ Interactive analytics charts. *(Next Sprint)*
+* ⏳ Dark mode support. *(Future)*
+* ⏳ Authentication system. *(Future)*
+---
+
+## 7. Paper Comparison
 
 ### Features
 
@@ -133,7 +160,7 @@ The goal of Version 1 is to build a functional platform that assists researchers
 
 ---
 
-## 7. Research Intelligence
+## 8. Research Intelligence
 
 ### Features
 
@@ -166,7 +193,7 @@ The goal of Version 1 is to build a functional platform that assists researchers
 
 ---
 
-## 8. Literature Review Generation
+## 9. Literature Review Generation
 
 ### Features
 
@@ -182,7 +209,7 @@ The goal of Version 1 is to build a functional platform that assists researchers
 * ✅ Export reports as Markdown.
 ---
 
-## 9. Report Generation
+## 10. Report Generation
 
 ### Features
 
@@ -262,6 +289,8 @@ Provide explanations tailored to different user levels such as Beginner, Undergr
 * User authentication.
 * Cloud synchronization.
 * Dark mode.
+* Interactive analytics dashboard.
+* Mobile optimization.
 
 ---
 
@@ -277,7 +306,7 @@ Provide explanations tailored to different user levels such as Beginner, Undergr
 
 # Future Vision
 
-ResearchMind AI aims to become an intelligent multi-agent research assistant capable of supporting researchers throughout the complete research lifecycle. The platform now supports automated paper retrieval, paper analysis, methodology comparison, research gap detection, literature review generation, citation analysis, experiment planning, report generation, and export of research reports in PDF, DOCX, and Markdown formats. 
+ResearchMind AI now provides a complete end-to-end research workflow through both a FastAPI backend and a React frontend. Users can retrieve research papers, analyze methodologies, detect research gaps, generate literature reviews, create experiment plans, generate research reports, manage report history, search reports, view report statistics, and download reports in PDF, DOCX, and Markdown formats through an interactive web dashboard.
 
 # Version 3 (Advanced Research Intelligence)
 
@@ -371,6 +400,16 @@ The following features represent the long-term vision of ResearchMind AI. These 
 * Enables standardized communication between specialized AI agents.
 * Supports efficient task delegation and information exchange.
 * Improves coordination and scalability of the multi-agent system.
+
+## Advanced Frontend Experience
+
+* Interactive analytics dashboard.
+* Research visualization charts.
+* Report viewer with embedded PDF preview.
+* Real-time research progress tracking.
+* Personalized dashboard widgets.
+* Multi-theme support.
+* Responsive mobile experience.
 
 ## Model Context Protocol (MCP) Integration
 

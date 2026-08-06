@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-
+from fastapi.middleware.cors import CORSMiddleware
 from app.core.version  import API_PREFIX
 from app.api.search import router as search_router
 from app.api.analyze import router as analysis_router
@@ -23,11 +23,20 @@ app = FastAPI(
     version="1.0.0"
 )
 
-# Register Global Exception Handlers
-register_exception_handlers(app)
+# CORS MUST be added first
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173", "http://127.0.0.1:5173"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
-# Register Middleware
+# Then register custom middleware
 app.middleware("http")(process_time_middleware)
+
+# Then exception handlers
+register_exception_handlers(app)
 
 # -----------------------------
 # API Version 1 Routes

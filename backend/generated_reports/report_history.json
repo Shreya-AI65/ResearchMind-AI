@@ -1,12 +1,5 @@
 [
     {
-        "research_topic": "Agentic AI",
-        "generated_at": "2026-07-30 19:26:25",
-        "pdf": "Research_Report_20260730_192625.pdf",
-        "docx": "Research_Report_20260730_192625.docx",
-        "markdown": "Research_Report_20260730_192625.md"
-    },
-    {
         "research_topic": "string",
         "generated_at": "2026-08-02 16:13:08",
         "pdf": "Research_Report_20260802_161308.pdf",
@@ -91,5 +84,101 @@
         "pdf": "Research_Report_v4_20260804_184918.pdf",
         "docx": "Research_Report_v4_20260804_184918.docx",
         "markdown": "Research_Report_v4_20260804_184918.md"
+    },
+    {
+        "research_topic": "string",
+        "version": 5,
+        "generated_at": "2026-08-06 01:11:51",
+        "pdf": "Research_Report_v5_20260806_011150.pdf",
+        "docx": "Research_Report_v5_20260806_011151.docx",
+        "markdown": "Research_Report_v5_20260806_011151.md"
+    },
+    {
+        "research_topic": "string",
+        "version": 6,
+        "generated_at": "2026-08-06 01:12:31",
+        "pdf": "Research_Report_v6_20260806_011231.pdf",
+        "docx": "Research_Report_v6_20260806_011231.docx",
+        "markdown": "Research_Report_v6_20260806_011231.md"
+    },
+    {
+        "research_topic": "string",
+        "version": 7,
+        "generated_at": "2026-08-06 09:41:13",
+        "pdf": "Research_Report_v7_20260806_094112.pdf",
+        "docx": "Research_Report_v7_20260806_094113.docx",
+        "markdown": "Research_Report_v7_20260806_094113.md"
+    },
+    {
+        "research_topic": "Agentic AI",
+        "version": 2,
+        "generated_at": "2026-08-06 10:01:55",
+        "pdf": "Research_Report_v2_20260806_100155.pdf",
+        "docx": "Research_Report_v2_20260806_100155.docx",
+        "markdown": "Research_Report_v2_20260806_100155.md"
+    },
+    {
+        "research_topic": "Agentic AI",
+        "version": 3,
+        "generated_at": "2026-08-06 14:23:35",
+        "pdf": "Research_Report_v3_20260806_142334.pdf",
+        "docx": "Research_Report_v3_20260806_142335.docx",
+        "markdown": "Research_Report_v3_20260806_142335.md"
+    },
+    {
+        "research_topic": "Agentic AI",
+        "version": 4,
+        "generated_at": "2026-08-06 14:27:47",
+        "pdf": "Research_Report_v4_20260806_142747.pdf",
+        "docx": "Research_Report_v4_20260806_142747.docx",
+        "markdown": "Research_Report_v4_20260806_142747.md"
+    },
+    {
+        "research_topic": "Agentic AI",
+        "version": 5,
+        "generated_at": "2026-08-06 15:50:54",
+        "pdf": "Research_Report_v5_20260806_155054.pdf",
+        "docx": "Research_Report_v5_20260806_155054.docx",
+        "markdown": "Research_Report_v5_20260806_155054.md"
+    },
+    {
+        "research_topic": "Agentic AI",
+        "version": 6,
+        "generated_at": "2026-08-06 15:51:03",
+        "pdf": "Research_Report_v6_20260806_155103.pdf",
+        "docx": "Research_Report_v6_20260806_155103.docx",
+        "markdown": "Research_Report_v6_20260806_155103.md"
+    },
+    {
+        "research_topic": "Agentic AI",
+        "version": 7,
+        "generated_at": "2026-08-06 15:51:17",
+        "pdf": "Research_Report_v7_20260806_155117.pdf",
+        "docx": "Research_Report_v7_20260806_155117.docx",
+        "markdown": "Research_Report_v7_20260806_155117.md"
+    },
+    {
+        "research_topic": "Agentic AI",
+        "version": 8,
+        "generated_at": "2026-08-06 15:51:35",
+        "pdf": "Research_Report_v8_20260806_155134.pdf",
+        "docx": "Research_Report_v8_20260806_155135.docx",
+        "markdown": "Research_Report_v8_20260806_155135.md"
+    },
+    {
+        "research_topic": "Agentic AI",
+        "version": 9,
+        "generated_at": "2026-08-06 15:51:54",
+        "pdf": "Research_Report_v9_20260806_155154.pdf",
+        "docx": "Research_Report_v9_20260806_155154.docx",
+        "markdown": "Research_Report_v9_20260806_155154.md"
+    },
+    {
+        "research_topic": "Agentic AI",
+        "version": 10,
+        "generated_at": "2026-08-06 15:52:19",
+        "pdf": "Research_Report_v10_20260806_155219.pdf",
+        "docx": "Research_Report_v10_20260806_155219.docx",
+        "markdown": "Research_Report_v10_20260806_155219.md"
     }
 ]

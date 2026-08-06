@@ -1,13 +1,12 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import MainLayout from "./layouts/MainLayout";
+import Layout from "./components/Layout";
 
 import Dashboard from "./pages/Dashboard";
 import GenerateReport from "./pages/GenerateReport";
 import ReportHistory from "./pages/ReportHistory";
-import ReportViewer from "./pages/ReportViewer";
+import SearchReports from "./pages/SearchReports";
 import Statistics from "./pages/Statistics";
-import Search from "./pages/Search";
 import Settings from "./pages/Settings";
 
 function App() {
@@ -16,27 +15,40 @@ function App() {
 
         <BrowserRouter>
 
-            <MainLayout>
+            <Layout>
 
                 <Routes>
 
                     <Route path="/" element={<Dashboard />} />
 
-                    <Route path="/generate" element={<GenerateReport />} />
+                    <Route
+                        path="/generate"
+                        element={<GenerateReport />}
+                    />
 
-                    <Route path="/history" element={<ReportHistory />} />
+                    <Route
+                        path="/history"
+                        element={<ReportHistory />}
+                    />
 
-                    <Route path="/viewer" element={<ReportViewer />} />
+                    <Route
+                        path="/search"
+                        element={<SearchReports />}
+                    />
 
-                    <Route path="/statistics" element={<Statistics />} />
+                    <Route
+                        path="/statistics"
+                        element={<Statistics />}
+                    />
 
-                    <Route path="/search" element={<Search />} />
-
-                    <Route path="/settings" element={<Settings />} />
+                    <Route
+                        path="/settings"
+                        element={<Settings />}
+                    />
 
                 </Routes>
 
-            </MainLayout>
+            </Layout>
 
         </BrowserRouter>
 

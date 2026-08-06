@@ -8,107 +8,81 @@
 
 ## 🤖 Backend
 
-* Paper Retrieval Agent
-* Paper Analysis Agent
-* Methodology Comparison Agent
-* Research Gap Detection Agent
-* Literature Review Generation
-* Experiment Planning Agent
-* Report Generation Agent
-* Report Versioning
-* Report History Management
-* Report Search
-* Report Statistics
-* Report Delete Management
-* PDF Report Export
-* DOCX Report Export
-* Markdown Report Export
-* REST API with FastAPI
-* Centralized Logging
-* Exception Handling
-* Semantic Scholar Integration
+- Paper Retrieval Agent
+- Paper Analysis Agent
+- Methodology Comparison Agent
+- Research Gap Detection Agent
+- Literature Review Generation
+- Experiment Planning Agent
+- Report Generation Agent
+- Report Versioning
+- Report History Management
+- Report Search
+- Report Statistics
+- Report Delete Management
+- Report Export (PDF, DOCX, Markdown)
+- REST API with FastAPI
+- Centralized Logging
+- Global Exception Handling
+- Semantic Scholar Integration
 
 ---
 
 ## 💻 Frontend
 
-* React + Vite
-* Tailwind CSS
-* Responsive Dashboard
-* Sidebar Navigation
-* Navbar
-* Dashboard Analytics
-* Report History Page
-* Report Viewer
-* Report Search
-* Statistics Page
-* Settings Page
-* Generate Report Page
-* Reusable UI Components
-* Loading Component
-* Analytics Cards
-* Report Cards
+- React + Vite
+- Tailwind CSS
+- Dashboard
+- Sidebar Navigation
+- Navbar
+- Generate Report Page
+- Report History
+- Report Search
+- Report Statistics
+- Settings Page
+- PDF Download
+- DOCX Download
+- Markdown Download
+- Responsive Layout
+- Reusable UI Components
+- Loading Indicators
+- Analytics Cards
+- Report Cards
 
 ---
 
 # 🏗 Project Architecture
 
 ```text
-User
-
-        │
-
-        ▼
-
-React Frontend (Dashboard)
-
-        │
-
-Axios REST API
-
-        │
-
-        ▼
-
-FastAPI Backend
-
-        │
-
-──────────────────────────────────────
-
-Paper Retrieval Agent
-
-        │
-
-Paper Analysis Agent
-
-        │
-
-Methodology Comparison Agent
-
-        │
-
-Research Gap Detection Agent
-
-        │
-
-Literature Review Agent
-
-        │
-
-Experiment Planning Agent
-
-        │
-
-Report Generation Agent
-
-        │
-
-Report Management APIs
-
-        │
-
-PDF / DOCX / Markdown Reports
+                    User
+                      │
+                      ▼
+          React Frontend Dashboard
+                      │
+                Axios REST API
+                      │
+                      ▼
+               FastAPI Backend
+                      │
+ ────────────────────────────────────────────
+                      │
+        Paper Retrieval Agent
+                      │
+        Paper Analysis Agent
+                      │
+    Methodology Comparison Agent
+                      │
+    Research Gap Detection Agent
+                      │
+     Literature Review Agent
+                      │
+      Experiment Planning Agent
+                      │
+      Report Generation Agent
+                      │
+      Report Management APIs
+                      │
+        PDF • DOCX • Markdown
 ```
 
 ---
@@ -119,35 +93,35 @@ PDF / DOCX / Markdown Reports
 ResearchMind_AI/
 
 ├── backend/
-│
 │   ├── app/
+│   │   ├── agents/
+│   │   ├── api/
+│   │   ├── core/
+│   │   ├── middleware/
+│   │   ├── models/
+│   │   ├── services/
+│   │   └── utils/
 │   │
-│   ├── agents/
-│   ├── api/
-│   ├── models/
-│   ├── services/
-│   ├── utils/
 │   ├── generated_reports/
 │   ├── tests/
+│   ├── requirements.txt
 │   └── README.md
 │
 ├── frontend/
-│
 │   ├── src/
+│   │   ├── components/
+│   │   ├── layouts/
+│   │   ├── pages/
+│   │   ├── services/
+│   │   ├── assets/
+│   │   ├── styles/
+│   │   ├── App.jsx
+│   │   └── main.jsx
 │   │
-│   ├── components/
-│   ├── layouts/
-│   ├── pages/
-│   ├── services/
-│   ├── assets/
-│   ├── styles/
-│   │
-│   ├── App.jsx
-│   ├── main.jsx
+│   ├── package.json
 │   └── README.md
 │
 ├── docs/
-│
 ├── LICENSE
 └── README.md
 ```
@@ -158,28 +132,28 @@ ResearchMind_AI/
 
 ## Backend
 
-* Python
-* FastAPI
-* Pydantic
-* ReportLab
-* python-docx
-* Markdown
-* Semantic Scholar API
-* Logging
-* JSON
+- Python
+- FastAPI
+- Pydantic
+- ReportLab
+- python-docx
+- Markdown
+- Semantic Scholar API
+- JSON
+- Logging
 
 ---
 
 ## Frontend
 
-* React
-* Vite
-* Tailwind CSS
-* React Router
-* Axios
-* React Icons
-* Recharts
-* Framer Motion
+- React
+- Vite
+- Tailwind CSS
+- React Router DOM
+- Axios
+- React Icons
+- Recharts
+- Framer Motion
 
 ---
 
@@ -188,19 +162,17 @@ ResearchMind_AI/
 ## Research APIs
 
 ```text
-POST /api/v1/search
+GET    /api/v1/search
+GET    /api/v1/analyze
+GET    /api/v1/compare
+GET    /api/v1/research-gap
+GET    /api/v1/literature-review
+GET    /api/v1/experiment-plan
 
-POST /api/v1/analyze
-
-POST /api/v1/compare
-
-POST /api/v1/research-gap
-
-POST /api/v1/literature-review
-
-POST /api/v1/experiment-plan
-
-POST /api/v1/report
+POST   /api/v1/report
+POST   /api/v1/report/download
+POST   /api/v1/report/download/docx
+POST   /api/v1/report/download/markdown
 ```
 
 ---
@@ -208,32 +180,31 @@ POST /api/v1/report
 ## Report Management APIs
 
 ```text
-GET    /reports/history
+GET      /api/v1/report/history
+GET      /api/v1/reports/search
+GET      /api/v1/reports/statistics
+GET      /api/v1/reports/export
 
-GET    /reports/statistics
-
-GET    /reports/search
-
-DELETE /reports/delete
+DELETE   /api/v1/reports/delete
 ```
 
 ---
 
 # 📑 Generated Reports
 
-The system automatically generates:
+ResearchMind AI automatically generates:
 
-* PDF Report
-* DOCX Report
-* Markdown Report
+- PDF Reports
+- DOCX Reports
+- Markdown Reports
 
-Every generated report is automatically stored in:
+All generated reports are stored inside:
 
 ```text
 backend/generated_reports/
 ```
 
-with complete version history.
+along with complete version history.
 
 ---
 
@@ -243,6 +214,8 @@ with complete version history.
 
 ```bash
 git clone https://github.com/Shreya-AI65/ResearchMind_AI.git
+
+cd ResearchMind_AI
 ```
 
 ---
@@ -257,7 +230,7 @@ pip install -r requirements.txt
 uvicorn app.main:app --reload
 ```
 
-Backend URL
+Backend
 
 ```text
 http://127.0.0.1:8000
@@ -281,7 +254,7 @@ npm install
 npm run dev
 ```
 
-Frontend URL
+Frontend
 
 ```text
 http://localhost:5173
@@ -289,105 +262,114 @@ http://localhost:5173
 
 ---
 
-# Development Progress
+# 📈 Development Progress
 
-## ✅ Phase 1
+## ✅ Phase 1 – Project Planning
 
-* Project Planning
-* Documentation
-* Repository Setup
-
----
-
-## ✅ Phase 2
-
-* Paper Retrieval Agent
-* Paper Analysis Agent
-* Unit Testing
-* Integration Testing
+- Project Planning
+- Documentation
+- Repository Setup
 
 ---
 
-## ✅ Phase 3
+## ✅ Phase 2 – Research Analysis
 
-* Methodology Comparison
-* Research Gap Detection
-
----
-
-## ✅ Phase 4
-
-* Literature Review Generation
-* Experiment Planning
-* Report Generation
-* PDF Export
-* DOCX Export
-* Markdown Export
+- Paper Retrieval Agent
+- Paper Analysis Agent
+- Unit Testing
+- Integration Testing
 
 ---
 
-## ✅ Phase 5
+## ✅ Phase 3 – Research Intelligence
 
-* Report Versioning
-* Report History
-* Report Search
-* Report Statistics
-* Report Delete API
+- Methodology Comparison
+- Research Gap Detection
 
 ---
 
-## 🚧 Phase 6 (Current)
+## ✅ Phase 4 – Report Generation
 
-### Frontend Development
+- Literature Review Generation
+- Experiment Planning
+- Report Generation
+- PDF Export
+- DOCX Export
+- Markdown Export
+
+---
+
+## ✅ Phase 5 – Report Management
+
+- Report Versioning
+- Report History
+- Report Search
+- Report Statistics
+- Report Delete API
+- Report Export API
+
+---
+
+## ✅ Phase 6 – Frontend Integration
 
 Completed
 
-* React + Vite Setup
-* Tailwind CSS Configuration
-* React Router Setup
-* Dashboard Layout
-* Sidebar
-* Navbar
-* Reusable Components
-* Analytics Cards
-* Loading Component
-* Report Card
-* Search Bar
-
-Upcoming
-
-* Backend API Integration
-* Interactive Charts
-* Report Viewer
-* Download Manager
-* Authentication
-* Dark Mode
-* Mobile Optimization
+- React + Vite Setup
+- Tailwind CSS
+- React Router
+- Dashboard
+- Sidebar
+- Navbar
+- Generate Report Page
+- Report History Page
+- Report Search Page
+- Report Statistics Page
+- Settings Page
+- Backend API Integration
+- PDF Download
+- DOCX Download
+- Markdown Download
+- Responsive UI
+- Reusable Components
 
 ---
 
-# Future Roadmap
+## 🚧 Phase 7 – Upcoming
 
-* Knowledge Graph Visualization
-* Citation Network Analysis
-* AI Chat Assistant
-* Multi-user Collaboration
-* Authentication & Authorization
-* Cloud Deployment
-* Docker Support
-* LLM Integration
-* Research Trend Prediction
-* Vector Database Integration
+- Interactive Analytics Charts
+- Report Viewer
+- Delete Report UI
+- Export History UI
+- Dark Mode
+- Authentication
+- Mobile Optimization
+- User Profile
+- Dashboard Enhancements
 
 ---
 
-# License
+# 🛣 Future Roadmap
+
+- Knowledge Graph Visualization
+- Citation Network Analysis
+- AI Research Chat Assistant
+- Multi-user Collaboration
+- Authentication & Authorization
+- Cloud Deployment
+- Docker Support
+- LLM Integration
+- Research Trend Prediction
+- Vector Database Integration
+
+---
+
+# 📄 License
 
 This project is licensed under the **MIT License**.
 
 ---
 
-# Author
+# 👩‍💻 Author
 
 **Shreya Singh**
 
@@ -395,4 +377,4 @@ B.Tech Computer Science Engineering (AI & Data Science)
 
 Pimpri Chinchwad University, Pune
 
-ResearchMind AI Project
+**ResearchMind AI**
