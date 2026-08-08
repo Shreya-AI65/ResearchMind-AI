@@ -1,8 +1,10 @@
 import { useState } from "react";
 
 import {
-    FiDownload,
     FiFileText,
+    FiDownload,
+    FiCheckCircle,
+    FiClock,
 } from "react-icons/fi";
 
 import {
@@ -15,65 +17,112 @@ import {
 
 function GenerateReport() {
 
+    // ==========================================
+    // FORM STATE
+    // ==========================================
+
     const [query, setQuery] = useState("");
 
-    const [loading, setLoading] = useState(false);
+    const [name, setName] = useState("Guest");
 
-    const [downloading, setDownloading] = useState("");
+    const [age, setAge] = useState(20);
 
-    const [result, setResult] = useState(null);
+    const [qualification, setQualification] =
+        useState("B.Tech");
 
-    const [reportData, setReportData] = useState(null);
+    const [experienceLevel, setExperienceLevel] =
+        useState("Intermediate");
 
-    const [error, setError] = useState("");
+    const [explanationStyle, setExplanationStyle] =
+        useState("balanced");
+
+    const [template, setTemplate] =
+        useState("technical");
+
+
+    // ==========================================
+    // REPORT STATE
+    // ==========================================
+
+    const [generatedReport, setGeneratedReport] =
+        useState(null);
+
+    const [loading, setLoading] =
+        useState(false);
+
+    const [downloading, setDownloading] =
+        useState("");
+
+    const [error, setError] =
+        useState("");
+
+    const [downloadSuccess, setDownloadSuccess] =
+        useState("");
 
 
     // ==========================================
     // GENERATE REPORT
     // ==========================================
 
-    const handleGenerate = async () => {
+    const handleGenerateReport = async (event) => {
 
-        if (loading) {
-            return;
-        }
+        event.preventDefault();
 
         if (!query.trim()) {
 
-            setError("Please enter a research topic.");
+            setError(
+                "Please enter a research topic."
+            );
 
             return;
         }
-
-
-        setLoading(true);
-
-        setError("");
-
-        setResult(null);
-
-
-        const data = {
-            query: query.trim(),
-            name: "Guest",
-            age: 20,
-            qualification: "B.Tech",
-            experience_level: "Intermediate",
-            explanation_style: "balanced",
-            template: "technical",
-        };
 
 
         try {
 
+            setLoading(true);
+
+            setError("");
+
+            setDownloadSuccess("");
+
+            setGeneratedReport(null);
+
+
+            const requestData = {
+
+                query: query.trim(),
+
+                name:
+                    name.trim() || "Guest",
+
+                age:
+                    Number(age) || 20,
+
+                qualification:
+                    qualification.trim() || "B.Tech",
+
+                experience_level:
+                    experienceLevel,
+
+                explanation_style:
+                    explanationStyle,
+
+                template:
+                    template,
+            };
+
+
             console.log(
                 "Generating report with:",
-                data
+                requestData
             );
 
 
             const response =
-                await generateReport(data);
+                await generateReport(
+                    requestData
+                );
 
 
             console.log(
@@ -82,23 +131,35 @@ function GenerateReport() {
             );
 
 
-            setReportData(data);
+            if (
+                response?.success === false
+            ) {
 
-            setResult(response);
+                throw new Error(
+                    response?.message ||
+                    "Report generation failed."
+                );
+            }
+
+
+            setGeneratedReport(
+                response
+            );
 
 
         } catch (err) {
 
             console.error(
-                "Generate report error:",
+                "Report generation error:",
                 err
             );
 
 
             setError(
+                err.userMessage ||
                 err.response?.data?.message ||
                 err.response?.data?.detail ||
-                err.userMessage ||
+                err.message ||
                 "Failed to generate report."
             );
 
@@ -112,25 +173,101 @@ function GenerateReport() {
 
 
     // ==========================================
-    // SAVE BLOB FILE
+    // GET REPORT DATA
     // ==========================================
 
-    const saveBlobFile = (
+    const getReportData = () => {
+
+        if (!generatedReport) {
+            return null;
+        }
+
+
+        return (
+            generatedReport?.data ||
+            generatedReport
+        );
+    };
+
+
+    // ==========================================
+    // GET FILE PATH
+    // ==========================================
+
+    const getFilePath = (type) => {
+
+        const data =
+            getReportData();
+
+
+        if (!data) {
+            return null;
+        }
+
+
+        if (type === "pdf") {
+
+            return (
+                data?.pdf_file ||
+                data?.analytics
+                    ?.generated_files
+                    ?.pdf ||
+                null
+            );
+        }
+
+
+        if (type === "docx") {
+
+            return (
+                data?.docx_file ||
+                data?.analytics
+                    ?.generated_files
+                    ?.docx ||
+                null
+            );
+        }
+
+
+        if (type === "markdown") {
+
+            return (
+                data?.markdown_file ||
+                data?.analytics
+                    ?.generated_files
+                    ?.markdown ||
+                null
+            );
+        }
+
+
+        return null;
+    };
+
+
+    // ==========================================
+    // SAVE DOWNLOADED BLOB
+    // ==========================================
+
+    const saveBlob = (
         response,
-        fallbackName
+        filename
     ) => {
 
-        const blob =
-            new Blob(
-                [response.data],
-                {
-                    type:
-                        response.headers[
-                            "content-type"
-                        ] ||
-                        "application/octet-stream",
-                }
+        if (!response?.data) {
+
+            throw new Error(
+                "Downloaded file is empty."
             );
+        }
+
+
+        const blob =
+            response.data instanceof Blob
+                ? response.data
+                : new Blob([
+                    response.data
+                ]);
 
 
         const url =
@@ -145,39 +282,7 @@ function GenerateReport() {
 
         link.href = url;
 
-
-        const disposition =
-            response.headers[
-                "content-disposition"
-            ];
-
-
-        let filename =
-            fallbackName;
-
-
-        if (disposition) {
-
-            const match =
-                disposition.match(
-                    /filename="?([^"]+)"?/i
-                );
-
-
-            if (match && match[1]) {
-
-                filename =
-                    match[1];
-
-            }
-
-        }
-
-
-        link.setAttribute(
-            "download",
-            filename
-        );
+        link.download = filename;
 
 
         document.body.appendChild(
@@ -201,140 +306,164 @@ function GenerateReport() {
     // DOWNLOAD PDF
     // ==========================================
 
-    const handleDownloadPDF =
-        async () => {
+    const handleDownloadPDF = async () => {
 
-            if (!reportData) {
-
-                setError(
-                    "Please generate a report first."
-                );
-
-                return;
-            }
+        const filePath =
+            getFilePath("pdf");
 
 
-            if (downloading) {
-                return;
-            }
+        if (!filePath) {
+
+            setError(
+                "PDF file is not available."
+            );
+
+            return;
+        }
 
 
-            try {
+        try {
 
-                setDownloading("pdf");
+            setDownloading("pdf");
 
-                setError("");
+            setError("");
 
-
-                const response =
-                    await downloadPDF(
-                        reportData
-                    );
+            setDownloadSuccess("");
 
 
-                console.log(
-                    "PDF response:",
-                    response
-                );
+            console.log(
+                "PDF file path:",
+                filePath
+            );
 
 
-                saveBlobFile(
-                    response,
-                    "Research_Report.pdf"
+            const response =
+                await downloadPDF(
+                    filePath
                 );
 
 
-            } catch (err) {
-
-                console.error(
-                    "PDF download error:",
-                    err
-                );
+            console.log(
+                "PDF response:",
+                response
+            );
 
 
-                setError(
-                    err.response?.data?.message ||
-                    err.response?.data?.detail ||
-                    "Unable to download PDF report."
-                );
+            saveBlob(
+                response,
+                "Research_Report.pdf"
+            );
 
 
-            } finally {
+            setDownloadSuccess(
+                "PDF downloaded successfully."
+            );
 
-                setDownloading("");
 
-            }
-        };
+        } catch (err) {
+
+            console.error(
+                "PDF download error:",
+                err
+            );
+
+
+            setError(
+                err.userMessage ||
+                err.response?.data?.message ||
+                err.message ||
+                "Failed to download PDF."
+            );
+
+
+        } finally {
+
+            setDownloading("");
+
+        }
+    };
 
 
     // ==========================================
     // DOWNLOAD DOCX
     // ==========================================
 
-    const handleDownloadDOCX =
-        async () => {
+    const handleDownloadDOCX = async () => {
 
-            if (!reportData) {
-
-                setError(
-                    "Please generate a report first."
-                );
-
-                return;
-            }
+        const filePath =
+            getFilePath("docx");
 
 
-            if (downloading) {
-                return;
-            }
+        if (!filePath) {
+
+            setError(
+                "DOCX file is not available."
+            );
+
+            return;
+        }
 
 
-            try {
+        try {
 
-                setDownloading("docx");
+            setDownloading("docx");
 
-                setError("");
+            setError("");
 
-
-                const response =
-                    await downloadDOCX(
-                        reportData
-                    );
+            setDownloadSuccess("");
 
 
-                console.log(
-                    "DOCX response:",
-                    response
-                );
+            console.log(
+                "DOCX file path:",
+                filePath
+            );
 
 
-                saveBlobFile(
-                    response,
-                    "Research_Report.docx"
+            const response =
+                await downloadDOCX(
+                    filePath
                 );
 
 
-            } catch (err) {
-
-                console.error(
-                    "DOCX download error:",
-                    err
-                );
+            console.log(
+                "DOCX response:",
+                response
+            );
 
 
-                setError(
-                    err.response?.data?.message ||
-                    err.response?.data?.detail ||
-                    "Unable to download DOCX report."
-                );
+            saveBlob(
+                response,
+                "Research_Report.docx"
+            );
 
 
-            } finally {
+            setDownloadSuccess(
+                "DOCX downloaded successfully."
+            );
 
-                setDownloading("");
 
-            }
-        };
+        } catch (err) {
+
+            console.error(
+                "DOCX download error:",
+                err
+            );
+
+
+            setError(
+                err.userMessage ||
+                err.response?.data?.message ||
+                err.message ||
+                "Failed to download DOCX."
+            );
+
+
+        } finally {
+
+            setDownloading("");
+
+        }
+    };
 
 
     // ==========================================
@@ -344,31 +473,42 @@ function GenerateReport() {
     const handleDownloadMarkdown =
         async () => {
 
-            if (!reportData) {
+            const filePath =
+                getFilePath(
+                    "markdown"
+                );
+
+
+            if (!filePath) {
 
                 setError(
-                    "Please generate a report first."
+                    "Markdown file is not available."
                 );
 
                 return;
             }
 
 
-            if (downloading) {
-                return;
-            }
-
-
             try {
 
-                setDownloading("markdown");
+                setDownloading(
+                    "markdown"
+                );
 
                 setError("");
+
+                setDownloadSuccess("");
+
+
+                console.log(
+                    "Markdown file path:",
+                    filePath
+                );
 
 
                 const response =
                     await downloadMarkdown(
-                        reportData
+                        filePath
                     );
 
 
@@ -378,9 +518,14 @@ function GenerateReport() {
                 );
 
 
-                saveBlobFile(
+                saveBlob(
                     response,
                     "Research_Report.md"
+                );
+
+
+                setDownloadSuccess(
+                    "Markdown file downloaded successfully."
                 );
 
 
@@ -393,9 +538,10 @@ function GenerateReport() {
 
 
                 setError(
+                    err.userMessage ||
                     err.response?.data?.message ||
-                    err.response?.data?.detail ||
-                    "Unable to download Markdown report."
+                    err.message ||
+                    "Failed to download Markdown."
                 );
 
 
@@ -407,25 +553,75 @@ function GenerateReport() {
         };
 
 
+    // ==========================================
+    // REPORT INFORMATION
+    // ==========================================
+
+    const reportData =
+        getReportData();
+
+
+    const version =
+        reportData?.version || "-";
+
+
+    const executionTime =
+        reportData?.execution_time;
+
+
+    const qualityScore =
+        reportData
+            ?.analytics
+            ?.quality
+            ?.score;
+
+
+    const qualityText =
+        reportData
+            ?.analytics
+            ?.quality
+            ?.quality;
+
+
+    const pdfFile =
+        getFilePath("pdf");
+
+
+    const docxFile =
+        getFilePath("docx");
+
+
+    const markdownFile =
+        getFilePath(
+            "markdown"
+        );
+
+
+    // ==========================================
+    // UI
+    // ==========================================
+
     return (
 
         <div className="min-h-screen bg-sky-50 p-6 md:p-8">
 
-            <div className="max-w-5xl mx-auto">
+            <div className="max-w-6xl mx-auto">
 
 
-                {/* =====================================
+                {/* ======================================
                     HEADER
-                ===================================== */}
+                ====================================== */}
 
                 <div className="mb-8">
 
                     <p className="text-sky-600 font-semibold">
+
                         ResearchMind AI
+
                     </p>
 
 
-                    <h1 className="text-3xl font-bold text-gray-800 mt-2">
+                    <h1 className="text-3xl md:text-4xl font-bold text-gray-800 mt-2">
 
                         Generate Research Report
 
@@ -434,8 +630,8 @@ function GenerateReport() {
 
                     <p className="text-gray-500 mt-2">
 
-                        Enter a research topic to generate
-                        a comprehensive research report.
+                        Generate an AI-powered research report
+                        from your selected research topic.
 
                     </p>
 
@@ -443,120 +639,15 @@ function GenerateReport() {
 
 
 
-                {/* =====================================
-                    GENERATE FORM
-                ===================================== */}
-
-                <div className="bg-white rounded-2xl border border-sky-100 shadow-sm p-6">
-
-
-                    <label className="block font-semibold text-gray-700 mb-2">
-
-                        Research Topic
-
-                    </label>
-
-
-                    <input
-                        type="text"
-                        value={query}
-                        placeholder="Enter research topic"
-                        disabled={loading}
-                        onChange={(e) => {
-
-                            setQuery(
-                                e.target.value
-                            );
-
-                            setError("");
-
-                        }}
-                        onKeyDown={(e) => {
-
-                            if (
-                                e.key === "Enter" &&
-                                !loading
-                            ) {
-
-                                handleGenerate();
-
-                            }
-
-                        }}
-                        className="w-full border border-gray-200 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-sky-400 disabled:bg-gray-100"
-                    />
-
-
-                    <button
-                        type="button"
-                        onClick={
-                            handleGenerate
-                        }
-                        disabled={loading}
-                        className="mt-4 bg-sky-500 hover:bg-sky-600 disabled:bg-gray-400 text-white px-6 py-3 rounded-lg font-semibold"
-                    >
-
-                        {loading
-                            ? "Generating Report..."
-                            : "Generate Report"}
-
-                    </button>
-
-                </div>
-
-
-
-                {/* =====================================
-                    LOADING
-                ===================================== */}
-
-                {loading && (
-
-                    <div className="bg-white rounded-2xl border border-sky-100 shadow-sm p-6 mt-6">
-
-                        <div className="flex items-center gap-3">
-
-                            <div className="w-5 h-5 border-2 border-sky-500 border-t-transparent rounded-full animate-spin" />
-
-                            <p className="text-sky-600 font-semibold">
-
-                                Generating Report...
-
-                            </p>
-
-                        </div>
-
-
-                        <p className="text-gray-500 text-sm mt-3">
-
-                            Please wait while
-                            ResearchMind AI processes
-                            your research topic.
-
-                        </p>
-
-                    </div>
-
-                )}
-
-
-
-                {/* =====================================
-                    ERROR
-                ===================================== */}
+                {/* ======================================
+                    ERROR MESSAGE
+                ====================================== */}
 
                 {error && (
 
-                    <div className="bg-white border border-red-200 rounded-2xl p-6 mt-6">
+                    <div className="mb-6 bg-red-50 border border-red-200 rounded-xl p-4">
 
-                        <p className="text-red-600 font-semibold">
-
-                            Error
-
-                        </p>
-
-
-                        <p className="text-red-500 mt-2">
+                        <p className="text-red-600 font-medium">
 
                             {error}
 
@@ -568,48 +659,500 @@ function GenerateReport() {
 
 
 
-                {/* =====================================
-                    SUCCESS
-                ===================================== */}
+                {/* ======================================
+                    SUCCESS MESSAGE
+                ====================================== */}
 
-                {result && !loading && (
+                {downloadSuccess && (
 
-                    <div className="mt-6">
+                    <div className="mb-6 bg-green-50 border border-green-200 rounded-xl p-4">
+
+                        <div className="flex items-center gap-2 text-green-600 font-medium">
+
+                            <FiCheckCircle />
+
+                            {downloadSuccess}
+
+                        </div>
+
+                    </div>
+
+                )}
 
 
-                        <div className="bg-white rounded-2xl border border-green-200 shadow-sm p-6">
 
-                            <div className="flex items-center gap-3">
+                {/* ======================================
+                    REPORT FORM
+                ====================================== */}
 
-                                <div className="bg-green-100 text-green-600 p-3 rounded-full">
+                <div className="bg-white rounded-2xl border border-sky-100 shadow-sm p-6 mb-8">
 
-                                    <FiFileText
-                                        size={24}
-                                    />
+                    <form
+                        onSubmit={
+                            handleGenerateReport
+                        }
+                    >
+
+
+                        {/* Research Topic */}
+
+                        <div className="mb-6">
+
+                            <label className="block text-sm font-semibold text-gray-700 mb-2">
+
+                                Research Topic
+
+                            </label>
+
+
+                            <input
+                                type="text"
+                                value={query}
+                                onChange={(event) =>
+                                    setQuery(
+                                        event.target.value
+                                    )
+                                }
+                                placeholder="Enter research topic, e.g. Agentic AI"
+                                className="
+                                    w-full
+                                    border
+                                    border-gray-200
+                                    rounded-lg
+                                    px-4
+                                    py-3
+                                    focus:outline-none
+                                    focus:ring-2
+                                    focus:ring-sky-300
+                                "
+                            />
+
+                        </div>
+
+
+
+                        {/* ======================================
+                            USER DETAILS
+                        ====================================== */}
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-6">
+
+
+                            {/* Name */}
+
+                            <div>
+
+                                <label className="block text-sm font-semibold text-gray-700 mb-2">
+
+                                    Name
+
+                                </label>
+
+
+                                <input
+                                    type="text"
+                                    value={name}
+                                    onChange={(event) =>
+                                        setName(
+                                            event.target.value
+                                        )
+                                    }
+                                    className="
+                                        w-full
+                                        border
+                                        border-gray-200
+                                        rounded-lg
+                                        px-4
+                                        py-3
+                                    "
+                                />
+
+                            </div>
+
+
+
+                            {/* Age */}
+
+                            <div>
+
+                                <label className="block text-sm font-semibold text-gray-700 mb-2">
+
+                                    Age
+
+                                </label>
+
+
+                                <input
+                                    type="number"
+                                    min="1"
+                                    value={age}
+                                    onChange={(event) =>
+                                        setAge(
+                                            event.target.value
+                                        )
+                                    }
+                                    className="
+                                        w-full
+                                        border
+                                        border-gray-200
+                                        rounded-lg
+                                        px-4
+                                        py-3
+                                    "
+                                />
+
+                            </div>
+
+
+
+                            {/* Qualification */}
+
+                            <div>
+
+                                <label className="block text-sm font-semibold text-gray-700 mb-2">
+
+                                    Qualification
+
+                                </label>
+
+
+                                <input
+                                    type="text"
+                                    value={
+                                        qualification
+                                    }
+                                    onChange={(event) =>
+                                        setQualification(
+                                            event.target.value
+                                        )
+                                    }
+                                    className="
+                                        w-full
+                                        border
+                                        border-gray-200
+                                        rounded-lg
+                                        px-4
+                                        py-3
+                                    "
+                                />
+
+                            </div>
+
+
+
+                            {/* Experience Level */}
+
+                            <div>
+
+                                <label className="block text-sm font-semibold text-gray-700 mb-2">
+
+                                    Experience Level
+
+                                </label>
+
+
+                                <select
+                                    value={
+                                        experienceLevel
+                                    }
+                                    onChange={(event) =>
+                                        setExperienceLevel(
+                                            event.target.value
+                                        )
+                                    }
+                                    className="
+                                        w-full
+                                        border
+                                        border-gray-200
+                                        rounded-lg
+                                        px-4
+                                        py-3
+                                        bg-white
+                                    "
+                                >
+
+                                    <option value="Beginner">
+                                        Beginner
+                                    </option>
+
+                                    <option value="Intermediate">
+                                        Intermediate
+                                    </option>
+
+                                    <option value="Advanced">
+                                        Advanced
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+
+
+                            {/* Explanation Style */}
+
+                            <div>
+
+                                <label className="block text-sm font-semibold text-gray-700 mb-2">
+
+                                    Explanation Style
+
+                                </label>
+
+
+                                <select
+                                    value={
+                                        explanationStyle
+                                    }
+                                    onChange={(event) =>
+                                        setExplanationStyle(
+                                            event.target.value
+                                        )
+                                    }
+                                    className="
+                                        w-full
+                                        border
+                                        border-gray-200
+                                        rounded-lg
+                                        px-4
+                                        py-3
+                                        bg-white
+                                    "
+                                >
+
+                                    <option value="simple">
+                                        Simple
+                                    </option>
+
+                                    <option value="balanced">
+                                        Balanced
+                                    </option>
+
+                                    <option value="detailed">
+                                        Detailed
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+
+
+                            {/* Template */}
+
+                            <div>
+
+                                <label className="block text-sm font-semibold text-gray-700 mb-2">
+
+                                    Report Template
+
+                                </label>
+
+
+                                <select
+                                    value={template}
+                                    onChange={(event) =>
+                                        setTemplate(
+                                            event.target.value
+                                        )
+                                    }
+                                    className="
+                                        w-full
+                                        border
+                                        border-gray-200
+                                        rounded-lg
+                                        px-4
+                                        py-3
+                                        bg-white
+                                    "
+                                >
+
+                                    <option value="technical">
+                                        Technical
+                                    </option>
+
+                                    <option value="academic">
+                                        Academic
+                                    </option>
+
+                                    <option value="general">
+                                        General
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+                        </div>
+
+
+
+                        {/* ======================================
+                            GENERATE BUTTON
+                        ====================================== */}
+
+                        <button
+                            type="submit"
+                            disabled={loading}
+                            className="
+                                inline-flex
+                                items-center
+                                gap-2
+                                bg-sky-500
+                                hover:bg-sky-600
+                                disabled:bg-sky-300
+                                disabled:cursor-not-allowed
+                                text-white
+                                px-6
+                                py-3
+                                rounded-lg
+                                font-semibold
+                                transition
+                            "
+                        >
+
+                            {loading ? (
+
+                                <>
+
+                                    <FiClock />
+
+                                    Generating Report...
+
+                                </>
+
+                            ) : (
+
+                                <>
+
+                                    <FiFileText />
+
+                                    Generate Report
+
+                                </>
+
+                            )}
+
+                        </button>
+
+                    </form>
+
+                </div>
+
+
+
+                {/* ======================================
+                    GENERATED REPORT
+                ====================================== */}
+
+                {generatedReport && (
+
+                    <div className="bg-white rounded-2xl border border-sky-100 shadow-sm p-6">
+
+
+                        {/* Report Header */}
+
+                        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
+
+                            <div>
+
+                                <p className="text-sky-600 font-semibold">
+
+                                    Report Generated Successfully
+
+                                </p>
+
+
+                                <h2 className="text-2xl font-bold text-gray-800 mt-1">
+
+                                    {query}
+
+                                </h2>
+
+                            </div>
+
+
+                            <div className="bg-green-100 text-green-700 px-4 py-2 rounded-lg font-semibold">
+
+                                Version {version}
+
+                            </div>
+
+                        </div>
+
+
+
+                        {/* ======================================
+                            REPORT ANALYTICS
+                        ====================================== */}
+
+                        {(qualityScore !== undefined ||
+                            qualityText ||
+                            executionTime) && (
+
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+
+
+                                {/* Quality Score */}
+
+                                <div className="bg-sky-50 rounded-xl p-4">
+
+                                    <p className="text-sm text-gray-500">
+
+                                        Quality Score
+
+                                    </p>
+
+
+                                    <p className="text-2xl font-bold text-gray-800 mt-1">
+
+                                        {qualityScore ??
+                                            "-"}
+
+                                    </p>
 
                                 </div>
 
 
-                                <div>
 
-                                    <h2 className="text-2xl font-bold text-gray-800">
+                                {/* Quality */}
 
-                                        Report Generated Successfully
+                                <div className="bg-sky-50 rounded-xl p-4">
 
-                                    </h2>
+                                    <p className="text-sm text-gray-500">
+
+                                        Quality
+
+                                    </p>
 
 
-                                    <p className="text-gray-500 mt-1">
+                                    <p className="text-lg font-bold text-gray-800 mt-1">
 
-                                        Research topic:
+                                        {qualityText ||
+                                            "-"}
 
-                                        {" "}
+                                    </p>
 
-                                        <span className="font-semibold text-gray-700">
+                                </div>
 
-                                            {query}
 
-                                        </span>
+
+                                {/* Execution Time */}
+
+                                <div className="bg-sky-50 rounded-xl p-4">
+
+                                    <p className="text-sm text-gray-500">
+
+                                        Execution Time
+
+                                    </p>
+
+
+                                    <p className="text-lg font-bold text-gray-800 mt-1">
+
+                                        {executionTime
+                                            ? `${executionTime}s`
+                                            : "-"}
 
                                     </p>
 
@@ -617,43 +1160,43 @@ function GenerateReport() {
 
                             </div>
 
-                        </div>
+                        )}
 
 
 
-                        {/* =================================
-                            DOWNLOAD OPTIONS
-                        ================================= */}
+                        {/* ======================================
+                            DOWNLOAD SECTION
+                        ====================================== */}
 
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mt-6">
-
-
-                            {/* =================================
-                                PDF
-                            ================================= */}
-
-                            <div className="bg-white rounded-2xl border border-red-100 shadow-sm p-6">
-
-                                <FiFileText
-                                    size={32}
-                                    className="text-red-500 mb-4"
-                                />
+                        <div className="mt-4">
 
 
-                                <h3 className="text-lg font-bold text-gray-800">
+                            <div className="mb-4">
 
-                                    PDF Report
+                                <h3 className="text-xl font-bold text-gray-800">
+
+                                    Download Report
 
                                 </h3>
 
 
-                                <p className="text-gray-500 text-sm mt-2">
+                                <p className="text-gray-500 text-sm mt-1">
 
-                                    Download the research
-                                    report in PDF format.
+                                    Download your generated research
+                                    report in your preferred format.
 
                                 </p>
 
+                            </div>
+
+
+
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+
+
+                                {/* ==================================
+                                    PDF
+                                ================================== */}
 
                                 <button
                                     type="button"
@@ -661,53 +1204,43 @@ function GenerateReport() {
                                         handleDownloadPDF
                                     }
                                     disabled={
-                                        downloading !== ""
+                                        downloading !== "" ||
+                                        !pdfFile
                                     }
-                                    className="mt-5 inline-flex items-center gap-2 bg-red-500 hover:bg-red-600 disabled:bg-gray-400 text-white px-4 py-3 rounded-lg font-semibold"
+                                    className="
+                                        flex
+                                        items-center
+                                        justify-center
+                                        gap-2
+                                        px-5
+                                        py-3
+                                        rounded-xl
+                                        font-semibold
+                                        text-white
+                                        bg-red-500
+                                        hover:bg-red-600
+                                        disabled:bg-gray-300
+                                        disabled:cursor-not-allowed
+                                        transition
+                                    "
                                 >
 
-                                    <FiDownload />
-
+                                    <FiDownload
+                                        size={18}
+                                    />
 
                                     {downloading ===
                                     "pdf"
-
-                                        ? "Downloading..."
-
+                                        ? "Downloading PDF..."
                                         : "Download PDF"}
 
                                 </button>
 
-                            </div>
 
 
-
-                            {/* =================================
-                                DOCX
-                            ================================= */}
-
-                            <div className="bg-white rounded-2xl border border-blue-100 shadow-sm p-6">
-
-                                <FiFileText
-                                    size={32}
-                                    className="text-blue-500 mb-4"
-                                />
-
-
-                                <h3 className="text-lg font-bold text-gray-800">
-
-                                    DOCX Report
-
-                                </h3>
-
-
-                                <p className="text-gray-500 text-sm mt-2">
-
-                                    Download the research
-                                    report in DOCX format.
-
-                                </p>
-
+                                {/* ==================================
+                                    DOCX
+                                ================================== */}
 
                                 <button
                                     type="button"
@@ -715,53 +1248,43 @@ function GenerateReport() {
                                         handleDownloadDOCX
                                     }
                                     disabled={
-                                        downloading !== ""
+                                        downloading !== "" ||
+                                        !docxFile
                                     }
-                                    className="mt-5 inline-flex items-center gap-2 bg-blue-500 hover:bg-blue-600 disabled:bg-gray-400 text-white px-4 py-3 rounded-lg font-semibold"
+                                    className="
+                                        flex
+                                        items-center
+                                        justify-center
+                                        gap-2
+                                        px-5
+                                        py-3
+                                        rounded-xl
+                                        font-semibold
+                                        text-white
+                                        bg-blue-500
+                                        hover:bg-blue-600
+                                        disabled:bg-gray-300
+                                        disabled:cursor-not-allowed
+                                        transition
+                                    "
                                 >
 
-                                    <FiDownload />
-
+                                    <FiDownload
+                                        size={18}
+                                    />
 
                                     {downloading ===
                                     "docx"
-
-                                        ? "Downloading..."
-
+                                        ? "Downloading DOCX..."
                                         : "Download DOCX"}
 
                                 </button>
 
-                            </div>
 
 
-
-                            {/* =================================
-                                MARKDOWN
-                            ================================= */}
-
-                            <div className="bg-white rounded-2xl border border-sky-100 shadow-sm p-6">
-
-                                <FiFileText
-                                    size={32}
-                                    className="text-sky-500 mb-4"
-                                />
-
-
-                                <h3 className="text-lg font-bold text-gray-800">
-
-                                    Markdown Report
-
-                                </h3>
-
-
-                                <p className="text-gray-500 text-sm mt-2">
-
-                                    Download the research
-                                    report in Markdown format.
-
-                                </p>
-
+                                {/* ==================================
+                                    MARKDOWN
+                                ================================== */}
 
                                 <button
                                     type="button"
@@ -769,26 +1292,123 @@ function GenerateReport() {
                                         handleDownloadMarkdown
                                     }
                                     disabled={
-                                        downloading !== ""
+                                        downloading !== "" ||
+                                        !markdownFile
                                     }
-                                    className="mt-5 inline-flex items-center gap-2 bg-sky-500 hover:bg-sky-600 disabled:bg-gray-400 text-white px-4 py-3 rounded-lg font-semibold"
+                                    className="
+                                        flex
+                                        items-center
+                                        justify-center
+                                        gap-2
+                                        px-5
+                                        py-3
+                                        rounded-xl
+                                        font-semibold
+                                        text-white
+                                        bg-sky-500
+                                        hover:bg-sky-600
+                                        disabled:bg-gray-300
+                                        disabled:cursor-not-allowed
+                                        transition
+                                    "
                                 >
 
-                                    <FiDownload />
-
+                                    <FiDownload
+                                        size={18}
+                                    />
 
                                     {downloading ===
                                     "markdown"
-
-                                        ? "Downloading..."
-
+                                        ? "Downloading Markdown..."
                                         : "Download Markdown"}
 
                                 </button>
 
                             </div>
 
+
+
+                            {/* ==================================
+                                STATUS
+                            ================================== */}
+
+                            {!downloading &&
+                                !downloadSuccess && (
+
+                                    <p className="text-sm text-green-600 mt-4">
+
+                                        ✓ Report files are ready
+                                        for download.
+
+                                    </p>
+
+                                )}
+
                         </div>
+
+
+
+                        {/* ======================================
+                            FILE AVAILABILITY
+                        ====================================== */}
+
+                        <div className="mt-6 pt-5 border-t border-gray-100">
+
+                            <div className="flex flex-wrap gap-3 text-sm">
+
+                                {pdfFile && (
+
+                                    <span className="bg-red-50 text-red-600 px-3 py-1.5 rounded-lg">
+
+                                        PDF Available
+
+                                    </span>
+
+                                )}
+
+
+                                {docxFile && (
+
+                                    <span className="bg-blue-50 text-blue-600 px-3 py-1.5 rounded-lg">
+
+                                        DOCX Available
+
+                                    </span>
+
+                                )}
+
+
+                                {markdownFile && (
+
+                                    <span className="bg-sky-50 text-sky-600 px-3 py-1.5 rounded-lg">
+
+                                        Markdown Available
+
+                                    </span>
+
+                                )}
+
+                            </div>
+
+                        </div>
+
+
+
+                        {/* ======================================
+                            SUCCESS
+                        ====================================== */}
+
+                        {downloadSuccess && (
+
+                            <div className="mt-5 flex items-center gap-2 text-green-600 font-semibold">
+
+                                <FiCheckCircle />
+
+                                {downloadSuccess}
+
+                            </div>
+
+                        )}
 
                     </div>
 

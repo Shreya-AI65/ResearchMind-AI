@@ -1,70 +1,199 @@
 import api from "./api";
 
-
 // ==========================================
 // GENERATE REPORT
 // ==========================================
 
-export async function generateReport(reportData) {
-
+export const generateReport = async (reportData) => {
     const response = await api.post(
         "/api/v1/report",
         reportData
     );
 
+    console.log(
+        "Generate Report API Response:",
+        response.data
+    );
+
     return response.data;
-}
+};
+
+
+// ==========================================
+// EXTRACT FILENAME
+// ==========================================
+
+const extractFilename = (filePath) => {
+
+    if (!filePath) {
+        return null;
+    }
+
+    // Handle string path
+    if (typeof filePath === "string") {
+
+        const normalizedPath =
+            filePath.replace(/\\/g, "/");
+
+        const filename =
+            normalizedPath
+                .split("/")
+                .pop();
+
+        return filename || null;
+    }
+
+
+    // Handle object accidentally passed
+    if (typeof filePath === "object") {
+
+        const possiblePath =
+            filePath?.pdf_file ||
+            filePath?.docx_file ||
+            filePath?.markdown_file ||
+            filePath?.filename ||
+            filePath?.file ||
+            filePath?.path ||
+            filePath?.file_path;
+
+        if (typeof possiblePath === "string") {
+
+            return possiblePath
+                .replace(/\\/g, "/")
+                .split("/")
+                .pop();
+        }
+    }
+
+
+    return null;
+};
+
+
+// ==========================================
+// DOWNLOAD FILE
+// ==========================================
+
+const downloadFile = async (filePath) => {
+
+    const filename =
+        extractFilename(filePath);
+
+
+    if (!filename) {
+
+        console.error(
+            "Invalid download file path:",
+            filePath
+        );
+
+        throw new Error(
+            "Report filename was not found."
+        );
+    }
+
+
+    console.log(
+        "Downloading report file:",
+        filename
+    );
+
+
+    const url =
+        `/api/v1/report/download/${encodeURIComponent(
+            filename
+        )}`;
+
+
+    console.log(
+        "Download URL:",
+        url
+    );
+
+
+    const response =
+        await api.get(
+            url,
+            {
+                responseType: "blob",
+            }
+        );
+
+
+    console.log(
+        "Download response:",
+        response
+    );
+
+
+    return response;
+};
 
 
 // ==========================================
 // DOWNLOAD PDF
 // ==========================================
 
-export async function downloadPDF(reportData) {
+export const downloadPDF = async (
+    filePath
+) => {
 
-    const response = await api.post(
-        "/api/v1/report/download",
-        reportData,
-        {
-            responseType: "blob",
-        }
+    return downloadFile(
+        filePath
     );
-
-    return response;
-}
+};
 
 
 // ==========================================
 // DOWNLOAD DOCX
 // ==========================================
 
-export async function downloadDOCX(reportData) {
+export const downloadDOCX = async (
+    filePath
+) => {
 
-    const response = await api.post(
-        "/api/v1/report/download/docx",
-        reportData,
-        {
-            responseType: "blob",
-        }
+    return downloadFile(
+        filePath
     );
-
-    return response;
-}
+};
 
 
 // ==========================================
 // DOWNLOAD MARKDOWN
 // ==========================================
 
-export async function downloadMarkdown(reportData) {
+export const downloadMarkdown = async (
+    filePath
+) => {
 
-    const response = await api.post(
-        "/api/v1/report/download/markdown",
-        reportData,
-        {
-            responseType: "blob",
-        }
+    return downloadFile(
+        filePath
     );
+};
 
-    return response;
-}
+
+// ==========================================
+// DOWNLOAD URL
+// ==========================================
+
+export const getDownloadUrl = (
+    filePath
+) => {
+
+    const filename =
+        extractFilename(
+            filePath
+        );
+
+
+    if (!filename) {
+        return null;
+    }
+
+
+    return (
+        `http://127.0.0.1:8000` +
+        `/api/v1/report/download/` +
+        `${encodeURIComponent(filename)}`
+    );
+};

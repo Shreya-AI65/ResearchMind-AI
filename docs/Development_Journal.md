@@ -4370,7 +4370,7 @@ The major report-management workflow is now available through the dashboard and 
 **Completed Successfully** 
 
 
-## Day 27 – Frontend Integration, Report Downloads and Dashboard Validation
+# Day 27 – Frontend Integration, Report Downloads and Dashboard Validation
 
 ### Objective
 
@@ -4435,6 +4435,129 @@ Blob responses were used for PDF, DOCX, and Markdown downloads so that generated
 ### Outcome
 
 The ResearchMind AI frontend successfully integrates the major backend report-generation features. Users can generate research reports, download reports in multiple formats, view report history, search existing reports, view statistics, and access recent research directly from the Dashboard.
+
+### Status
+
+**Completed Successfully** 
+
+
+# Day 28 – Final Frontend Integration, Validation and Documentation
+
+### Objective
+
+The objective of Day 28 was to complete the frontend integration of the ResearchMind AI report generation system, validate the complete research workflow, and resolve issues related to API communication, report history, report viewing, and file downloads.
+
+### Tasks Completed
+
+#### Task 1 – API Configuration and Error Handling
+
+- Configured the centralized Axios API client.
+- Added response interceptors for common HTTP errors.
+- Added user-friendly error messages for 400, 401, 403, 404, and 500 responses.
+- Added handling for backend connection failures.
+
+#### Task 2 – Frontend Report Integration
+
+- Integrated the report generation interface with the backend.
+- Connected the frontend report request with the `/api/v1/report` endpoint.
+- Verified successful report generation and response handling.
+
+#### Task 3 – Report Generation and File Downloads
+
+- Integrated PDF, DOCX, and Markdown report generation.
+- Added support for generated report filenames returned by the backend.
+- Implemented filename extraction from backend file paths.
+- Connected frontend downloads with the backend file-download endpoint.
+
+#### Task 4 – Report Viewer
+
+- Implemented the Report Viewer interface.
+- Added report metadata including:
+  - Research topic
+  - Report version
+  - Generation date
+- Added report content display.
+- Added PDF, DOCX, and Markdown download options.
+
+#### Task 5 – Report History Integration
+
+- Integrated Report History with the frontend.
+- Verified that generated reports appear in the history.
+- Connected historical reports with the Report Viewer.
+- Added support for downloading files from historical reports.
+- Verified correct handling of generated report filenames.
+
+#### Task 6 – Final Frontend Integration and Validation
+
+- Tested the complete research workflow.
+- Verified Dashboard functionality.
+- Verified report generation.
+- Verified Report History.
+- Verified Report Viewer.
+- Verified Search Reports.
+- Verified Statistics.
+- Tested PDF, DOCX, and Markdown downloads.
+- Resolved frontend API routing and filename-handling issues.
+
+### Major Issues Resolved
+
+During development, several integration issues were identified and resolved:
+
+- Incorrect report history API route.
+- Incorrect report search API route.
+- Download requests without filenames.
+- Incorrect `/download/docx` and `/download/markdown` requests.
+- `[object Object]` appearing in download URLs.
+- Missing filename extraction from generated report responses.
+- Incorrect handling of Windows-style file paths.
+- Frontend handling of backend 404, 405 and 422 responses.
+- Backend connection error handling.
+
+### Final Workflow
+
+The completed workflow is:
+
+User Query
+
+↓
+
+Generate Report
+
+↓
+
+Paper Retrieval
+
+↓
+
+Literature Review
+
+↓
+
+Final Research Report
+
+↓
+
+PDF / DOCX / Markdown Generation
+
+↓
+
+Report History
+
+↓
+
+Report Viewer
+
+↓
+
+File Download
+
+↓
+
+Search Reports / Statistics / Dashboard
+
+### Outcome
+
+The frontend and backend report-generation workflow was successfully integrated and validated. Users can generate research reports, view generated reports, access previous reports through Report History, search reports, view statistics, and download reports in PDF, DOCX, and Markdown formats.
 
 ### Status
 
