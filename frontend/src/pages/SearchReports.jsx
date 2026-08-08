@@ -1,6 +1,11 @@
 import { useState } from "react";
+import {
+    FiSearch,
+    FiFileText,
+} from "react-icons/fi";
 
 import { searchReports } from "../services/searchReportService";
+
 
 function SearchReports() {
 
@@ -10,198 +15,340 @@ function SearchReports() {
 
     const [loading, setLoading] = useState(false);
 
-    const [message, setMessage] = useState("");
+    const [error, setError] = useState("");
+
 
     async function handleSearch() {
 
         if (!topic.trim()) {
 
-            setMessage("Please enter a research topic.");
+            setError("Please enter a research topic.");
+
+            setResults([]);
 
             return;
 
         }
 
-        setLoading(true);
-
-        setMessage("");
-
-        setResults([]);
 
         try {
 
-            const response = await searchReports(topic);
+            setLoading(true);
 
-            console.log("Search API Response:", response);
+            setError("");
 
-            const reports =
-                response.results ||
-                response.data?.results ||
-                [];
+            setResults([]);
+
+
+            const response =
+                await searchReports(topic);
+
+
+            console.log(
+                "Search result:",
+                response
+            );
+
+
+            let reports = [];
+
+
+            if (Array.isArray(response)) {
+
+                reports = response;
+
+            }
+
+            else if (
+                Array.isArray(response?.results)
+            ) {
+
+                reports = response.results;
+
+            }
+
+            else if (
+                Array.isArray(response?.history)
+            ) {
+
+                reports = response.history;
+
+            }
+
+            else if (
+                Array.isArray(response?.data)
+            ) {
+
+                reports = response.data;
+
+            }
+
 
             setResults(reports);
 
+
             if (reports.length === 0) {
 
-                setMessage("No reports found.");
+                setError(
+                    "No reports found for this topic."
+                );
 
             }
 
         }
 
-        catch (error) {
+        catch (err) {
 
-            console.error(error);
+            console.error(
+                "Search error:",
+                err
+            );
 
-            setMessage(
 
-                error.response?.data?.message ||
-
-                error.response?.data?.detail ||
-
-                error.message ||
-
+            setError(
+                err.response?.data?.detail ||
+                err.response?.data?.message ||
                 "Search failed."
-
             );
 
         }
 
-        setLoading(false);
+        finally {
+
+            setLoading(false);
+
+        }
 
     }
 
+
     return (
 
-        <div className="p-8">
+        <div className="min-h-screen bg-sky-50 p-6 md:p-8">
 
-            <h1 className="text-3xl font-bold text-sky-600 mb-6">
 
-                Search Reports
+            <div className="mb-8">
 
-            </h1>
+                <p className="text-sky-600 font-semibold">
+                    ResearchMind AI
+                </p>
 
-            <div className="flex gap-4 mb-6">
 
-                <input
+                <h1 className="text-3xl font-bold text-gray-800 mt-2">
+                    Search Reports
+                </h1>
 
-                    type="text"
 
-                    placeholder="Enter research topic"
-
-                    value={topic}
-
-                    onChange={(e) => setTopic(e.target.value)}
-
-                    className="flex-1 border rounded-lg p-3"
-
-                />
-
-                <button
-
-                    onClick={handleSearch}
-
-                    className="bg-sky-500 hover:bg-sky-600 text-white px-6 rounded-lg"
-
-                >
-
-                    Search
-
-                </button>
+                <p className="text-gray-500 mt-2">
+                    Search your previously generated research reports.
+                </p>
 
             </div>
 
-            {loading && (
 
-                <p>
 
-                    Searching...
+            {/* SEARCH BAR */}
 
-                </p>
+            <div className="bg-white rounded-2xl border border-sky-100 shadow-sm p-5">
+
+                <div className="flex flex-col md:flex-row gap-3">
+
+                    <input
+                        type="text"
+                        value={topic}
+                        placeholder="Enter research topic, e.g. Agentic AI"
+                        onChange={(e) =>
+                            setTopic(e.target.value)
+                        }
+                        onKeyDown={(e) => {
+
+                            if (e.key === "Enter") {
+
+                                handleSearch();
+
+                            }
+
+                        }}
+                        className="border border-gray-200 rounded-lg p-3 flex-1 focus:outline-none focus:ring-2 focus:ring-sky-300"
+                    />
+
+
+                    <button
+                        onClick={handleSearch}
+                        disabled={loading}
+                        className="flex items-center justify-center gap-2 bg-sky-500 hover:bg-sky-600 disabled:opacity-50 text-white px-6 py-3 rounded-lg"
+                    >
+
+                        <FiSearch />
+
+                        {loading
+                            ? "Searching..."
+                            : "Search"}
+
+                    </button>
+
+                </div>
+
+            </div>
+
+
+
+            {/* ERROR */}
+
+            {error && (
+
+                <div className="mt-5 bg-white border border-red-100 rounded-xl p-5">
+
+                    <p className="text-red-500">
+                        {error}
+                    </p>
+
+                </div>
 
             )}
 
-            {message && (
 
-                <p className="text-red-500 mb-4">
 
-                    {message}
-
-                </p>
-
-            )}
+            {/* RESULTS */}
 
             {results.length > 0 && (
 
-                <table className="w-full bg-white rounded-lg shadow">
+                <div className="bg-white rounded-2xl border border-sky-100 shadow-sm mt-6 overflow-hidden">
 
-                    <thead className="bg-sky-500 text-white">
+                    <div className="p-5 border-b">
 
-                        <tr>
+                        <h2 className="text-xl font-bold text-gray-800">
 
-                            <th className="p-3 text-left">
+                            Search Results
 
-                                Topic
+                        </h2>
 
-                            </th>
 
-                            <th className="p-3">
+                        <p className="text-gray-500 text-sm mt-1">
 
-                                Version
+                            {results.length} report
+                            {results.length !== 1
+                                ? "s"
+                                : ""} found.
 
-                            </th>
+                        </p>
 
-                            <th className="p-3">
+                    </div>
 
-                                Generated At
 
-                            </th>
+                    <div className="overflow-x-auto">
 
-                        </tr>
+                        <table className="w-full">
 
-                    </thead>
+                            <thead className="bg-sky-500 text-white">
 
-                    <tbody>
+                                <tr>
 
-                        {
+                                    <th className="text-left p-4">
+                                        Research Topic
+                                    </th>
 
-                            results.map((report, index) => (
+                                    <th className="text-left p-4">
+                                        Version
+                                    </th>
 
-                                <tr
+                                    <th className="text-left p-4">
+                                        Generated At
+                                    </th>
 
-                                    key={index}
-
-                                    className="border-b hover:bg-gray-50"
-
-                                >
-
-                                    <td className="p-3">
-
-                                        {report.research_topic}
-
-                                    </td>
-
-                                    <td className="p-3 text-center">
-
-                                        {report.version ?? "-"}
-
-                                    </td>
-
-                                    <td className="p-3">
-
-                                        {report.generated_at}
-
-                                    </td>
+                                    <th className="text-left p-4">
+                                        Files
+                                    </th>
 
                                 </tr>
 
-                            ))
+                            </thead>
 
-                        }
 
-                    </tbody>
+                            <tbody>
 
-                </table>
+                                {results.map(
+                                    (report, index) => (
+
+                                        <tr
+                                            key={
+                                                `${report.generated_at}-${index}`
+                                            }
+                                            className="border-b hover:bg-sky-50"
+                                        >
+
+                                            <td className="p-4">
+
+                                                <div className="flex items-center gap-2">
+
+                                                    <FiFileText className="text-sky-500" />
+
+                                                    <span className="font-semibold">
+
+                                                        {
+                                                            report.research_topic ||
+                                                            "Research Report"
+                                                        }
+
+                                                    </span>
+
+                                                </div>
+
+                                            </td>
+
+
+                                            <td className="p-4">
+
+                                                {
+                                                    report.version ||
+                                                    1
+                                                }
+
+                                            </td>
+
+
+                                            <td className="p-4">
+
+                                                {
+                                                    report.generated_at ||
+                                                    "-"
+                                                }
+
+                                            </td>
+
+
+                                            <td className="p-4">
+
+                                                <div className="flex flex-col gap-1 text-sm">
+
+                                                    <span>
+                                                        {report.pdf || "-"}
+                                                    </span>
+
+                                                    <span>
+                                                        {report.docx || "-"}
+                                                    </span>
+
+                                                    <span>
+                                                        {report.markdown || "-"}
+                                                    </span>
+
+                                                </div>
+
+                                            </td>
+
+                                        </tr>
+
+                                    )
+                                )}
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
 
             )}
 
@@ -210,5 +357,6 @@ function SearchReports() {
     );
 
 }
+
 
 export default SearchReports;

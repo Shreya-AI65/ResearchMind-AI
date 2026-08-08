@@ -8,31 +8,34 @@ import ReportHistory from "./pages/ReportHistory";
 import SearchReports from "./pages/SearchReports";
 import Statistics from "./pages/Statistics";
 import Settings from "./pages/Settings";
+import ReportViewer from "./pages/ReportViewer";
 
 function App() {
 
     return (
-
         <BrowserRouter>
 
-            <Layout>
+            <Routes>
 
-                <Routes>
-
-                    <Route path="/" element={<Dashboard />} />
+                <Route element={<Layout />}>
 
                     <Route
-                        path="/generate"
+                        path="/"
+                        element={<Dashboard />}
+                    />
+
+                    <Route
+                        path="/generate-report"
                         element={<GenerateReport />}
                     />
 
                     <Route
-                        path="/history"
+                        path="/report-history"
                         element={<ReportHistory />}
                     />
 
                     <Route
-                        path="/search"
+                        path="/search-reports"
                         element={<SearchReports />}
                     />
 
@@ -46,14 +49,17 @@ function App() {
                         element={<Settings />}
                     />
 
-                </Routes>
+                    <Route
+                        path="/report-viewer"
+                        element={<ReportViewer />}
+                    />
 
-            </Layout>
+                </Route>
+
+            </Routes>
 
         </BrowserRouter>
-
     );
-
 }
 
 export default App;

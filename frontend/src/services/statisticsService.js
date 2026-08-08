@@ -1,11 +1,17 @@
-import api from "./api";
+import axios from "axios";
 
-export const getStatistics = async () => {
+const API_URL = "http://127.0.0.1:8000/api/v1";
 
-    const response = await api.get(
-        "/api/v1/reports/statistics"
+export async function getStatistics() {
+
+    const response = await axios.get(
+        `${API_URL}/reports/statistics`
+    );
+
+    console.log(
+        "STATISTICS RESPONSE:",
+        response.data
     );
 
     return response.data;
-
-};
+}

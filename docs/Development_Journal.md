@@ -4044,3 +4044,327 @@ This milestone marks the completion of the initial end-to-end frontend functiona
 ## Status
 
 **Completed Successfully**
+
+
+# Day 26 – Frontend Integration and Report Management
+
+## Date
+
+8 August 2026
+
+## Objective
+
+The objective of Day 26 was to continue the frontend development of ResearchMind AI by integrating the React dashboard with the existing backend APIs and implementing the major report management features.
+
+The main focus was to make the dashboard functional by connecting report generation, report history, report viewing, report search, statistics, downloads, and sidebar navigation with the backend services.
+
+---
+
+## Work Completed
+
+### 1. Dashboard Integration
+
+The ResearchMind AI dashboard was connected with the frontend application structure.
+
+The dashboard provides access to:
+
+* Generate Report
+* Report History
+* Search Reports
+* Statistics
+* Settings
+* Recent Research
+* Report Management
+
+The sidebar navigation was integrated with React Router so users can navigate between different sections of the application.
+
+---
+
+### 2. Generate Report Integration
+
+The Generate Report page was connected with the existing backend report-generation API.
+
+Users can:
+
+* Enter a research topic.
+* Generate a research report.
+* Wait for the report-generation process to complete.
+* Access the generated report files.
+* Download the generated files.
+
+The existing backend report-generation functionality was preserved without modifying the working backend implementation.
+
+---
+
+### 3. Report History
+
+A dedicated **Report History** page was implemented.
+
+The frontend retrieves previously generated reports from the backend using the report history API.
+
+The history page displays:
+
+* Research Topic
+* Report Version
+* Generation Date and Time
+* View Report option
+
+The frontend was also updated to correctly parse the backend response containing the `history` array.
+
+The working backend endpoint was identified as:
+
+```text
+GET /api/v1/report/history
+```
+
+---
+
+### 4. Report Viewer
+
+A dedicated **Report Viewer** page was implemented.
+
+Users can select a report from Report History and view its information.
+
+The viewer displays:
+
+* Research topic
+* Generation date
+* Report version
+* PDF filename
+* DOCX filename
+* Markdown filename
+
+Navigation between Report History and Report Viewer was implemented using React Router.
+
+---
+
+### 5. Report Downloads
+
+Download options were integrated into the Report Viewer.
+
+The available generated report formats are:
+
+* PDF
+* DOCX
+* Markdown
+
+The report filenames are displayed and connected to the generated report files so users can access the corresponding outputs.
+
+---
+
+### 6. Search Reports
+
+A Search Reports page was implemented to allow users to search previously generated reports by research topic.
+
+The search functionality was connected to the backend search API.
+
+The correct backend endpoint was identified as:
+
+```text
+GET /api/v1/reports/search
+```
+
+The frontend sends the entered research topic as a query parameter and displays the matching reports.
+
+Search functionality was tested using topics such as:
+
+```text
+Agentic AI
+```
+
+---
+
+### 7. Statistics Dashboard
+
+A Statistics page was implemented to provide an overview of generated research reports.
+
+The statistics page displays:
+
+* Total Reports
+* Unique Research Topics
+* Most Active Topic
+* System Status
+* Reports by Research Topic
+* Activity Summary
+* Latest Report
+* Research Summary
+
+The statistics are calculated from the report history data returned by the backend.
+
+This approach avoids creating unnecessary duplicate backend statistics logic in the frontend.
+
+---
+
+### 8. API Route Debugging
+
+During frontend integration, several API route mismatches were identified and corrected.
+
+The frontend initially attempted to access incorrect endpoints such as:
+
+```text
+/reports/history
+```
+
+The correct backend history endpoint was identified as:
+
+```text
+/api/v1/report/history
+```
+
+Similarly, the report search endpoint was identified as:
+
+```text
+/api/v1/reports/search
+```
+
+The frontend service files were updated accordingly.
+
+---
+
+## Technical Decisions
+
+### Reuse of Existing Backend APIs
+
+The existing backend functionality was preserved instead of duplicating report-generation or report-management logic inside the frontend.
+
+### Service-Based API Communication
+
+Frontend API calls were separated into service files such as:
+
+```text
+reportHistoryService.js
+searchReportService.js
+```
+
+This keeps API communication separate from React page components.
+
+### React Router Navigation
+
+React Router was used for navigation between:
+
+```text
+Dashboard
+Generate Report
+Report History
+Report Viewer
+Search Reports
+Statistics
+Settings
+```
+
+### Frontend-Based Statistics
+
+Statistics such as unique topics and most active research topics are calculated from the report history response.
+
+This allows the frontend to remain compatible with the existing backend implementation.
+
+---
+
+## API Endpoints Used
+
+### Report History
+
+```text
+GET /api/v1/report/history
+```
+
+### Report Search
+
+```text
+GET /api/v1/reports/search
+```
+
+### Report Generation
+
+The existing report-generation API was retained and integrated with the React frontend.
+
+---
+
+## Testing
+
+The frontend functionality was tested through the React development server.
+
+The following functionality was verified:
+
+* Dashboard loading
+* Sidebar navigation
+* Generate Report
+* Report generation
+* Report downloads
+* Report History
+* Report Viewer
+* PDF file access
+* DOCX file access
+* Markdown file access
+* Report Search
+* Statistics
+* Refresh functionality
+* Frontend-backend communication
+
+Previously generated reports were successfully retrieved from the backend and displayed in the frontend after correcting the API endpoint paths.
+
+---
+
+## Problems Identified and Resolved
+
+### Incorrect Report History Endpoint
+
+The frontend initially requested:
+
+```text
+/reports/history
+```
+
+which resulted in a `404 Not Found` response.
+
+The correct endpoint was identified as:
+
+```text
+/api/v1/report/history
+```
+
+The frontend service was updated accordingly.
+
+---
+
+### Incorrect Search Endpoint
+
+The search service initially used an incorrect API path.
+
+The correct endpoint was identified as:
+
+```text
+/api/v1/reports/search
+```
+
+The frontend service was updated to use the correct route.
+
+---
+
+### Statistics Showing Zero Values
+
+The Statistics page initially displayed zero values because the report history API request was failing.
+
+After correcting the history endpoint, the frontend was able to retrieve the existing report data and calculate:
+
+* Total reports
+* Unique topics
+* Most active topic
+* Activity history
+* Topic distribution
+
+---
+
+## Outcome
+
+Day 26 successfully completed the major frontend integration required for ResearchMind AI.
+
+The React frontend is now connected with the existing backend report-management functionality and provides users with a functional interface for generating, viewing, searching, downloading, and analyzing research reports.
+
+The major report-management workflow is now available through the dashboard and sidebar navigation.
+
+---
+
+## Status
+
+**Completed Successfully** 

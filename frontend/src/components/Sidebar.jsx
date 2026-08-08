@@ -1,82 +1,117 @@
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 import {
-    FaHome,
-    FaFileAlt,
-    FaHistory,
-    FaSearch,
-    FaChartBar,
-    FaCog
-} from "react-icons/fa";
+    FiHome,
+    FiPlusCircle,
+    FiFileText,
+    FiSearch,
+    FiBarChart2,
+    FiSettings,
+} from "react-icons/fi";
 
 function Sidebar() {
 
+    const menuItems = [
+        {
+            name: "Dashboard",
+            path: "/",
+            icon: FiHome,
+        },
+        {
+            name: "Generate Report",
+            path: "/generate-report",
+            icon: FiPlusCircle,
+        },
+        {
+            name: "Report History",
+            path: "/report-history",
+            icon: FiFileText,
+        },
+        {
+            name: "Search Reports",
+            path: "/search-reports",
+            icon: FiSearch,
+        },
+        {
+            name: "Statistics",
+            path: "/statistics",
+            icon: FiBarChart2,
+        },
+        {
+            name: "Settings",
+            path: "/settings",
+            icon: FiSettings,
+        },
+    ];
+
     return (
+        <aside className="w-64 min-h-screen bg-white border-r border-gray-200 flex flex-col">
 
-        <div className="bg-sky-600 w-64 text-white min-h-screen p-6">
+            {/* Logo */}
 
-            <h2 className="text-2xl font-bold mb-10">
+            <div className="p-6 border-b border-gray-100">
 
-                ResearchMind
+                <h1 className="text-xl font-bold text-sky-600">
+                    ResearchMind AI
+                </h1>
 
-            </h2>
+                <p className="text-xs text-gray-400 mt-1">
+                    AI Research Assistant
+                </p>
 
-            <nav className="space-y-5">
+            </div>
 
-                <Link
-                    className="flex items-center gap-3 hover:text-sky-200"
-                    to="/"
-                >
-                    <FaHome />
-                    Dashboard
-                </Link>
+            {/* Navigation */}
 
-                <Link
-                    className="flex items-center gap-3 hover:text-sky-200"
-                    to="/generate"
-                >
-                    <FaFileAlt />
-                    Generate Report
-                </Link>
+            <nav className="flex-1 p-4">
 
-                <Link
-                    className="flex items-center gap-3 hover:text-sky-200"
-                    to="/history"
-                >
-                    <FaHistory />
-                    History
-                </Link>
+                <div className="space-y-2">
 
-                <Link
-                    className="flex items-center gap-3 hover:text-sky-200"
-                    to="/search"
-                >
-                    <FaSearch />
-                    Search
-                </Link>
+                    {menuItems.map((item) => {
 
-                <Link
-                    className="flex items-center gap-3 hover:text-sky-200"
-                    to="/statistics"
-                >
-                    <FaChartBar />
-                    Statistics
-                </Link>
+                        const Icon = item.icon;
 
-                <Link
-                    className="flex items-center gap-3 hover:text-sky-200"
-                    to="/settings"
-                >
-                    <FaCog />
-                    Settings
-                </Link>
+                        return (
+                            <NavLink
+                                key={item.path}
+                                to={item.path}
+                                end={item.path === "/"}
+                                className={({ isActive }) =>
+                                    `flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 ${
+                                        isActive
+                                            ? "bg-sky-500 text-white shadow-sm"
+                                            : "text-gray-600 hover:bg-sky-50 hover:text-sky-600"
+                                    }`
+                                }
+                            >
+
+                                <Icon size={20} />
+
+                                <span className="font-medium">
+                                    {item.name}
+                                </span>
+
+                            </NavLink>
+                        );
+
+                    })}
+
+                </div>
 
             </nav>
 
-        </div>
+            {/* Footer */}
 
+            <div className="p-4 border-t border-gray-100">
+
+                <p className="text-xs text-gray-400 text-center">
+                    ResearchMind AI
+                </p>
+
+            </div>
+
+        </aside>
     );
-
 }
 
 export default Sidebar;
