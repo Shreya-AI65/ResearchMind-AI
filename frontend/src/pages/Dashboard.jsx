@@ -11,13 +11,31 @@ import {
 } from "react-icons/fi";
 
 import { getReportHistory } from "../services/reportHistoryService";
-
+import { checkBackendHealth } from "../services/healthService";
 
 function Dashboard() {
 
+    // ==========================================
+    // STATE
+    // ==========================================
+
     const [reports, setReports] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState("");
+
+    const [systemStatus, setSystemStatus] =
+        useState("Checking...");
+
+    const [isSystemOnline, setIsSystemOnline] =
+        useState(false);
+
+
+    // ==========================================
+    // LOAD DASHBOARD
+    // ==========================================
+
+    useEffect(() => {
+        loadDashboardData();
+        checkHealth();
+    }, []);
 
 
     // ==========================================
@@ -28,703 +46,677 @@ function Dashboard() {
 
         try {
 
-            setLoading(true);
-            setError("");
-
-            const response = await getReportHistory();
+            const response =
+                await getReportHistory();
 
             console.log(
                 "Dashboard history response:",
                 response
             );
 
-
-            let history = [];
+            let parsedReports = [];
 
 
             if (Array.isArray(response)) {
 
-                history = response;
-
-            } else if (
-                Array.isArray(response?.history)
-            ) {
-
-                history = response.history;
-
-            } else if (
-                Array.isArray(response?.reports)
-            ) {
-
-                history = response.reports;
-
-            } else if (
-                Array.isArray(response?.results)
-            ) {
-
-                history = response.results;
+                parsedReports = response;
 
             } else if (
                 Array.isArray(response?.data)
             ) {
 
-                history = response.data;
+                parsedReports = response.data;
 
             } else if (
-                Array.isArray(response?.data?.history)
+                Array.isArray(
+                    response?.data?.reports
+                )
             ) {
 
-                history = response.data.history;
+                parsedReports =
+                    response.data.reports;
 
             } else if (
-                Array.isArray(response?.data?.reports)
+                Array.isArray(response?.reports)
             ) {
 
-                history = response.data.reports;
-
+                parsedReports =
+                    response.reports;
             }
 
 
             console.log(
                 "Dashboard parsed reports:",
-                history
+                parsedReports
             );
 
+            setReports(parsedReports);
 
-            setReports(history);
-
-        } catch (err) {
+        } catch (error) {
 
             console.error(
                 "Dashboard history error:",
-                err
+                error
             );
 
-            setError(
-                err.response?.data?.message ||
-                err.response?.data?.detail ||
-                "Failed to load dashboard data."
-            );
-
-        } finally {
-
-            setLoading(false);
-
+            setReports([]);
         }
     };
 
 
-    useEffect(() => {
-
-        loadDashboardData();
-
-    }, []);
-
-
     // ==========================================
-    // TOTAL REPORTS
+    // BACKEND HEALTH CHECK
     // ==========================================
 
-    const totalReports = reports.length;
+    const checkHealth = async () => {
 
+        try {
 
-    // ==========================================
-    // UNIQUE RESEARCH TOPICS
-    // ==========================================
+            const response =
+                await checkBackendHealth();
 
-    const uniqueTopics = useMemo(() => {
-
-        const topics = reports
-            .map((report) =>
-                String(
-                    report?.research_topic || ""
-                )
-                    .trim()
-                    .toLowerCase()
-            )
-            .filter(
-                (topic) =>
-                    topic &&
-                    topic !== "string"
+            console.log(
+                "Backend health response:",
+                response
             );
 
-        return new Set(topics).size;
 
-    }, [reports]);
+            if (
+                response?.success === true &&
+                response?.status === "healthy"
+            ) {
+
+                setSystemStatus("Healthy");
+
+                setIsSystemOnline(true);
+
+            } else if (
+                response?.success === true &&
+                response?.status === "degraded"
+            ) {
+
+                setSystemStatus("Degraded");
+
+                setIsSystemOnline(true);
+
+            } else {
+
+                setSystemStatus("Offline");
+
+                setIsSystemOnline(false);
+            }
+
+        } catch (error) {
+
+            console.error(
+                "Backend health check failed:",
+                error
+            );
+
+            setSystemStatus("Offline");
+
+            setIsSystemOnline(false);
+        }
+    };
+
+
+    // ==========================================
+    // REPORT STATISTICS
+    // ==========================================
+
+    const totalReports =
+        reports.length;
+
+
+    const researchTopics =
+        useMemo(() => {
+
+            const topics = new Set();
+
+            reports.forEach((report) => {
+
+                const topic =
+                    report?.query ||
+                    report?.topic ||
+                    report?.research_topic ||
+                    report?.title;
+
+                if (topic) {
+
+                    topics.add(
+                        String(topic).trim()
+                    );
+                }
+            });
+
+            return topics.size;
+
+        }, [reports]);
 
 
     // ==========================================
     // LATEST REPORT
     // ==========================================
 
-    const latestReport = useMemo(() => {
-
-        if (!reports.length) {
-            return null;
-        }
-
-
-        return [...reports].sort(
-            (a, b) => {
-
-                const dateA =
-                    new Date(
-                        String(
-                            a?.generated_at || ""
-                        ).replace(" ", "T")
-                    ).getTime();
-
-
-                const dateB =
-                    new Date(
-                        String(
-                            b?.generated_at || ""
-                        ).replace(" ", "T")
-                    ).getTime();
-
-
-                return (
-                    (isNaN(dateB) ? 0 : dateB) -
-                    (isNaN(dateA) ? 0 : dateA)
-                );
-
-            }
-        )[0];
-
-    }, [reports]);
+    const latestReport =
+        reports.length > 0
+            ? reports[0]
+            : null;
 
 
     // ==========================================
     // RECENT REPORTS
     // ==========================================
 
-    const recentReports = useMemo(() => {
-
-        return [...reports]
-            .sort(
-                (a, b) => {
-
-                    const dateA =
-                        new Date(
-                            String(
-                                a?.generated_at || ""
-                            ).replace(" ", "T")
-                        ).getTime();
-
-
-                    const dateB =
-                        new Date(
-                            String(
-                                b?.generated_at || ""
-                            ).replace(" ", "T")
-                        ).getTime();
-
-
-                    return (
-                        (isNaN(dateB) ? 0 : dateB) -
-                        (isNaN(dateA) ? 0 : dateA)
-                    );
-
-                }
-            )
-            .slice(0, 5);
-
-    }, [reports]);
+    const recentReports =
+        reports.slice(0, 5);
 
 
     // ==========================================
-    // FORMAT TOPIC
+    // SYSTEM STATUS COLOR
     // ==========================================
 
-    const formatTopic = (topic) => {
+    const getStatusTextColor = () => {
 
-        if (!topic || topic === "string") {
-            return "Research Report";
+        if (systemStatus === "Healthy") {
+            return "text-green-600";
         }
 
-        return topic;
+        if (systemStatus === "Degraded") {
+            return "text-yellow-600";
+        }
 
+        if (systemStatus === "Checking...") {
+            return "text-yellow-600";
+        }
+
+        return "text-red-600";
     };
 
 
+    const getStatusDotColor = () => {
+
+        if (systemStatus === "Healthy") {
+            return "bg-green-500";
+        }
+
+        if (systemStatus === "Degraded") {
+            return "bg-yellow-500";
+        }
+
+        if (systemStatus === "Checking...") {
+            return "bg-yellow-500";
+        }
+
+        return "bg-red-500";
+    };
+
+
+    // ==========================================
+    // RENDER
+    // ==========================================
+
     return (
 
-        <div className="min-h-screen bg-sky-50 p-6 md:p-8">
-
-            <div className="max-w-7xl mx-auto">
+        <div className="max-w-7xl mx-auto px-4 md:px-6 py-8">
 
 
-                {/* =====================================
-                    HEADER
-                ===================================== */}
+            {/* ======================================
+                HEADER
+            ====================================== */}
 
-                <div className="mb-8">
+            <div className="mb-8">
 
-                    <p className="text-sky-600 font-semibold mb-2">
+                <p className="text-sky-600 font-semibold mb-2">
+                    ResearchMind AI
+                </p>
 
-                        ResearchMind AI
+                <h1 className="text-3xl md:text-4xl font-bold text-gray-800">
+                    Welcome back, Researcher 👋
+                </h1>
 
+                <p className="text-gray-500 mt-2">
+                    Explore, generate and manage your research reports.
+                </p>
+
+            </div>
+
+
+            {/* ======================================
+                QUICK ACTIONS
+            ====================================== */}
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-8">
+
+
+                {/* GENERATE REPORT */}
+
+                <Link
+                    to="/generate-report"
+                    className="bg-sky-500 hover:bg-sky-600 text-white rounded-2xl p-6 shadow-sm transition"
+                >
+
+                    <div className="flex items-center justify-between mb-5">
+
+                        <div className="bg-white/20 p-3 rounded-xl">
+                            <FiPlus size={24} />
+                        </div>
+
+                        <FiArrowRight size={22} />
+
+                    </div>
+
+                    <h2 className="text-xl font-bold">
+                        Generate Report
+                    </h2>
+
+                    <p className="text-sky-100 mt-2">
+                        Create a new AI-powered research report.
                     </p>
 
+                </Link>
 
-                    <h1 className="text-3xl md:text-4xl font-bold text-gray-800">
 
-                        Welcome back, Researcher 👋
+                {/* SEARCH REPORTS */}
 
-                    </h1>
+                <Link
+                    to="/search-reports"
+                    className="bg-white hover:shadow-md rounded-2xl p-6 border border-sky-100 transition"
+                >
 
+                    <div className="bg-sky-100 text-sky-600 w-fit p-3 rounded-xl mb-5">
+                        <FiSearch size={24} />
+                    </div>
+
+                    <h2 className="text-xl font-bold text-gray-800">
+                        Search Reports
+                    </h2>
 
                     <p className="text-gray-500 mt-2">
-
-                        Explore, generate and manage your
-                        research reports.
-
+                        Find previously generated research reports.
                     </p>
 
-                </div>
+                </Link>
 
 
+                {/* ANALYTICS */}
 
-                {/* =====================================
-                    ERROR
-                ===================================== */}
+                <Link
+                    to="/statistics"
+                    className="bg-white hover:shadow-md rounded-2xl p-6 border border-sky-100 transition"
+                >
 
-                {error && (
-
-                    <div className="bg-white border border-red-200 rounded-xl p-4 mb-6">
-
-                        <p className="text-red-500">
-
-                            {error}
-
-                        </p>
-
+                    <div className="bg-sky-100 text-sky-600 w-fit p-3 rounded-xl mb-5">
+                        <FiBarChart2 size={24} />
                     </div>
 
-                )}
+                    <h2 className="text-xl font-bold text-gray-800">
+                        View Analytics
+                    </h2>
 
+                    <p className="text-gray-500 mt-2">
+                        Monitor your research activity and statistics.
+                    </p>
 
+                </Link>
 
-                {/* =====================================
-                    MAIN ACTION CARDS
-                ===================================== */}
+            </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-8">
 
+            {/* ======================================
+                STATISTICS
+            ====================================== */}
 
-                    {/* Generate */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
 
-                    <Link
-                        to="/generate-report"
-                        className="bg-sky-500 hover:bg-sky-600 text-white rounded-2xl p-6 shadow-sm transition"
-                    >
 
-                        <div className="flex items-center justify-between mb-5">
+                {/* TOTAL REPORTS */}
 
-                            <div className="bg-white/20 p-3 rounded-xl">
+                <div className="bg-white rounded-2xl p-6 border border-sky-100 shadow-sm">
 
-                                <FiPlus size={24} />
-
-                            </div>
-
-
-                            <FiArrowRight size={22} />
-
-                        </div>
-
-
-                        <h2 className="text-xl font-bold">
-
-                            Generate Report
-
-                        </h2>
-
-
-                        <p className="text-sky-100 mt-2">
-
-                            Create a new AI-powered research
-                            report.
-
-                        </p>
-
-                    </Link>
-
-
-
-                    {/* Search */}
-
-                    <Link
-                        to="/search-reports"
-                        className="bg-white hover:shadow-md rounded-2xl p-6 border border-sky-100 transition"
-                    >
-
-                        <div className="bg-sky-100 text-sky-600 w-fit p-3 rounded-xl mb-5">
-
-                            <FiSearch size={24} />
-
-                        </div>
-
-
-                        <h2 className="text-xl font-bold text-gray-800">
-
-                            Search Reports
-
-                        </h2>
-
-
-                        <p className="text-gray-500 mt-2">
-
-                            Find previously generated research
-                            reports.
-
-                        </p>
-
-                    </Link>
-
-
-
-                    {/* Statistics */}
-
-                    <Link
-                        to="/statistics"
-                        className="bg-white hover:shadow-md rounded-2xl p-6 border border-sky-100 transition"
-                    >
-
-                        <div className="bg-sky-100 text-sky-600 w-fit p-3 rounded-xl mb-5">
-
-                            <FiBarChart2 size={24} />
-
-                        </div>
-
-
-                        <h2 className="text-xl font-bold text-gray-800">
-
-                            View Analytics
-
-                        </h2>
-
-
-                        <p className="text-gray-500 mt-2">
-
-                            Monitor your research activity
-                            and statistics.
-
-                        </p>
-
-                    </Link>
-
-                </div>
-
-
-
-                {/* =====================================
-                    STATISTICS CARDS
-                ===================================== */}
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
-
-
-                    {/* Total Reports */}
-
-                    <div className="bg-white rounded-2xl p-6 border border-sky-100 shadow-sm">
-
-                        <div className="flex items-center justify-between">
-
-                            <div>
-
-                                <p className="text-gray-500 text-sm">
-
-                                    Total Reports
-
-                                </p>
-
-
-                                <h3 className="text-3xl font-bold text-gray-800 mt-2">
-
-                                    {loading
-                                        ? "..."
-                                        : totalReports}
-
-                                </h3>
-
-                            </div>
-
-
-                            <div className="bg-sky-100 text-sky-600 p-3 rounded-xl">
-
-                                <FiFileText size={22} />
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-
-
-                    {/* Research Topics */}
-
-                    <div className="bg-white rounded-2xl p-6 border border-sky-100 shadow-sm">
-
-                        <div className="flex items-center justify-between">
-
-                            <div>
-
-                                <p className="text-gray-500 text-sm">
-
-                                    Research Topics
-
-                                </p>
-
-
-                                <h3 className="text-3xl font-bold text-gray-800 mt-2">
-
-                                    {loading
-                                        ? "..."
-                                        : uniqueTopics}
-
-                                </h3>
-
-                            </div>
-
-
-                            <div className="bg-sky-100 text-sky-600 p-3 rounded-xl">
-
-                                <FiSearch size={22} />
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-
-
-                    {/* Latest Activity */}
-
-                    <div className="bg-white rounded-2xl p-6 border border-sky-100 shadow-sm">
-
-                        <div className="flex items-center justify-between">
-
-                            <div>
-
-                                <p className="text-gray-500 text-sm">
-
-                                    Latest Activity
-
-                                </p>
-
-
-                                <h3 className="text-lg font-bold text-gray-800 mt-2">
-
-                                    {loading
-                                        ? "Loading..."
-                                        : latestReport
-                                            ? formatTopic(
-                                                latestReport.research_topic
-                                            )
-                                            : "No Activity"}
-
-                                </h3>
-
-                            </div>
-
-
-                            <div className="bg-sky-100 text-sky-600 p-3 rounded-xl">
-
-                                <FiClock size={22} />
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-
-
-                    {/* System */}
-
-                    <div className="bg-white rounded-2xl p-6 border border-sky-100 shadow-sm">
-
-                        <div className="flex items-center justify-between">
-
-                            <div>
-
-                                <p className="text-gray-500 text-sm">
-
-                                    System
-
-                                </p>
-
-
-                                <h3 className="text-lg font-bold text-green-600 mt-2">
-
-                                    Online
-
-                                </h3>
-
-                            </div>
-
-
-                            <div className="w-3 h-3 bg-green-500 rounded-full" />
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-
-                {/* =====================================
-                    RECENT RESEARCH
-                ===================================== */}
-
-                <div className="bg-white rounded-2xl border border-sky-100 shadow-sm">
-
-
-                    <div className="p-6 border-b border-gray-100 flex items-center justify-between">
+                    <div className="flex items-center justify-between">
 
                         <div>
 
-                            <h2 className="text-xl font-bold text-gray-800">
-
-                                Recent Research
-
-                            </h2>
-
-
-                            <p className="text-gray-500 text-sm mt-1">
-
-                                Your latest research activity
-
+                            <p className="text-gray-500 text-sm">
+                                Total Reports
                             </p>
+
+                            <h3 className="text-3xl font-bold text-gray-800 mt-2">
+                                {totalReports}
+                            </h3>
 
                         </div>
 
-
-                        <Link
-                            to="/report-history"
-                            className="text-sky-600 hover:text-sky-700 font-semibold text-sm"
-                        >
-
-                            View All
-
-                        </Link>
+                        <div className="bg-sky-100 text-sky-600 p-3 rounded-xl">
+                            <FiFileText size={22} />
+                        </div>
 
                     </div>
 
+                </div>
 
 
-                    {/* Loading */}
+                {/* RESEARCH TOPICS */}
 
-                    {loading && (
+                <div className="bg-white rounded-2xl p-6 border border-sky-100 shadow-sm">
 
-                        <div className="p-10 text-center">
+                    <div className="flex items-center justify-between">
 
-                            <p className="text-gray-500">
+                        <div>
 
-                                Loading recent research...
-
+                            <p className="text-gray-500 text-sm">
+                                Research Topics
                             </p>
+
+                            <h3 className="text-3xl font-bold text-gray-800 mt-2">
+                                {researchTopics}
+                            </h3>
 
                         </div>
 
-                    )}
+                        <div className="bg-sky-100 text-sky-600 p-3 rounded-xl">
+                            <FiSearch size={22} />
+                        </div>
+
+                    </div>
+
+                </div>
 
 
+                {/* LATEST ACTIVITY */}
 
-                    {/* No reports */}
+                <div className="bg-white rounded-2xl p-6 border border-sky-100 shadow-sm">
 
-                    {!loading &&
-                        recentReports.length === 0 && (
+                    <div className="flex items-center justify-between">
 
-                            <div className="p-10 text-center">
+                        <div className="min-w-0">
 
-                                <div className="bg-sky-100 text-sky-600 w-fit mx-auto p-4 rounded-full mb-4">
+                            <p className="text-gray-500 text-sm">
+                                Latest Activity
+                            </p>
 
-                                    <FiFileText size={28} />
+                            <h3 className="text-lg font-bold text-gray-800 mt-2 truncate">
 
-                                </div>
+                                {latestReport
+                                    ? (
+                                        latestReport.query ||
+                                        latestReport.topic ||
+                                        latestReport.research_topic ||
+                                        latestReport.title ||
+                                        "Research"
+                                    )
+                                    : "No activity"
+                                }
 
+                            </h3>
 
-                                <h3 className="text-lg font-semibold text-gray-700">
+                        </div>
 
-                                    No research activity yet
+                        <div className="bg-sky-100 text-sky-600 p-3 rounded-xl flex-shrink-0">
+                            <FiClock size={22} />
+                        </div>
 
-                                </h3>
+                    </div>
 
-
-                                <p className="text-gray-500 mt-2 mb-5">
-
-                                    Generate your first report to
-                                    start building your research
-                                    workspace.
-
-                                </p>
-
-
-                                <Link
-                                    to="/generate-report"
-                                    className="inline-flex items-center gap-2 bg-sky-500 hover:bg-sky-600 text-white px-5 py-3 rounded-lg transition"
-                                >
-
-                                    <FiPlus />
-
-                                    Generate Report
-
-                                </Link>
-
-                            </div>
-
-                        )}
+                </div>
 
 
+                {/* SYSTEM */}
 
-                    {/* Recent reports */}
+                <div className="bg-white rounded-2xl p-6 border border-sky-100 shadow-sm">
 
-                    {!loading &&
-                        recentReports.length > 0 && (
+                    <div className="flex items-center justify-between">
 
-                            <div className="divide-y divide-gray-100">
+                        <div>
 
-                                {recentReports.map(
-                                    (report, index) => (
+                            <p className="text-gray-500 text-sm">
+                                System
+                            </p>
 
-                                        <div
-                                            key={
-                                                report.generated_at ||
-                                                index
-                                            }
-                                            className="p-5 flex flex-col md:flex-row md:items-center md:justify-between gap-4 hover:bg-sky-50 transition"
-                                        >
+                            <h3
+                                className={`text-lg font-bold mt-2 ${getStatusTextColor()}`}
+                            >
+                                {systemStatus}
+                            </h3>
 
-                                            <div className="flex items-center gap-4">
+                        </div>
 
-                                                <div className="bg-sky-100 text-sky-600 p-3 rounded-xl">
+                        <div
+                            className={`w-3 h-3 rounded-full ${getStatusDotColor()}`}
+                        />
 
-                                                    <FiFileText
-                                                        size={22}
-                                                    />
+                    </div>
 
+                </div>
+
+            </div>
+            
+            {/* ======================================
+                SYSTEM HEALTH
+            ====================================== */}
+
+<div className="bg-white rounded-2xl border border-sky-100 shadow-sm mb-8">
+
+    <div className="p-6 border-b border-gray-100">
+
+        <div className="flex items-center justify-between">
+
+            <div>
+                <h2 className="text-xl font-bold text-gray-800">
+                    System Health
+                </h2>
+
+                <p className="text-gray-500 text-sm mt-1">
+                    Current status of ResearchMind AI backend services
+                </p>
+            </div>
+
+            <div className="flex items-center gap-2">
+
+                <span
+                    className={`w-3 h-3 rounded-full ${getStatusDotColor()}`}
+                />
+
+                <span
+                    className={`font-semibold ${getStatusTextColor()}`}
+                >
+                    {systemStatus}
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div className="p-6">
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+
+            {/* API */}
+
+            <div className="border border-gray-100 rounded-xl p-4">
+
+                <div className="flex items-center justify-between">
+
+                    <div>
+
+                        <h3 className="font-semibold text-gray-800">
+                            Backend API
+                        </h3>
+
+                        <p className="text-sm text-gray-500 mt-1">
+                            FastAPI server
+                        </p>
+
+                    </div>
+
+                    <span className="flex items-center gap-2 text-green-600 font-semibold text-sm">
+
+                        <span className="w-2.5 h-2.5 bg-green-500 rounded-full" />
+
+                        Healthy
+
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            {/* REPORT GENERATION */}
+
+            <div className="border border-gray-100 rounded-xl p-4">
+
+                <div className="flex items-center justify-between">
+
+                    <div>
+
+                        <h3 className="font-semibold text-gray-800">
+                            Report Generation
+                        </h3>
+
+                        <p className="text-sm text-gray-500 mt-1">
+                            Research report service
+                        </p>
+
+                    </div>
+
+                    <span
+                        className={`flex items-center gap-2 font-semibold text-sm ${
+                            isSystemOnline
+                                ? "text-green-600"
+                                : "text-red-600"
+                        }`}
+                    >
+
+                        <span
+                            className={`w-2.5 h-2.5 rounded-full ${
+                                isSystemOnline
+                                    ? "bg-green-500"
+                                    : "bg-red-500"
+                            }`}
+                        />
+
+                        {isSystemOnline
+                            ? "Available"
+                            : "Unavailable"}
+
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+            {/* ======================================
+                RECENT RESEARCH
+            ====================================== */}
+
+            <div className="bg-white rounded-2xl border border-sky-100 shadow-sm">
+
+
+                {/* HEADER */}
+
+                <div className="p-6 border-b border-gray-100 flex items-center justify-between">
+
+                    <div>
+
+                        <h2 className="text-xl font-bold text-gray-800">
+                            Recent Research
+                        </h2>
+
+                        <p className="text-gray-500 text-sm mt-1">
+                            Your latest research activity
+                        </p>
+
+                    </div>
+
+                    <Link
+                        to="/report-history"
+                        className="text-sky-600 hover:text-sky-700 font-semibold text-sm"
+                    >
+                        View All
+                    </Link>
+
+                </div>
+
+
+                {/* REPORT LIST */}
+
+                {recentReports.length > 0 ? (
+
+                    <div className="divide-y divide-gray-100">
+
+                        {recentReports.map(
+                            (report, index) => {
+
+                                const topic =
+                                    report?.query ||
+                                    report?.topic ||
+                                    report?.research_topic ||
+                                    report?.title ||
+                                    "Research Report";
+
+
+                                const version =
+                                    report?.version ||
+                                    report?.report_version;
+
+
+                                const date =
+                                    report?.created_at ||
+                                    report?.generated_at ||
+                                    report?.timestamp;
+
+
+                                return (
+
+                                    <div
+                                        key={
+                                            report?.id ||
+                                            report?.report_id ||
+                                            index
+                                        }
+                                        className="p-5 hover:bg-sky-50 transition"
+                                    >
+
+                                        <div className="flex items-center justify-between gap-4">
+
+
+                                            <div className="flex items-center gap-4 min-w-0">
+
+                                                <div className="bg-sky-100 text-sky-600 p-3 rounded-xl flex-shrink-0">
+                                                    <FiFileText size={22} />
                                                 </div>
 
 
-                                                <div>
+                                                <div className="min-w-0">
 
-                                                    <h3 className="font-semibold text-gray-800">
-
-                                                        {formatTopic(
-                                                            report.research_topic
-                                                        )}
-
+                                                    <h3 className="font-semibold text-gray-800 truncate">
+                                                        {topic}
                                                     </h3>
 
 
-                                                    <p className="text-gray-500 text-sm mt-1">
+                                                    <p className="text-sm text-gray-500 mt-1">
 
-                                                        {report.generated_at ||
-                                                            "Date unavailable"}
+                                                        {version
+                                                            ? `Version ${version}`
+                                                            : "Research Report"
+                                                        }
+
+                                                        {date
+                                                            ? ` • ${new Date(date).toLocaleDateString()}`
+                                                            : ""
+                                                        }
 
                                                     </p>
 
@@ -734,36 +726,57 @@ function Dashboard() {
 
 
                                             <Link
-                                                to="/report-viewer"
-                                                state={{
-                                                    report: report,
-                                                }}
-                                                className="inline-flex items-center gap-2 text-sky-600 hover:text-sky-700 font-semibold text-sm"
+                                                to="/report-history"
+                                                className="text-sky-600 hover:text-sky-700 font-semibold text-sm whitespace-nowrap"
                                             >
-
-                                                View Report
-
-                                                <FiArrowRight />
-
+                                                View
                                             </Link>
 
                                         </div>
 
-                                    )
-                                )}
+                                    </div>
 
-                            </div>
-
+                                );
+                            }
                         )}
 
-                </div>
+                    </div>
+
+                ) : (
+
+                    /* EMPTY STATE */
+
+                    <div className="p-10 text-center">
+
+                        <div className="bg-sky-100 text-sky-600 w-fit mx-auto p-4 rounded-full mb-4">
+                            <FiFileText size={28} />
+                        </div>
+
+                        <h3 className="text-lg font-semibold text-gray-700">
+                            Your research activity will appear here
+                        </h3>
+
+                        <p className="text-gray-500 mt-2 mb-5">
+                            Generate your first report to start building your
+                            research workspace.
+                        </p>
+
+                        <Link
+                            to="/generate-report"
+                            className="inline-flex items-center gap-2 bg-sky-500 hover:bg-sky-600 text-white px-5 py-3 rounded-lg transition"
+                        >
+                            <FiPlus />
+                            Generate Report
+                        </Link>
+
+                    </div>
+
+                )}
 
             </div>
 
         </div>
-
     );
 }
-
 
 export default Dashboard;

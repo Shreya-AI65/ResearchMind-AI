@@ -17,6 +17,7 @@ from app.api.report_search import router as report_search_router
 from app.api.report_delete import router as report_delete_router
 from app.api.report_statistics import router as report_statistics_router
 from app.api.report_export import router as report_export_router
+from app.api.health import router as health_router
 
 app = FastAPI(
     title="ResearchMind AI Backend",
@@ -58,6 +59,12 @@ app.include_router(
     compare_router,
     prefix=API_PREFIX,
     tags=["Comparison"]
+)
+
+app.include_router(
+    health_router,
+    prefix="/api/v1",
+    tags=["Health"]
 )
 
 app.include_router(
