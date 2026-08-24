@@ -516,5 +516,21 @@
         "pdf": "Research_Report_v43_20260808_155149.pdf",
         "docx": "Research_Report_v43_20260808_155149.docx",
         "markdown": "Research_Report_v43_20260808_155149.md"
+    },
+    {
+        "research_topic": "string",
+        "version": 17,
+        "generated_at": "2026-08-24 19:18:57",
+        "pdf": "Research_Report_v17_20260824_191857.pdf",
+        "docx": "Research_Report_v17_20260824_191857.docx",
+        "markdown": "Research_Report_v17_20260824_191857.md"
+    },
+    {
+        "research_topic": "Agentic AI",
+        "version": 44,
+        "generated_at": "2026-08-24 19:32:07",
+        "pdf": "Research_Report_v44_20260824_193206.pdf",
+        "docx": "Research_Report_v44_20260824_193207.docx",
+        "markdown": "Research_Report_v44_20260824_193207.md"
     }
 ]
