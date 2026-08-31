@@ -1,17 +1,19 @@
 {
-    "string": 20,
-    "Agentic AI": 55,
+    "string": 21,
+    "Agentic AI": 61,
     "Strings": 1,
     "AI": 1,
     "Recent developments in multi-agent artificial intelligence systems for autonomous scientific research and automated literature analysis": 1,
     "AI & Machine Learning: 2025\u20132026": 1,
-    "Machine Learning": 1,
+    "Machine Learning": 2,
     "DSA": 1,
     "Agentic  AI": 2,
     "Multi Agent System": 3,
     "Retrieval Augmented Generation": 2,
-    "Multi-Agent System": 4,
+    "Multi-Agent System": 6,
     "Scientific Document Intelligence": 9,
-    "RAG": 5,
-    "Multi-Agent Systems": 5
+    "RAG": 7,
+    "Multi-Agent Systems": 6,
+    "Computer Vision": 1,
+    "System Development Intelligence": 2
 }

@@ -764,5 +764,125 @@
         "pdf": "Research_Report_v7_20260826_202731.pdf",
         "docx": "Research_Report_v7_20260826_202732.docx",
         "markdown": "Research_Report_v7_20260826_202732.md"
+    },
+    {
+        "research_topic": "Multi-Agent Systems",
+        "version": 5,
+        "generated_at": "2026-08-27 14:14:50",
+        "pdf": "Research_Report_v5_20260827_141450.pdf",
+        "docx": "Research_Report_v5_20260827_141450.docx",
+        "markdown": "Research_Report_v5_20260827_141450.md"
+    },
+    {
+        "research_topic": "Agentic AI",
+        "version": 53,
+        "generated_at": "2026-08-27 14:58:26",
+        "pdf": "Research_Report_v53_20260827_145826.pdf",
+        "docx": "Research_Report_v53_20260827_145826.docx",
+        "markdown": "Research_Report_v53_20260827_145826.md"
+    },
+    {
+        "research_topic": "RAG",
+        "version": 6,
+        "generated_at": "2026-08-27 15:02:33",
+        "pdf": "Research_Report_v6_20260827_150233.pdf",
+        "docx": "Research_Report_v6_20260827_150233.docx",
+        "markdown": "Research_Report_v6_20260827_150233.md"
+    },
+    {
+        "research_topic": "Agentic AI",
+        "version": 54,
+        "generated_at": "2026-08-27 23:05:35",
+        "pdf": "Research_Report_v54_20260827_230535.pdf",
+        "docx": "Research_Report_v54_20260827_230535.docx",
+        "markdown": "Research_Report_v54_20260827_230535.md"
+    },
+    {
+        "research_topic": "Agentic AI",
+        "version": 55,
+        "generated_at": "2026-08-27 23:07:58",
+        "pdf": "Research_Report_v55_20260827_230758.pdf",
+        "docx": "Research_Report_v55_20260827_230758.docx",
+        "markdown": "Research_Report_v55_20260827_230758.md"
+    },
+    {
+        "research_topic": "Multi-Agent System",
+        "version": 4,
+        "generated_at": "2026-08-27 23:08:36",
+        "pdf": "Research_Report_v4_20260827_230836.pdf",
+        "docx": "Research_Report_v4_20260827_230836.docx",
+        "markdown": "Research_Report_v4_20260827_230836.md"
+    },
+    {
+        "research_topic": "Agentic AI",
+        "version": 56,
+        "generated_at": "2026-08-31 20:18:43",
+        "pdf": "Research_Report_v56_20260831_201843.pdf",
+        "docx": "Research_Report_v56_20260831_201843.docx",
+        "markdown": "Research_Report_v56_20260831_201843.md"
+    },
+    {
+        "research_topic": "string",
+        "version": 18,
+        "generated_at": "2026-08-31 20:36:18",
+        "pdf": "Research_Report_v18_20260831_203618.pdf",
+        "docx": "Research_Report_v18_20260831_203618.docx",
+        "markdown": "Research_Report_v18_20260831_203618.md"
+    },
+    {
+        "research_topic": "Agentic AI",
+        "version": 57,
+        "generated_at": "2026-08-31 20:36:53",
+        "pdf": "Research_Report_v57_20260831_203652.pdf",
+        "docx": "Research_Report_v57_20260831_203653.docx",
+        "markdown": "Research_Report_v57_20260831_203653.md"
+    },
+    {
+        "research_topic": "Agentic AI",
+        "version": 58,
+        "generated_at": "2026-08-31 20:45:40",
+        "pdf": "Research_Report_v58_20260831_204539.pdf",
+        "docx": "Research_Report_v58_20260831_204540.docx",
+        "markdown": "Research_Report_v58_20260831_204540.md"
+    },
+    {
+        "research_topic": "RAG",
+        "version": 7,
+        "generated_at": "2026-08-31 21:31:32",
+        "pdf": "Research_Report_v7_20260831_213132.pdf",
+        "docx": "Research_Report_v7_20260831_213132.docx",
+        "markdown": "Research_Report_v7_20260831_213132.md"
+    },
+    {
+        "research_topic": "Computer Vision",
+        "version": 1,
+        "generated_at": "2026-08-31 21:33:54",
+        "pdf": "Research_Report_v1_20260831_213353.pdf",
+        "docx": "Research_Report_v1_20260831_213354.docx",
+        "markdown": "Research_Report_v1_20260831_213354.md"
+    },
+    {
+        "research_topic": "Machine Learning",
+        "version": 1,
+        "generated_at": "2026-08-31 21:39:57",
+        "pdf": "Research_Report_v1_20260831_213956.pdf",
+        "docx": "Research_Report_v1_20260831_213957.docx",
+        "markdown": "Research_Report_v1_20260831_213957.md"
+    },
+    {
+        "research_topic": "System Development Intelligence",
+        "version": 1,
+        "generated_at": "2026-08-31 21:42:04",
+        "pdf": "Research_Report_v1_20260831_214203.pdf",
+        "docx": "Research_Report_v1_20260831_214204.docx",
+        "markdown": "Research_Report_v1_20260831_214204.md"
+    },
+    {
+        "research_topic": "Multi-Agent System",
+        "version": 5,
+        "generated_at": "2026-08-31 21:43:24",
+        "pdf": "Research_Report_v5_20260831_214323.pdf",
+        "docx": "Research_Report_v5_20260831_214324.docx",
+        "markdown": "Research_Report_v5_20260831_214324.md"
     }
 ]

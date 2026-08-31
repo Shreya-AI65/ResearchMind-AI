@@ -29,9 +29,21 @@ class ReportGenerationAgent:
         citation_analysis
     ):
 
-        # ---------------------------------------
-        # Executive Summary based on User Mode
-        # ---------------------------------------
+        # ============================================================
+        # SAFETY / DEFAULT VALUES
+        # ============================================================
+
+        literature_review = literature_review or {}
+        methodology_comparison = methodology_comparison or {}
+        research_gap = research_gap or {}
+        experiment_plan = experiment_plan or {}
+        citation_analysis = citation_analysis or {}
+
+        user_mode = user_mode or "intermediate"
+
+        # ============================================================
+        # EXECUTIVE SUMMARY BASED ON USER MODE
+        # ============================================================
 
         if user_mode.lower() == "beginner":
 
@@ -55,7 +67,63 @@ class ReportGenerationAgent:
                 "research gaps, citation analysis and future work."
             )
 
+        # ============================================================
+        # EXTRACT EXPERIMENT PLAN INFORMATION
+        # ============================================================
+
+        recommended_datasets = experiment_plan.get(
+            "recommended_datasets",
+            []
+        )
+
+        baseline_models = experiment_plan.get(
+            "baseline_models",
+            []
+        )
+
+        evaluation_metrics = experiment_plan.get(
+            "evaluation_metrics",
+            []
+        )
+
+        # ============================================================
+        # EXTRACT RESEARCH GAP INFORMATION
+        # ============================================================
+
+        future_research_directions = research_gap.get(
+            "future_work",
+            []
+        )
+
+        research_recommendations = research_gap.get(
+            "recommendations",
+            []
+        )
+
+        research_gaps = research_gap.get(
+            "research_gaps",
+            []
+        )
+
+        research_trends = research_gap.get(
+            "research_trends",
+            []
+        )
+
+        emerging_topics = research_gap.get(
+            "emerging_topics",
+            []
+        )
+
+        # ============================================================
+        # REPORT
+        # ============================================================
+
         report = {
+
+            # --------------------------------------------------------
+            # BASIC REPORT INFORMATION
+            # --------------------------------------------------------
 
             "title": "Research Analysis Report",
 
@@ -80,39 +148,101 @@ class ReportGenerationAgent:
                 0
             ),
 
+            # --------------------------------------------------------
+            # EXECUTIVE SUMMARY
+            # --------------------------------------------------------
+
             "executive_summary": executive_summary,
+
+            # --------------------------------------------------------
+            # LITERATURE REVIEW
+            # --------------------------------------------------------
 
             "literature_review": literature_review,
 
+            # --------------------------------------------------------
+            # METHODOLOGY COMPARISON
+            # --------------------------------------------------------
+
             "methodology_comparison": methodology_comparison,
+
+            # --------------------------------------------------------
+            # RESEARCH GAP ANALYSIS
+            # --------------------------------------------------------
 
             "research_gap": research_gap,
 
+            # --------------------------------------------------------
+            # EXPERIMENT PLAN
+            # --------------------------------------------------------
+
             "experiment_plan": experiment_plan,
+
+            # --------------------------------------------------------
+            # CITATION ANALYSIS
+            # --------------------------------------------------------
 
             "citation_analysis": citation_analysis,
 
-            "recommended_datasets": experiment_plan.get(
-                "recommended_datasets",
-                []
-            ),
+            # --------------------------------------------------------
+            # RECOMMENDED DATASETS
+            # --------------------------------------------------------
 
-            "baseline_models": experiment_plan.get(
-                "baseline_models",
-                []
-            ),
+            "recommended_datasets": recommended_datasets,
 
-            "evaluation_metrics": experiment_plan.get(
-                "evaluation_metrics",
-                []
-            ),
+            # --------------------------------------------------------
+            # BASELINE MODELS
+            # --------------------------------------------------------
 
-            "future_research_directions": research_gap.get(
-                "future_work",
-                []
-            ),
+            "baseline_models": baseline_models,
+
+            # --------------------------------------------------------
+            # EVALUATION METRICS
+            # --------------------------------------------------------
+
+            "evaluation_metrics": evaluation_metrics,
+
+            # --------------------------------------------------------
+            # FUTURE RESEARCH DIRECTIONS
+            # --------------------------------------------------------
+
+            "future_research_directions": future_research_directions,
+
+            # --------------------------------------------------------
+            # RESEARCH RECOMMENDATIONS
+            #
+            # NEW DAY 32 TASK 4 INTEGRATION
+            # --------------------------------------------------------
+
+            "research_recommendations": research_recommendations,
+
+            # --------------------------------------------------------
+            # IDENTIFIED RESEARCH GAPS
+            # --------------------------------------------------------
+
+            "identified_research_gaps": research_gaps,
+
+            # --------------------------------------------------------
+            # RESEARCH TRENDS
+            # --------------------------------------------------------
+
+            "research_trends": research_trends,
+
+            # --------------------------------------------------------
+            # EMERGING TOPICS
+            # --------------------------------------------------------
+
+            "emerging_topics": emerging_topics,
+
+            # ========================================================
+            # REPORT SUMMARY
+            # ========================================================
 
             "report_summary": {
+
+                # ----------------------------------------------------
+                # DOMINANT RESEARCH AREA
+                # ----------------------------------------------------
 
                 "dominant_research_area":
 
@@ -123,6 +253,10 @@ class ReportGenerationAgent:
                         "dominant_area"
                     ),
 
+                # ----------------------------------------------------
+                # TOP RESEARCH TREND
+                # ----------------------------------------------------
+
                 "top_research_trend":
 
                     research_gap.get(
@@ -131,6 +265,10 @@ class ReportGenerationAgent:
                     ).get(
                         "top_trend"
                     ),
+
+                # ----------------------------------------------------
+                # HIGHEST CITED PAPER
+                # ----------------------------------------------------
 
                 "highest_cited_paper":
 
@@ -141,6 +279,10 @@ class ReportGenerationAgent:
                         "highest_cited_title"
                     ),
 
+                # ----------------------------------------------------
+                # LATEST PAPER
+                # ----------------------------------------------------
+
                 "latest_paper":
 
                     methodology_comparison.get(
@@ -150,34 +292,63 @@ class ReportGenerationAgent:
                         "latest_paper_title"
                     ),
 
-                "recommended_datasets":
+                # ----------------------------------------------------
+                # RECOMMENDED DATASETS
+                # ----------------------------------------------------
 
-                    experiment_plan.get(
-                        "recommended_datasets",
-                        []
-                    ) if experiment_plan else [],
+                "recommended_datasets":
+                    recommended_datasets,
+
+                # ----------------------------------------------------
+                # BASELINE MODELS
+                # ----------------------------------------------------
 
                 "baseline_models":
+                    baseline_models,
 
-                    experiment_plan.get(
-                        "baseline_models",
-                        []
-                    ) if experiment_plan else [],
+                # ----------------------------------------------------
+                # EVALUATION METRICS
+                # ----------------------------------------------------
 
                 "evaluation_metrics":
+                    evaluation_metrics,
 
-                    experiment_plan.get(
-                        "evaluation_metrics",
-                        []
-                    ) if experiment_plan else []
+                # ----------------------------------------------------
+                # RESEARCH RECOMMENDATIONS
+                #
+                # NEW DAY 32 TASK 4 INTEGRATION
+                # ----------------------------------------------------
+
+                "research_recommendations":
+                    research_recommendations,
+
+                # ----------------------------------------------------
+                # RESEARCH GAP COUNT
+                # ----------------------------------------------------
+
+                "research_gap_count":
+                    len(research_gaps),
+
+                # ----------------------------------------------------
+                # FUTURE WORK COUNT
+                # ----------------------------------------------------
+
+                "future_work_items":
+                    len(future_research_directions)
 
             },
 
+            # ========================================================
+            # CONCLUSION
+            # ========================================================
+
             "conclusion":
 
-                "The report has been generated using a personalized multi-agent "
-                "pipeline. The explanation style was adapted according to the "
-                f"{user_mode} profile to improve readability and usefulness."
+                "The report has been generated using a personalized "
+                "multi-agent pipeline. The explanation style was "
+                "adapted according to the "
+                f"{user_mode} profile to improve readability and "
+                "usefulness."
 
         }
 

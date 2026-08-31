@@ -18,6 +18,8 @@ Analyzes multiple analyzed research papers to identify:
 - Scalability issues
 - Explainability issues
 - Emerging research trends
+- Research recommendations
+- Research direction validation
 """
 
 import re
@@ -106,11 +108,13 @@ class ResearchGapDetectionAgent:
                 "research_gaps": [],
                 "emerging_topics": [],
                 "recommendations": [],
+                "recommendation_validation": [],
                 "summary": {
                     "dominant_area": None,
                     "top_trend": None,
                     "future_work_items": 0,
-                    "research_gap_count": 0
+                    "research_gap_count": 0,
+                    "validated_recommendation_count": 0
                 }
             }
 
@@ -127,6 +131,16 @@ class ResearchGapDetectionAgent:
         emerging_topics = self.emerging_topics(papers)
 
         recommendations = self.recommendations(papers)
+
+        recommendation_validation = (
+            self.validate_research_directions(
+                papers,
+                recommendations,
+                research_gaps,
+                future_work,
+                emerging_topics
+            )
+        )
 
         return {
 
@@ -162,6 +176,9 @@ class ResearchGapDetectionAgent:
             "recommendations":
                 recommendations,
 
+            "recommendation_validation":
+                recommendation_validation,
+
             "summary": {
 
                 "dominant_area": (
@@ -183,7 +200,12 @@ class ResearchGapDetectionAgent:
                     len(future_work),
 
                 "research_gap_count":
-                    len(research_gaps)
+                    len(research_gaps),
+
+                "validated_recommendation_count":
+                    len(
+                        recommendation_validation
+                    )
             }
         }
 
@@ -279,35 +301,20 @@ class ResearchGapDetectionAgent:
         categories = {
 
             "datasets": [],
-
             "models": [],
-
             "retrieval": [],
-
             "grounding": [],
-
             "hallucination": [],
-
             "knowledge_freshness": [],
-
             "evaluation": [],
-
             "applications": [],
-
             "coordination": [],
-
             "security": [],
-
             "scalability": [],
-
             "explainability": [],
-
             "reasoning": [],
-
             "memory": [],
-
             "planning": [],
-
             "general": []
         }
 
@@ -343,17 +350,11 @@ class ResearchGapDetectionAgent:
         fields = [
 
             "title",
-
             "summary",
-
             "abstract",
-
             "research_problem",
-
             "methodology",
-
             "key_contributions",
-
             "future_work"
         ]
 
@@ -688,7 +689,8 @@ class ResearchGapDetectionAgent:
                 "reasoning challenge",
                 "reasoning ability",
                 "complex reasoning",
-                "logical reasoning"
+                "logical reasoning",
+                "reasoning"
             ]
         ):
 
@@ -730,7 +732,8 @@ class ResearchGapDetectionAgent:
                 "planning challenge",
                 "long-term planning",
                 "autonomous planning",
-                "planning ability"
+                "planning ability",
+                "planning"
             ]
         ):
 
@@ -762,17 +765,9 @@ class ResearchGapDetectionAgent:
 
         papers = papers or []
 
-        # --------------------------------------------------------
-        # First collect category evidence
-        # --------------------------------------------------------
-
         categories = self.gap_categories(
             papers
         )
-
-        # --------------------------------------------------------
-        # Generate synthesized gaps
-        # --------------------------------------------------------
 
         synthesized = (
             self._synthesize_category_gaps(
@@ -780,10 +775,6 @@ class ResearchGapDetectionAgent:
                 papers
             )
         )
-
-        # --------------------------------------------------------
-        # Extract explicit limitation sentences
-        # --------------------------------------------------------
 
         explicit_gaps = []
 
@@ -818,41 +809,23 @@ class ResearchGapDetectionAgent:
                             sentence
                         )
 
-        # --------------------------------------------------------
-        # Remove duplicates
-        # --------------------------------------------------------
-
         explicit_gaps = list(
             dict.fromkeys(
                 explicit_gaps
             )
         )
 
-        # --------------------------------------------------------
-        # Combine
-        # --------------------------------------------------------
-
         final_gaps = []
 
         for gap in synthesized:
 
             if gap not in final_gaps:
-
-                final_gaps.append(
-                    gap
-                )
+                final_gaps.append(gap)
 
         for gap in explicit_gaps:
 
             if gap not in final_gaps:
-
-                final_gaps.append(
-                    gap
-                )
-
-        # --------------------------------------------------------
-        # Always provide a useful fallback if evidence exists
-        # --------------------------------------------------------
+                final_gaps.append(gap)
 
         if not final_gaps and papers:
 
@@ -964,10 +937,6 @@ class ResearchGapDetectionAgent:
 
         gaps = []
 
-        # --------------------------------------------------------
-        # RAG: Retrieval
-        # --------------------------------------------------------
-
         if categories["retrieval"]:
 
             gaps.append(
@@ -976,10 +945,6 @@ class ResearchGapDetectionAgent:
                 "information for complex queries "
                 "remain important research challenges."
             )
-
-        # --------------------------------------------------------
-        # RAG: Grounding
-        # --------------------------------------------------------
 
         if categories["grounding"]:
 
@@ -990,10 +955,6 @@ class ResearchGapDetectionAgent:
                 "or incorrect generated information."
             )
 
-        # --------------------------------------------------------
-        # RAG: Hallucination
-        # --------------------------------------------------------
-
         if categories["hallucination"]:
 
             gaps.append(
@@ -1002,13 +963,7 @@ class ResearchGapDetectionAgent:
                 "current AI systems."
             )
 
-        # --------------------------------------------------------
-        # RAG: Knowledge freshness
-        # --------------------------------------------------------
-
-        if categories[
-            "knowledge_freshness"
-        ]:
+        if categories["knowledge_freshness"]:
 
             gaps.append(
                 "Maintaining fresh and continuously "
@@ -1017,10 +972,6 @@ class ResearchGapDetectionAgent:
                 "information sources."
             )
 
-        # --------------------------------------------------------
-        # Evaluation
-        # --------------------------------------------------------
-
         if categories["evaluation"]:
 
             gaps.append(
@@ -1028,10 +979,6 @@ class ResearchGapDetectionAgent:
                 "evaluation and benchmarking "
                 "methods are required."
             )
-
-        # --------------------------------------------------------
-        # Datasets
-        # --------------------------------------------------------
 
         if categories["datasets"]:
 
@@ -1042,10 +989,6 @@ class ResearchGapDetectionAgent:
                 "and evaluation."
             )
 
-        # --------------------------------------------------------
-        # Models
-        # --------------------------------------------------------
-
         if categories["models"]:
 
             gaps.append(
@@ -1054,10 +997,6 @@ class ResearchGapDetectionAgent:
                 "reliability, adaptability, "
                 "and generalization."
             )
-
-        # --------------------------------------------------------
-        # Coordination
-        # --------------------------------------------------------
 
         if categories["coordination"]:
 
@@ -1068,10 +1007,6 @@ class ResearchGapDetectionAgent:
                 "challenge."
             )
 
-        # --------------------------------------------------------
-        # Security
-        # --------------------------------------------------------
-
         if categories["security"]:
 
             gaps.append(
@@ -1079,10 +1014,6 @@ class ResearchGapDetectionAgent:
                 "robustness remain important "
                 "unresolved challenges."
             )
-
-        # --------------------------------------------------------
-        # Scalability
-        # --------------------------------------------------------
 
         if categories["scalability"]:
 
@@ -1093,10 +1024,6 @@ class ResearchGapDetectionAgent:
                 "deployment."
             )
 
-        # --------------------------------------------------------
-        # Explainability
-        # --------------------------------------------------------
-
         if categories["explainability"]:
 
             gaps.append(
@@ -1106,10 +1033,6 @@ class ResearchGapDetectionAgent:
                 "AI-based systems."
             )
 
-        # --------------------------------------------------------
-        # Reasoning
-        # --------------------------------------------------------
-
         if categories["reasoning"]:
 
             gaps.append(
@@ -1117,10 +1040,6 @@ class ResearchGapDetectionAgent:
                 "reasoning capabilities for complex "
                 "multi-step tasks."
             )
-
-        # --------------------------------------------------------
-        # Memory
-        # --------------------------------------------------------
 
         if categories["memory"]:
 
@@ -1130,10 +1049,6 @@ class ResearchGapDetectionAgent:
                 "remain open challenges."
             )
 
-        # --------------------------------------------------------
-        # Planning
-        # --------------------------------------------------------
-
         if categories["planning"]:
 
             gaps.append(
@@ -1142,10 +1057,6 @@ class ResearchGapDetectionAgent:
                 "are required."
             )
 
-        # --------------------------------------------------------
-        # Applications
-        # --------------------------------------------------------
-
         if categories["applications"]:
 
             gaps.append(
@@ -1153,10 +1064,6 @@ class ResearchGapDetectionAgent:
                 "applications and deployment "
                 "environments is required."
             )
-
-        # --------------------------------------------------------
-        # General
-        # --------------------------------------------------------
 
         if (
             categories["general"]
@@ -1197,126 +1104,866 @@ class ResearchGapDetectionAgent:
 
         recommendations = []
 
-        trends = self.research_trends(
-            papers
-        )
+        papers = papers or []
+
+        if not papers:
+
+            return [
+                "Analyze research papers first to generate "
+                "evidence-based research recommendations."
+            ]
+
+        # --------------------------------------------------------
+        # Collect evidence
+        # --------------------------------------------------------
+
+        trends = self.research_trends(papers)
 
         trends_lower = {
             trend.lower()
             for trend in trends
         }
 
-        # Agentic AI
+        emerging_topics = self.emerging_topics(
+            papers
+        )
 
-        if (
-            "agentic" in trends_lower
-            or "agent" in trends_lower
+        emerging_lower = {
+            topic.lower()
+            for topic in emerging_topics
+        }
+
+        future_work = self.detect_future_work(
+            papers
+        )
+
+        future_text = " ".join(
+            future_work
+        ).lower()
+
+        gap_categories = self.gap_categories(
+            papers
+        )
+
+        research_areas = self.detect_research_areas(
+            papers
+        )
+
+        research_areas_lower = {
+            area.lower()
+            for area in research_areas
+        }
+
+        # --------------------------------------------------------
+        # Agentic AI / Multi-Agent Systems
+        # --------------------------------------------------------
+
+        if any(
+            term in trends_lower
+            for term in [
+                "agentic",
+                "agent",
+                "multi-agent",
+                "multi-agent systems"
+            ]
+        ) or any(
+            "agentic ai" in area
+            or "multi-agent" in area
+            or "multi agent" in area
+            for area in research_areas_lower
         ):
 
             recommendations.append(
                 "Explore more reliable autonomous "
-                "and multi-agent systems."
+                "and multi-agent systems with improved "
+                "coordination and task execution."
             )
 
+        # --------------------------------------------------------
+        # Coordination
+        # --------------------------------------------------------
+
+        if gap_categories.get("coordination"):
+
+            recommendations.append(
+                "Investigate improved inter-agent "
+                "communication and coordination mechanisms "
+                "for reliable multi-agent task execution."
+            )
+
+        # --------------------------------------------------------
         # Reasoning
-
-        if "reasoning" in trends_lower:
-
-            recommendations.append(
-                "Improve reasoning capabilities "
-                "through structured planning "
-                "and verification."
-            )
-
-        # Benchmark
+        # --------------------------------------------------------
 
         if (
-            "benchmark" in trends_lower
-            or "benchmarks" in trends_lower
+            "reasoning" in trends_lower
+            or "reasoning" in emerging_lower
+            or "reasoning" in future_text
+            or gap_categories.get("reasoning")
         ):
 
             recommendations.append(
-                "Develop and evaluate systems "
-                "using standardized benchmarks."
+                "Improve reasoning capabilities through "
+                "structured planning, multi-step inference, "
+                "and verification mechanisms."
             )
 
-        # Framework
-
-        if (
-            "framework" in trends_lower
-            or "frameworks" in trends_lower
-        ):
-
-            recommendations.append(
-                "Design more robust and "
-                "generalizable AI frameworks."
-            )
-
-        # Memory
-
-        if "memory" in trends_lower:
-
-            recommendations.append(
-                "Investigate reliable long-term "
-                "memory mechanisms."
-            )
-
+        # --------------------------------------------------------
         # Planning
-
-        if "planning" in trends_lower:
-
-            recommendations.append(
-                "Improve autonomous planning "
-                "and decision-making."
-            )
-
-        # Evaluation
-
-        if "evaluation" in trends_lower:
-
-            recommendations.append(
-                "Improve standardized evaluation "
-                "and benchmarking procedures."
-            )
-
-        # Security
+        # --------------------------------------------------------
 
         if (
-            "security" in trends_lower
-            or "privacy" in trends_lower
+            "planning" in trends_lower
+            or "planning" in emerging_lower
+            or "planning" in future_text
+            or gap_categories.get("planning")
         ):
 
             recommendations.append(
-                "Investigate stronger security, "
-                "privacy, and trust mechanisms."
+                "Investigate more reliable autonomous "
+                "planning and task decomposition techniques."
             )
 
-        # RAG
+        # --------------------------------------------------------
+        # Memory
+        # --------------------------------------------------------
+
+        if (
+            "memory" in trends_lower
+            or "memory" in emerging_lower
+            or "memory" in future_text
+            or gap_categories.get("memory")
+        ):
+
+            recommendations.append(
+                "Investigate long-term memory mechanisms "
+                "for maintaining context across complex "
+                "research and reasoning tasks."
+            )
+
+        # --------------------------------------------------------
+        # RAG / Retrieval
+        # --------------------------------------------------------
 
         if (
             "rag" in trends_lower
             or "retrieval" in trends_lower
+            or "retrieval-augmented generation"
+            in trends_lower
+            or gap_categories.get("retrieval")
         ):
 
             recommendations.append(
-                "Improve retrieval quality, "
-                "grounding, hallucination "
-                "mitigation, and knowledge "
-                "freshness in RAG systems."
+                "Improve retrieval quality and document "
+                "selection for complex research queries."
             )
 
-        # Fallback
+        # --------------------------------------------------------
+        # Grounding
+        # --------------------------------------------------------
 
-        if not recommendations:
+        if gap_categories.get("grounding"):
 
             recommendations.append(
-                "Investigate unexplored research "
-                "directions identified across "
-                "the analyzed papers."
+                "Strengthen source grounding and citation "
+                "verification to improve factual reliability."
             )
 
-        return list(
+        # --------------------------------------------------------
+        # Hallucination
+        # --------------------------------------------------------
+
+        if gap_categories.get("hallucination"):
+
+            recommendations.append(
+                "Develop stronger hallucination detection "
+                "and factual verification mechanisms."
+            )
+
+        # --------------------------------------------------------
+        # Knowledge Freshness
+        # --------------------------------------------------------
+
+        if gap_categories.get(
+            "knowledge_freshness"
+        ):
+
+            recommendations.append(
+                "Investigate mechanisms for continuously "
+                "updating knowledge from recent information sources."
+            )
+
+        # --------------------------------------------------------
+        # Evaluation / Benchmarking
+        # --------------------------------------------------------
+
+        if (
+            "benchmark" in trends_lower
+            or "benchmarks" in trends_lower
+            or "evaluation" in trends_lower
+            or gap_categories.get("evaluation")
+        ):
+
+            recommendations.append(
+                "Evaluate proposed approaches using "
+                "standardized benchmarks and reproducible "
+                "evaluation protocols."
+            )
+
+        # --------------------------------------------------------
+        # Dataset gaps
+        # --------------------------------------------------------
+
+        if gap_categories.get("datasets"):
+
+            recommendations.append(
+                "Use larger, more diverse, and domain-specific "
+                "datasets to improve model generalization "
+                "and reliability."
+            )
+
+        # --------------------------------------------------------
+        # Model limitations
+        # --------------------------------------------------------
+
+        if gap_categories.get("models"):
+
+            recommendations.append(
+                "Compare stronger model architectures and "
+                "established baselines to identify improvements "
+                "in reliability and generalization."
+            )
+
+        # --------------------------------------------------------
+        # Security
+        # --------------------------------------------------------
+
+        if (
+            "security" in trends_lower
+            or "privacy" in trends_lower
+            or gap_categories.get("security")
+        ):
+
+            recommendations.append(
+                "Investigate stronger security, privacy, "
+                "trust, and adversarial robustness mechanisms."
+            )
+
+        # --------------------------------------------------------
+        # Scalability
+        # --------------------------------------------------------
+
+        if gap_categories.get("scalability"):
+
+            recommendations.append(
+                "Optimize computational cost and resource "
+                "usage to improve scalability for practical deployment."
+            )
+
+        # --------------------------------------------------------
+        # Explainability
+        # --------------------------------------------------------
+
+        if gap_categories.get("explainability"):
+
+            recommendations.append(
+                "Improve explainability and interpretability "
+                "to support transparent and trustworthy AI systems."
+            )
+
+        # --------------------------------------------------------
+        # Applications / Deployment
+        # --------------------------------------------------------
+
+        if gap_categories.get("applications"):
+
+            recommendations.append(
+                "Validate the proposed approaches in realistic "
+                "real-world environments to assess scalability "
+                "and practical usability."
+            )
+
+        # --------------------------------------------------------
+        # Framework
+        # --------------------------------------------------------
+
+        if (
+            "framework" in trends_lower
+            or "frameworks" in trends_lower
+            or "framework" in emerging_lower
+            or "framework" in future_text
+        ):
+
+            recommendations.append(
+                "Design more robust, modular, and scalable "
+                "AI frameworks for practical research applications."
+            )
+
+        # --------------------------------------------------------
+        # Knowledge Graph
+        # --------------------------------------------------------
+
+        if (
+            "knowledge" in trends_lower
+            or "graph" in trends_lower
+            or "knowledge graph" in emerging_lower
+        ):
+
+            recommendations.append(
+                "Investigate knowledge-enhanced approaches "
+                "for improved information representation "
+                "and reasoning."
+            )
+
+        # --------------------------------------------------------
+        # Scientific Document Intelligence
+        # --------------------------------------------------------
+
+        if any(
+            "scientific document intelligence"
+            in area
+            or "document intelligence"
+            in area
+            for area in research_areas_lower
+        ):
+
+            recommendations.append(
+                "Improve scientific document understanding "
+                "using structure-aware extraction, "
+                "citation analysis, and domain-specific models."
+            )
+
+        # --------------------------------------------------------
+        # Machine Learning
+        # --------------------------------------------------------
+
+        if (
+            "machine learning"
+            in research_areas_lower
+        ):
+
+            recommendations.append(
+                "Compare proposed approaches with strong "
+                "machine learning baselines using consistent "
+                "evaluation metrics."
+            )
+
+        # --------------------------------------------------------
+        # Computer Vision
+        # --------------------------------------------------------
+
+        if (
+            "computer vision"
+            in research_areas_lower
+        ):
+
+            recommendations.append(
+                "Evaluate computer vision approaches across "
+                "diverse datasets and challenging real-world "
+                "conditions to improve generalization."
+            )
+
+        # --------------------------------------------------------
+        # Future Work Based Recommendation
+        # --------------------------------------------------------
+
+        if future_work:
+
+            recommendations.append(
+                "Prioritize future research directions identified "
+                "across the analyzed papers and validate them "
+                "through controlled experiments."
+            )
+
+        # --------------------------------------------------------
+        # Remove duplicates
+        # --------------------------------------------------------
+
+        recommendations = list(
             dict.fromkeys(
                 recommendations
             )
         )
+
+        # --------------------------------------------------------
+        # Limit output
+        # --------------------------------------------------------
+
+        recommendations = recommendations[:10]
+
+        # --------------------------------------------------------
+        # Final fallback
+        # --------------------------------------------------------
+
+        if not recommendations:
+
+            dominant_area = (
+                research_areas[0]
+                if research_areas
+                else "the identified research area"
+            )
+
+            recommendations.append(
+                f"Investigate unexplored research directions "
+                f"in {dominant_area} based on the limitations, "
+                f"future work, and trends identified across "
+                f"the analyzed literature."
+            )
+
+        return recommendations
+
+    # ============================================================
+    # RESEARCH DIRECTION VALIDATION
+    # ============================================================
+
+    def validate_research_directions(
+        self,
+        papers,
+        recommendations,
+        research_gaps=None,
+        future_work=None,
+        emerging_topics=None
+    ):
+        """
+        Validate whether recommendations are supported by:
+
+        1. Research gaps
+        2. Future work
+        3. Emerging topics
+        4. Research methodology
+
+        Returns a structured validation report for each
+        recommendation.
+        """
+
+        papers = papers or []
+
+        recommendations = recommendations or []
+
+        research_gaps = (
+            research_gaps
+            if research_gaps is not None
+            else self.detect_research_gaps(papers)
+        )
+
+        future_work = (
+            future_work
+            if future_work is not None
+            else self.detect_future_work(papers)
+        )
+
+        emerging_topics = (
+            emerging_topics
+            if emerging_topics is not None
+            else self.emerging_topics(papers)
+        )
+
+        results = []
+
+        for recommendation in recommendations:
+
+            if not recommendation:
+                continue
+
+            evidence = (
+                self._recommendation_evidence(
+                    recommendation,
+                    papers,
+                    research_gaps,
+                    future_work,
+                    emerging_topics
+                )
+            )
+
+            score = sum(
+                1
+                for value in evidence.values()
+                if value
+            )
+
+            if score >= 3:
+                validation_status = "Strongly Supported"
+
+            elif score == 2:
+                validation_status = "Supported"
+
+            elif score == 1:
+                validation_status = "Partially Supported"
+
+            else:
+                validation_status = "Weakly Supported"
+
+            results.append({
+
+                "recommendation":
+                    recommendation,
+
+                "validation_status":
+                    validation_status,
+
+                "evidence_score":
+                    score,
+
+                "evidence": evidence
+            })
+
+        return results
+
+    # ============================================================
+    # RECOMMENDATION EVIDENCE
+    # ============================================================
+
+    def _recommendation_evidence(
+        self,
+        recommendation,
+        papers,
+        research_gaps,
+        future_work,
+        emerging_topics
+    ):
+        """
+        Determine whether a recommendation is connected
+        to the major evidence sources.
+        """
+
+        recommendation_text = (
+            str(recommendation)
+            .lower()
+        )
+
+        gap_text = " ".join(
+            str(item)
+            for item in research_gaps or []
+        ).lower()
+
+        future_text = " ".join(
+            str(item)
+            for item in future_work or []
+        ).lower()
+
+        emerging_text = " ".join(
+            str(item)
+            for item in emerging_topics or []
+        ).lower()
+
+        methodology_text = self._get_methodology_text(
+            papers
+        ).lower()
+
+        evidence = {
+
+            "research_gaps":
+                self._has_keyword_overlap(
+                    recommendation_text,
+                    gap_text
+                ),
+
+            "future_work":
+                self._has_keyword_overlap(
+                    recommendation_text,
+                    future_text
+                ),
+
+            "emerging_topics":
+                self._has_keyword_overlap(
+                    recommendation_text,
+                    emerging_text
+                ),
+
+            "methodology":
+                self._methodology_supports_recommendation(
+                    recommendation_text,
+                    methodology_text
+                )
+        }
+
+        return evidence
+
+    # ============================================================
+    # METHODOLOGY TEXT
+    # ============================================================
+
+    def _get_methodology_text(self, papers):
+
+        methodology = []
+
+        for paper in papers or []:
+
+            value = paper.get("methodology")
+
+            if not value:
+                continue
+
+            if isinstance(value, list):
+
+                methodology.extend(
+                    str(item)
+                    for item in value
+                    if item
+                )
+
+            elif isinstance(value, dict):
+
+                methodology.extend(
+                    str(item)
+                    for item in value.values()
+                    if item
+                )
+
+            else:
+
+                methodology.append(
+                    str(value)
+                )
+
+        return " ".join(methodology)
+
+    # ============================================================
+    # KEYWORD OVERLAP
+    # ============================================================
+
+    def _has_keyword_overlap(
+        self,
+        recommendation_text,
+        evidence_text
+    ):
+        """
+        Checks whether meaningful research concepts from
+        a recommendation appear in the supporting evidence.
+        """
+
+        if not recommendation_text:
+            return False
+
+        if not evidence_text:
+            return False
+
+        keywords = [
+
+            "retrieval",
+            "grounding",
+            "hallucination",
+            "factual",
+            "citation",
+            "knowledge",
+            "freshness",
+            "evaluation",
+            "benchmark",
+            "dataset",
+            "model",
+            "architecture",
+            "coordination",
+            "multi-agent",
+            "agent",
+            "reasoning",
+            "planning",
+            "memory",
+            "security",
+            "privacy",
+            "trust",
+            "scalability",
+            "computational",
+            "explainability",
+            "interpretability",
+            "deployment",
+            "application",
+            "framework",
+            "knowledge graph",
+            "document",
+            "machine learning",
+            "computer vision"
+        ]
+
+        for keyword in keywords:
+
+            if (
+                keyword in recommendation_text
+                and keyword in evidence_text
+            ):
+
+                return True
+
+        return False
+
+    # ============================================================
+    # METHODOLOGY VALIDATION
+    # ============================================================
+
+    def _methodology_supports_recommendation(
+        self,
+        recommendation_text,
+        methodology_text
+    ):
+        """
+        Determines whether the methodology of the analyzed
+        papers is related to the proposed research direction.
+
+        This does not claim that the methodology proves a gap.
+        It only checks whether the recommendation is relevant
+        to the methods used in the literature.
+        """
+
+        if not recommendation_text:
+            return False
+
+        if not methodology_text:
+            return False
+
+        methodology_keywords = {
+
+            "retrieval": [
+                "retrieval",
+                "retriever",
+                "search",
+                "document"
+            ],
+
+            "grounding": [
+                "grounding",
+                "source",
+                "citation",
+                "retrieval augmented",
+                "rag"
+            ],
+
+            "hallucination": [
+                "hallucination",
+                "generation",
+                "language model",
+                "llm"
+            ],
+
+            "evaluation": [
+                "evaluation",
+                "benchmark",
+                "metric",
+                "experiment",
+                "test"
+            ],
+
+            "dataset": [
+                "dataset",
+                "training data",
+                "data"
+            ],
+
+            "model": [
+                "model",
+                "architecture",
+                "transformer",
+                "llm"
+            ],
+
+            "coordination": [
+                "multi-agent",
+                "multi agent",
+                "agent communication",
+                "coordination",
+                "collaboration"
+            ],
+
+            "agent": [
+                "agent",
+                "autonomous",
+                "multi-agent"
+            ],
+
+            "reasoning": [
+                "reasoning",
+                "inference",
+                "logical"
+            ],
+
+            "planning": [
+                "planning",
+                "task decomposition",
+                "decision"
+            ],
+
+            "memory": [
+                "memory",
+                "context",
+                "long-term"
+            ],
+
+            "security": [
+                "security",
+                "privacy",
+                "adversarial",
+                "attack"
+            ],
+
+            "scalability": [
+                "scalability",
+                "computational",
+                "resource",
+                "efficiency"
+            ],
+
+            "explainability": [
+                "explainability",
+                "interpretability",
+                "transparency"
+            ],
+
+            "deployment": [
+                "deployment",
+                "production",
+                "real-world",
+                "application"
+            ],
+
+            "framework": [
+                "framework",
+                "pipeline",
+                "architecture"
+            ],
+
+            "document": [
+                "document",
+                "pdf",
+                "scientific paper",
+                "text extraction"
+            ],
+
+            "computer vision": [
+                "image",
+                "vision",
+                "object detection",
+                "cnn",
+                "visual"
+            ],
+
+            "machine learning": [
+                "machine learning",
+                "classification",
+                "regression",
+                "training",
+                "prediction"
+            ]
+        }
+
+        for concept, terms in methodology_keywords.items():
+
+            recommendation_mentions_concept = (
+                concept in recommendation_text
+            )
+
+            if not recommendation_mentions_concept:
+
+                recommendation_mentions_concept = any(
+                    term in recommendation_text
+                    for term in terms
+                )
+
+            if not recommendation_mentions_concept:
+                continue
+
+            if any(
+                term in methodology_text
+                for term in terms
+            ):
+
+                return True
+
+        return False

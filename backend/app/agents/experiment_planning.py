@@ -1,6 +1,27 @@
+"""
+Experiment Planning Agent
+
+Purpose:
+Generates research experiment plans based on detected
+research areas, research gaps, trends, and recommendations.
+
+The agent provides:
+- Dataset recommendations
+- Baseline model recommendations
+- Evaluation metrics
+- Hardware requirements
+- Validation strategies
+- Experimental workflow
+- Gap-specific recommendations
+"""
+
+from collections import OrderedDict
+
+
 class ExperimentPlanningAgent:
 
     def __init__(self):
+
         self.agent_name = "Experiment Planning Agent"
         self.status = "Initialized"
 
@@ -13,9 +34,9 @@ class ExperimentPlanningAgent:
         datasets = {
 
             "Artificial Intelligence": [
-                "ImageNet",
-                "COCO",
-                "OpenML"
+                "OpenML",
+                "Kaggle Datasets",
+                "UCI Machine Learning Repository"
             ],
 
             "Machine Learning": [
@@ -37,9 +58,9 @@ class ExperimentPlanningAgent:
             ],
 
             "Computer Vision": [
+                "ImageNet",
                 "COCO",
-                "Pascal VOC",
-                "ImageNet"
+                "Pascal VOC"
             ],
 
             "Healthcare AI": [
@@ -52,52 +73,53 @@ class ExperimentPlanningAgent:
                 "AgentBench",
                 "GAIA Benchmark",
                 "OpenAI Evals",
-                "Hugging Face Datasets",
-                "HotpotQA"
+                "HotpotQA",
+                "Hugging Face Datasets"
             ],
 
             "Multi-Agent Systems": [
-                "Multi-Agent Benchmark",
                 "AgentBench",
+                "Multi-Agent Benchmark",
                 "GAIA Benchmark",
                 "OpenAI Evals"
             ],
 
-            "RAG": [
-                "HotpotQA",
-                "Natural Questions",
-                "TriviaQA",
-                "BEIR",
-                "MS MARCO"
-            ],
-
             "Retrieval-Augmented Generation": [
-                "HotpotQA",
+                "BEIR",
+                "MS MARCO",
                 "Natural Questions",
                 "TriviaQA",
-                "BEIR",
-                "MS MARCO"
+                "HotpotQA"
             ],
 
             "Scientific Document Intelligence": [
+                "PubMed Central",
                 "arXiv Dataset",
                 "S2ORC",
-                "PubMed",
                 "CORD-19"
+            ],
+
+            "General Artificial Intelligence": [
+                "OpenML",
+                "Hugging Face Datasets",
+                "Kaggle Datasets"
             ]
         }
 
         suggested = []
 
-        for area in research_areas:
+        for area in research_areas or []:
+
+            if not area:
+                continue
+
+            area = str(area).strip()
 
             suggested.extend(
                 datasets.get(area, [])
             )
 
-        return sorted(
-            list(set(suggested))
-        )
+        return sorted(set(suggested))
 
     # ============================================================
     # BASELINE MODEL RECOMMENDATIONS
@@ -143,21 +165,13 @@ class ExperimentPlanningAgent:
                 "U-Net"
             ],
 
-            # ----------------------------------------------------
-            # Agentic AI
-            # ----------------------------------------------------
-
             "Agentic AI": [
                 "Single-Agent LLM",
                 "ReAct",
-                "AutoGen",
                 "LangGraph",
-                "CrewAI"
+                "CrewAI",
+                "AutoGen"
             ],
-
-            # ----------------------------------------------------
-            # Multi-Agent Systems
-            # ----------------------------------------------------
 
             "Multi-Agent Systems": [
                 "Single-Agent LLM",
@@ -167,54 +181,43 @@ class ExperimentPlanningAgent:
                 "LangGraph"
             ],
 
-            # ----------------------------------------------------
-            # RAG
-            # ----------------------------------------------------
-
-            "RAG": [
-                "Vanilla RAG",
-                "BM25 Retrieval",
-                "Dense Retrieval RAG",
-                "Hybrid Search RAG",
-                "Naive RAG"
-            ],
-
-            # ----------------------------------------------------
-            # Alternative name
-            # ----------------------------------------------------
-
             "Retrieval-Augmented Generation": [
                 "Vanilla RAG",
+                "Naive RAG",
                 "BM25 Retrieval",
                 "Dense Retrieval RAG",
-                "Hybrid Search RAG",
-                "Naive RAG"
+                "Hybrid Search RAG"
             ],
 
-            # ----------------------------------------------------
-            # Scientific Document Intelligence
-            # ----------------------------------------------------
-
             "Scientific Document Intelligence": [
-                "TF-IDF",
+                "BM25",
+                "Dense Retrieval",
                 "BERT",
-                "SciBERT",
-                "Longformer",
-                "LayoutLM"
+                "RoBERTa",
+                "Transformer"
+            ],
+
+            "General Artificial Intelligence": [
+                "Random Forest",
+                "XGBoost",
+                "Transformer"
             ]
         }
 
         suggested = []
 
-        for area in research_areas:
+        for area in research_areas or []:
+
+            if not area:
+                continue
+
+            area = str(area).strip()
 
             suggested.extend(
                 models.get(area, [])
             )
 
-        return sorted(
-            list(set(suggested))
-        )
+        return sorted(set(suggested))
 
     # ============================================================
     # EVALUATION METRICS
@@ -222,112 +225,189 @@ class ExperimentPlanningAgent:
 
     def suggest_evaluation_metrics(
         self,
-        research_areas=None
+        research_areas=None,
+        research_gap_report=None
     ):
 
-        research_areas = research_areas or []
+        metrics = OrderedDict()
 
-        metrics = [
+        # General metrics
+
+        metrics["general"] = [
             "Accuracy",
             "Precision",
             "Recall",
-            "F1-Score",
-            "ROC-AUC"
+            "F1-Score"
         ]
 
-        areas_lower = {
-            area.lower()
-            for area in research_areas
-        }
+        # RAG-specific
 
-        # RAG-specific metrics
-
-        if (
-            "rag" in areas_lower
-            or
-            "retrieval-augmented generation"
-            in areas_lower
+        if self._contains_area(
+            research_areas,
+            "Retrieval-Augmented Generation"
         ):
 
-            metrics.extend([
+            metrics["rag"] = [
                 "Retrieval Precision",
                 "Retrieval Recall",
                 "Context Relevance",
                 "Answer Relevance",
                 "Faithfulness",
                 "Groundedness"
-            ])
+            ]
 
-        # Agent-specific metrics
+        # Multi-agent / Agentic AI
 
         if (
-            "agentic ai" in areas_lower
+            self._contains_area(
+                research_areas,
+                "Multi-Agent Systems"
+            )
             or
-            "multi-agent systems"
-            in areas_lower
+            self._contains_area(
+                research_areas,
+                "Agentic AI"
+            )
         ):
 
-            metrics.extend([
+            metrics["agent"] = [
                 "Task Success Rate",
                 "Planning Accuracy",
                 "Tool-Use Accuracy",
                 "Agent Coordination Score"
-            ])
+            ]
 
         # Scientific document intelligence
 
-        if (
-            "scientific document intelligence"
-            in areas_lower
+        if self._contains_area(
+            research_areas,
+            "Scientific Document Intelligence"
         ):
 
-            metrics.extend([
-                "Extraction Accuracy",
-                "Document Classification F1",
-                "Entity Recognition F1"
-            ])
+            metrics["document"] = [
+                "ROUGE",
+                "BLEU",
+                "BERTScore",
+                "Retrieval Accuracy"
+            ]
 
-        return sorted(
-            list(set(metrics))
+        # ROC-AUC is useful for classification
+
+        metrics["classification"] = [
+            "ROC-AUC"
+        ]
+
+        return list(
+            dict.fromkeys(
+                metric
+                for group in metrics.values()
+                for metric in group
+            )
         )
 
     # ============================================================
-    # HARDWARE
+    # HARDWARE REQUIREMENTS
     # ============================================================
 
-    def suggest_hardware(self):
+    def suggest_hardware(self, research_areas=None):
 
-        return {
-
-            "cpu":
-                "Intel Core i7 / AMD Ryzen 7",
-
-            "ram":
-                "16 GB",
-
-            "gpu":
-                "NVIDIA RTX 3060 or better",
-
-            "storage":
-                "100 GB SSD"
+        areas = {
+            str(area).lower()
+            for area in research_areas or []
+            if area
         }
+
+        # Default hardware
+
+        hardware = {
+            "cpu": "Intel Core i7 / AMD Ryzen 7",
+            "ram": "16 GB",
+            "gpu": "NVIDIA RTX 3060 or better",
+            "storage": "100 GB SSD"
+        }
+
+        # RAG / document workloads
+
+        if (
+            "retrieval-augmented generation"
+            in areas
+            or
+            "scientific document intelligence"
+            in areas
+        ):
+
+            hardware["ram"] = "32 GB"
+            hardware["storage"] = "200 GB SSD"
+
+        # Multi-agent / Agentic workloads
+
+        if (
+            "agentic ai"
+            in areas
+            or
+            "multi-agent systems"
+            in areas
+        ):
+
+            hardware["ram"] = "32 GB"
+            hardware["gpu"] = "NVIDIA RTX 3060 / RTX 4060 or better"
+
+        return hardware
 
     # ============================================================
     # VALIDATION STRATEGY
     # ============================================================
 
-    def validation_strategy(self):
+    def validation_strategy(
+        self,
+        research_areas=None
+    ):
 
-        return [
-
+        strategy = [
             "Train-Test Split",
-
             "K-Fold Cross Validation",
-
             "Hyperparameter Tuning",
-
             "Statistical Significance Testing"
         ]
+
+        if (
+            self._contains_area(
+                research_areas,
+                "Retrieval-Augmented Generation"
+            )
+            or
+            self._contains_area(
+                research_areas,
+                "Scientific Document Intelligence"
+            )
+        ):
+
+            strategy.extend([
+                "Retrieval Evaluation",
+                "Answer Quality Evaluation"
+            ])
+
+        if (
+            self._contains_area(
+                research_areas,
+                "Agentic AI"
+            )
+            or
+            self._contains_area(
+                research_areas,
+                "Multi-Agent Systems"
+            )
+        ):
+
+            strategy.extend([
+                "Task Success Evaluation",
+                "Agent Coordination Evaluation",
+                "Tool-Use Evaluation"
+            ])
+
+        return list(
+            dict.fromkeys(strategy)
+        )
 
     # ============================================================
     # EXPERIMENTAL WORKFLOW
@@ -338,110 +418,231 @@ class ExperimentPlanningAgent:
         research_areas=None
     ):
 
-        workflow = [
+        if (
+            self._contains_area(
+                research_areas,
+                "Retrieval-Augmented Generation"
+            )
+        ):
 
-            "Define Research Problem",
+            return [
+                "Collect Knowledge Documents",
+                "Preprocess and Chunk Documents",
+                "Build Document Index",
+                "Configure Retrieval System",
+                "Retrieve Relevant Context",
+                "Generate Grounded Response",
+                "Evaluate Retrieval Quality",
+                "Evaluate Answer Quality",
+                "Compare Baseline and Proposed RAG",
+                "Analyze Errors",
+                "Draw Conclusions"
+            ]
 
+        if (
+            self._contains_area(
+                research_areas,
+                "Multi-Agent Systems"
+            )
+            or
+            self._contains_area(
+                research_areas,
+                "Agentic AI"
+            )
+        ):
+
+            return [
+                "Define Research Task",
+                "Select Agent Architecture",
+                "Configure Individual Agents",
+                "Configure Agent Communication",
+                "Execute Multi-Agent Workflow",
+                "Evaluate Task Success",
+                "Evaluate Planning",
+                "Evaluate Tool Usage",
+                "Evaluate Agent Coordination",
+                "Compare Baseline and Proposed System",
+                "Analyze Errors",
+                "Draw Conclusions"
+            ]
+
+        return [
             "Collect Dataset",
-
             "Preprocess Data",
-
-            "Configure Baseline Models",
-
-            "Train / Execute Baseline Models",
-
-            "Train / Execute Proposed Approach",
-
+            "Split Dataset",
+            "Train Baseline Models",
+            "Train Proposed Model",
             "Evaluate Performance",
-
             "Compare Results",
-
             "Analyze Errors",
-
-            "Perform Ablation Analysis",
-
+            "Perform Statistical Validation",
             "Draw Conclusions"
         ]
 
-        areas_lower = {
-            area.lower()
-            for area in (
-                research_areas or []
+    # ============================================================
+    # GAP-SPECIFIC EXPERIMENT RECOMMENDATIONS
+    # ============================================================
+
+    def gap_based_recommendations(
+        self,
+        research_gap_report
+    ):
+
+        recommendations = []
+
+        gap_categories = (
+            research_gap_report.get(
+                "gap_categories",
+                {}
             )
-        }
+            or {}
+        )
 
-        # RAG-specific workflow
+        # Dataset gap
 
-        if (
-            "rag" in areas_lower
-            or
-            "retrieval-augmented generation"
-            in areas_lower
+        if gap_categories.get("datasets"):
+
+            recommendations.append(
+                "Evaluate the proposed approach "
+                "on larger and more diverse datasets."
+            )
+
+        # Retrieval gap
+
+        if gap_categories.get("retrieval"):
+
+            recommendations.append(
+                "Compare BM25, dense retrieval, "
+                "and hybrid retrieval methods."
+            )
+
+        # Grounding gap
+
+        if gap_categories.get("grounding"):
+
+            recommendations.append(
+                "Evaluate source attribution, "
+                "faithfulness, and groundedness."
+            )
+
+        # Hallucination gap
+
+        if gap_categories.get("hallucination"):
+
+            recommendations.append(
+                "Measure hallucination frequency "
+                "and introduce factuality verification."
+            )
+
+        # Knowledge freshness
+
+        if gap_categories.get(
+            "knowledge_freshness"
         ):
 
-            workflow = [
+            recommendations.append(
+                "Evaluate system performance using "
+                "recently updated knowledge sources."
+            )
 
-                "Collect Knowledge Documents",
+        # Evaluation gap
 
-                "Preprocess and Chunk Documents",
+        if gap_categories.get("evaluation"):
 
-                "Build Document Index",
+            recommendations.append(
+                "Use standardized benchmarks and "
+                "multiple evaluation metrics."
+            )
 
-                "Configure Retrieval System",
+        # Coordination gap
 
-                "Retrieve Relevant Context",
+        if gap_categories.get("coordination"):
 
-                "Generate Grounded Response",
+            recommendations.append(
+                "Compare centralized and decentralized "
+                "multi-agent coordination strategies."
+            )
 
-                "Evaluate Retrieval Quality",
+        # Security gap
 
-                "Evaluate Answer Quality",
+        if gap_categories.get("security"):
 
-                "Compare Baseline and Proposed RAG",
+            recommendations.append(
+                "Evaluate robustness against prompt "
+                "injection, adversarial inputs, "
+                "and unauthorized tool usage."
+            )
 
-                "Analyze Errors",
+        # Scalability gap
 
-                "Draw Conclusions"
-            ]
+        if gap_categories.get("scalability"):
 
-        # Agent-specific workflow
+            recommendations.append(
+                "Measure computational cost, latency, "
+                "resource consumption, and scalability."
+            )
 
-        elif (
-            "agentic ai" in areas_lower
-            or
-            "multi-agent systems"
-            in areas_lower
-        ):
+        # Explainability
 
-            workflow = [
+        if gap_categories.get("explainability"):
 
-                "Define Research Task",
+            recommendations.append(
+                "Evaluate explanation quality, "
+                "transparency, and interpretability."
+            )
 
-                "Configure Baseline Agent",
+        # Reasoning
 
-                "Configure Proposed Agent System",
+        if gap_categories.get("reasoning"):
 
-                "Define Agent Roles",
+            recommendations.append(
+                "Evaluate multi-step reasoning using "
+                "complex benchmark tasks."
+            )
 
-                "Execute Tasks",
+        # Memory
 
-                "Evaluate Task Success",
+        if gap_categories.get("memory"):
 
-                "Evaluate Agent Coordination",
+            recommendations.append(
+                "Evaluate long-term memory and "
+                "persistent context management."
+            )
 
-                "Measure Tool-Use Performance",
+        # Planning
 
-                "Compare Baseline and Proposed System",
+        if gap_categories.get("planning"):
 
-                "Analyze Errors",
+            recommendations.append(
+                "Evaluate long-horizon planning and "
+                "decision-making performance."
+            )
 
-                "Draw Conclusions"
-            ]
+        # Applications
 
-        return workflow
+        if gap_categories.get("applications"):
+
+            recommendations.append(
+                "Validate the system in realistic "
+                "real-world deployment scenarios."
+            )
+
+        if not recommendations:
+
+            recommendations.append(
+                "Conduct experiments covering "
+                "performance, reliability, scalability, "
+                "and real-world applicability."
+            )
+
+        return list(
+            dict.fromkeys(
+                recommendations
+            )
+        )
 
     # ============================================================
-    # GENERATE EXPERIMENT PLAN
+    # MAIN PLAN GENERATION
     # ============================================================
 
     def generate_plan(
@@ -449,11 +650,16 @@ class ExperimentPlanningAgent:
         research_gap_report
     ):
 
+        research_gap_report = (
+            research_gap_report or {}
+        )
+
         research_areas = (
             research_gap_report.get(
                 "research_areas",
                 []
             )
+            or []
         )
 
         return {
@@ -473,17 +679,48 @@ class ExperimentPlanningAgent:
 
             "evaluation_metrics":
                 self.suggest_evaluation_metrics(
-                    research_areas
+                    research_areas,
+                    research_gap_report
                 ),
 
             "hardware_requirements":
-                self.suggest_hardware(),
+                self.suggest_hardware(
+                    research_areas
+                ),
 
             "validation_strategy":
-                self.validation_strategy(),
+                self.validation_strategy(
+                    research_areas
+                ),
 
             "experimental_workflow":
                 self.experimental_workflow(
                     research_areas
+                ),
+
+            "gap_based_recommendations":
+                self.gap_based_recommendations(
+                    research_gap_report
                 )
         }
+
+    # ============================================================
+    # HELPER
+    # ============================================================
+
+    def _contains_area(
+        self,
+        research_areas,
+        target
+    ):
+
+        if not research_areas:
+            return False
+
+        target = target.lower()
+
+        return any(
+            str(area).strip().lower() == target
+            for area in research_areas
+            if area
+        )
