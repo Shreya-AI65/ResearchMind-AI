@@ -15,7 +15,9 @@ The goal of Version 1 is to build a functional platform that assists researchers
 ### Features
 
 * Enter a research topic or query.
+
 * View previous research sessions.
+
 * Save research history.
 
 ---
@@ -25,11 +27,17 @@ The goal of Version 1 is to build a functional platform that assists researchers
 ### Features
 
 * ✅ Search for relevant research papers.
+
 * ✅ Retrieve paper metadata (Title, Authors, Abstract, Publication Year, Citation Count, URL).
+
 * ✅ Semantic Scholar API integration.
+
 * ✅ Parse API responses into structured paper objects.
+
 * ✅ Search papers using user-provided research queries.
+
 * ⏳ Display paper summaries. *(Planned for future enhancement)*
+
 
 
 ---
@@ -39,17 +47,29 @@ The goal of Version 1 is to build a functional platform that assists researchers
 ### Features
 
 * ✅ Generate structured paper analysis.
+
 * ✅ Extract research objectives/problems.
+
 * ✅ Extract methodologies.
+
 * ⏳ Extract datasets used. *(Planned)*
+
 * ⏳ Extract evaluation metrics. *(Planned)*
+
 * ⏳ Identify strengths. *(Planned)*
+
 * ⏳ Identify limitations. *(Planned)*
+
 * ✅ Extract key contributions.
+
 * ✅ Detect future work.
+
 * ✅ Extract keywords.
+
 * ✅ Detect research area.
+
 * ✅ Paper quality scoring.
+
 * ✅ Paper quality classification.
 
 ---
@@ -59,22 +79,39 @@ The goal of Version 1 is to build a functional platform that assists researchers
 ### Features
 
 * ✅ Compare multiple analyzed research papers.
+
 * ✅ Generate structured comparison results.
+
 * ✅ Compare methodologies.
+
 * ✅ Compare research areas.
+
 * ✅ Compare research problems.
+
 * ✅ Compare publication years.
+
 * ✅ Compare citation counts.
+
 * ✅ Compare paper quality scores.
+
 * ✅ Compare quality classifications.
+
 * ✅ Extract common methodologies.
+
 * ✅ Extract common keywords.
+
 * ✅ Extract research areas.
+
 * ✅ Identify highest cited paper.
+
 * ✅ Identify latest published paper.
+
 * ⏳ Generate visual comparison tables. *(Planned)*
+
 * ⏳ Compare datasets. *(Planned)*
+
 * ⏳ Compare evaluation metrics. *(Planned)*
+
 * ⏳ Compare experimental results. *(Planned)*
 
 ---
@@ -84,68 +121,123 @@ The goal of Version 1 is to build a functional platform that assists researchers
 ### Features
 
 * ✅ FastAPI Backend
+
 * ✅ Modular Project Architecture
+
 * ✅ Paper Retrieval Agent
+
 * ✅ Paper Analysis Agent
+
 * ✅ Methodology Comparison Agent
+
 * ✅ Research Gap Detection Agent
+
 * ✅ Literature Review Agent
+
 * ✅ Experiment Planning Agent
+
 * ✅ Report Generation Agent
+
 * ✅ PDF Generator Utility
+
 * ✅ DOCX Generator Utility
+
 * ✅ Markdown Generator Utility
+
 * ✅ Paper Service
+
 * ✅ Analysis Service
+
 * ✅ Comparison Service
+
 * ✅ Research Gap Service
+
 * ✅ Literature Review Service
+
 * ✅ Citation Analysis Service
+
 * ✅ Report Generation Service
+
 * ✅ REST API Endpoints
+
 * ✅ /search API
+
 * ✅ /analyze API
+
 * ✅ /compare API
+
 * ✅ /research-gap API
+
 * ✅ /literature-review API
+
 * ✅ /report API
+
 * ✅ /report/download API
+
 * ✅ /report/download/docx API
+
 * ✅ /report/download/markdown API
+
 * ✅ Logging System
+
 * ✅ Custom Exception Handling
+
 * ✅ Configuration Management
+
 * ✅ Unit Testing
+
 * ✅ Integration Testing
+
 * ✅ PDF Report Export
-  
----  
+
+**---  **
 
 ## 6. Frontend Dashboard
 
 ### Features
 
 * ✅ React + Vite setup.
+
 * ✅ Tailwind CSS integration.
+
 * ✅ Responsive dashboard layout.
+
 * ✅ Sidebar navigation.
+
 * ✅ Top navigation bar.
+
 * ✅ Generate Report page.
+
 * ✅ Report History page.
+
 * ✅ Report Search page.
+
 * ✅ Report Statistics page.
+
 * ✅ Settings page.
+
 * ✅ Axios API integration.
+
 * ✅ PDF report download.
+
 * ✅ DOCX report download.
+
 * ✅ Markdown report download.
+
 * ✅ Loading indicators.
+
 * ✅ Reusable UI components.
+
 * ⏳ Delete report from frontend. *(Next Sprint)*
+
 * ⏳ Export history from frontend. *(Next Sprint)*
+
 * ⏳ Interactive analytics charts. *(Next Sprint)*
+
 * ⏳ Dark mode support. *(Future)*
+
 * ⏳ Authentication system. *(Future)*
+
 ---
 
 ## 7. Paper Comparison
@@ -153,9 +245,13 @@ The goal of Version 1 is to build a functional platform that assists researchers
 ### Features
 
 * Compare multiple research papers.
+
 * Generate comparison tables.
+
 * Highlight similarities.
+
 * Highlight differences.
+
 * Compare benchmark results.
 
 ---
@@ -165,17 +261,29 @@ The goal of Version 1 is to build a functional platform that assists researchers
 ### Features
 
 * ✅ Detect common research gaps.
+
 * ✅ Identify future research opportunities.
+
 * ✅ Extract common research areas.
+
 * ✅ Aggregate common keywords.
+
 * ✅ Generate structured research gap reports.
+
 * ✅ Generate experiment plans.
+
 * ✅ Recommend benchmark datasets.
+
 * ✅ Recommend baseline models.
+
 * ✅ Suggest evaluation metrics.
+
 * ✅ Suggest hardware requirements.
+
 * ✅ Generate validation strategies.
+
 * ✅ Generate complete experimental workflows.
+
 * ⏳ Intelligent research novelty detection. *(Future Version)*
 
 ---
@@ -183,12 +291,19 @@ The goal of Version 1 is to build a functional platform that assists researchers
 ### Citation Analysis
 
 - ✅ Citation Analysis Agent
+
 - ✅ Citation Analysis Service
+
 - ✅ Citation Analysis API
+
 - ✅ Citation Ranking
+
 - ✅ Highest Cited Paper Detection
+
 - ✅ Lowest Cited Paper Detection
+
 - ✅ Average Citation Calculation
+
 - ✅ Citation Statistics Integration into Report
 
 ---
@@ -198,15 +313,25 @@ The goal of Version 1 is to build a functional platform that assists researchers
 ### Features
 
 * ✅ Generate structured literature reviews.
+
 * ✅ Introduction generation.
+
 * ✅ Paper summaries.
+
 * ✅ Research trends extraction.
+
 * ✅ Research gap summarization.
+
 * ✅ Future scope generation.
+
 * ✅ Conclusion generation.
+
 * ✅ Export reports as PDF.
+
 * ✅ Export reports as DOCX.
+
 * ✅ Export reports as Markdown.
+
 ---
 
 ## 10. Report Generation
@@ -214,21 +339,37 @@ The goal of Version 1 is to build a functional platform that assists researchers
 ### Features
 
 * ✅ Generate complete research reports.
+
 * ✅ Executive summary generation.
+
 * ✅ Combine outputs from all AI agents.
+
 * ✅ Include methodology comparison.
+
 * ✅ Include research gap analysis.
+
 * ✅ Include literature review.
+
 * ✅ Include citation analysis.
+
 * ✅ Include experiment planning.
+
 * ✅ Generate report summary.
+
 * ✅ Generate conclusion.
+
 * ✅ PDF report generation.
+
 * ✅ DOCX report generation.
+
 * ✅ Markdown report generation.
+
 * ✅ Download PDF report.
+
 * ✅ Download DOCX report.
+
 * ✅ Download Markdown report.
+
 ---
 
 # Version 2 (Future Enhancements)
@@ -260,14 +401,21 @@ Assign a confidence score to every generated insight based on the number, qualit
 Provide explanations tailored to different user levels such as Beginner, Undergraduate, Master's Student, PhD Researcher, and Industry Professional.
 
 
+
 ## Agentic AI Enhancements
 
 * ✅ Multi-agent research pipeline.
+
 * ✅ Research planning agent.
+
 * ✅ Experiment recommendation agent.
+
 * ✅ Literature Review Agent.
+
 * ✅ Report Generation Agent.
+
 * ⏳ Benchmark recommendation agent.
+
 * ⏳ Automated research roadmap generation.
 
 ---
@@ -275,8 +423,11 @@ Provide explanations tailored to different user levels such as Beginner, Undergr
 ## Visualization
 
 * Knowledge Graph.
+
 * Citation Network.
+
 * Research Trend Analysis.
+
 * Interactive Graph Dashboard.
 
 ---
@@ -284,12 +435,19 @@ Provide explanations tailored to different user levels such as Beginner, Undergr
 ## Productivity Features
 
 * PowerPoint generation.
+
 * Voice assistant.
+
 * Team collaboration.
+
 * User authentication.
+
 * Cloud synchronization.
+
 * Dark mode.
+
 * Interactive analytics dashboard.
+
 * Mobile optimization.
 
 ---
@@ -297,9 +455,13 @@ Provide explanations tailored to different user levels such as Beginner, Undergr
 ## Advanced AI Features
 
 * Personalized paper recommendations.
+
 * Automatic citation generation.
+
 * AI-powered experiment planning.
+
 * Research novelty scoring.
+
 * Project feasibility analysis.
 
 ---
@@ -315,108 +477,145 @@ The following features represent the long-term vision of ResearchMind AI. These 
 ## Multi-Agent Collaboration
 
 * Specialized AI agents collaborate to perform different stages of the research workflow.
+
 * Agents exchange structured information and coordinate tasks to improve research quality and efficiency.
+
 * Supports parallel execution of research activities.
 
 ## Persistent Research Memory
 
 * Maintains long-term memory across research sessions.
+
 * Stores previous analyses, summaries, and user interactions.
+
 * Enables continuity in long-term research projects.
 
 ## Automated Research Gap Detection
 
 * Identifies unexplored research areas by analyzing multiple scientific papers.
+
 * Detects limitations, unresolved challenges, and future research opportunities.
+
 * Suggests potential research directions based on identified gaps.
 
 ## Intelligent Methodology Comparison
 
 * Compares research papers across multiple dimensions such as:
 
-  * Model architecture
-  * Algorithms
-  * Datasets
-  * Evaluation metrics
-  * Experimental setup
-  * Performance
-  * Computational requirements
+  * Model architecture
+
+  * Algorithms
+
+  * Datasets
+
+  * Evaluation metrics
+
+  * Experimental setup
+
+  * Performance
+
+  * Computational requirements
+
 * Generates structured comparison tables and visualizations.
 
 ## Experiment Planning Assistant
 
 * Recommends suitable datasets, baseline models, evaluation metrics, and validation strategies.
+
 * Estimates hardware and software requirements.
+
 * Generates implementation-ready experimental workflows.
 
 ## Research Recommendation Engine
 
 * Suggests relevant research papers based on user interests and previous work.
+
 * Recommends emerging research topics and potential collaborators.
+
 * Provides personalized learning paths for researchers.
 
 ## Knowledge Graph Generation
 
 * Automatically constructs interactive knowledge graphs connecting concepts, authors, methods, datasets, and citations.
+
 * Helps researchers explore relationships between different research areas.
 
 ## Citation and Impact Analysis
 
 * Performs citation network analysis.
+
 * Identifies influential papers, authors, and publication venues.
+
 * Visualizes citation relationships and research impact.
 
 ## Research Trend Prediction
 
 * Analyzes publication trends across different domains.
+
 * Predicts emerging research topics using historical publication data.
+
 * Highlights rapidly growing research areas.
 
 ## Autonomous Literature Review Generation
 
 * Produces comprehensive literature reviews by synthesizing information from multiple papers.
+
 * Organizes content into logical sections with proper citations and references.
+
 * Maintains academic writing standards.
 
 ## AI Reviewer
 
 * Reviews research manuscripts before submission.
+
 * Identifies missing citations, weak arguments, and inconsistencies.
+
 * Suggests improvements in clarity, structure, and scientific writing.
 
 ## Presentation and Report Generation
 
 * Automatically generates research reports, presentations, posters, and executive summaries.
+
 * Supports export to PDF, DOCX, Markdown, PPT, and LaTeX formats.
 
 ## Collaborative Research Workspace
 
 * Enables multiple researchers to work on shared projects.
+
 * Supports shared notes, annotations, task management, and document collaboration.
+
 * Maintains version history for research artifacts.
 
 ## Agent-to-Agent (A2A) Communication
 
 * Enables standardized communication between specialized AI agents.
+
 * Supports efficient task delegation and information exchange.
+
 * Improves coordination and scalability of the multi-agent system.
 
 ## Advanced Frontend Experience
 
 * Interactive analytics dashboard.
+
 * Research visualization charts.
+
 * Report viewer with embedded PDF preview.
+
 * Real-time research progress tracking.
+
 * Personalized dashboard widgets.
+
 * Multi-theme support.
+
 * Responsive mobile experience.
 
 ## Model Context Protocol (MCP) Integration
 
 * Integrates external tools, databases, APIs, and development environments using the Model Context Protocol.
+
 * Provides secure and standardized access to research resources.
 
 ## Future Vision
 
 The long-term objective of ResearchMind AI is to evolve into a fully autonomous, collaborative research ecosystem capable of assisting researchers throughout the complete scientific research lifecycle—from literature discovery and critical analysis to experiment planning, manuscript preparation, and research dissemination.
-

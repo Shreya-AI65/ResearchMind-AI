@@ -1,6 +1,6 @@
 # 🚀 ResearchMind AI
 
-**ResearchMind AI** is a multi-agent AI-powered research assistant designed to automate the complete academic research workflow. It retrieves research papers, analyzes them, identifies research gaps, generates literature reviews, creates experiment plans, produces comprehensive reports, and provides an interactive web dashboard for managing research outputs.
+**ResearchMind AI** is a multi-agent AI-powered research assistant designed to automate the complete academic research workflow. It retrieves research papers, analyzes them, compares methodologies, identifies research gaps, generates literature reviews, creates experiment plans, produces comprehensive research reports, and provides an interactive web dashboard for managing research outputs.
 
 ---
 
@@ -8,81 +8,86 @@
 
 ## 🤖 Backend
 
-- Paper Retrieval Agent
-- Paper Analysis Agent
-- Methodology Comparison Agent
-- Research Gap Detection Agent
-- Literature Review Generation
-- Experiment Planning Agent
-- Report Generation Agent
-- Report Versioning
-- Report History Management
-- Report Search
-- Report Statistics
-- Report Delete Management
-- Report Export (PDF, DOCX, Markdown)
-- REST API with FastAPI
-- Centralized Logging
-- Global Exception Handling
-- Semantic Scholar Integration
+* Paper Retrieval Agent
+* Paper Analysis Agent
+* Methodology Comparison Agent
+* Research Gap Detection Agent
+* Literature Review Generation
+* Experiment Planning Agent
+* Report Generation Agent
+* Topic-wise Report Generation
+* Report Versioning
+* Report History Management
+* Report Search
+* Report Statistics
+* Report Delete Management
+* Report Export
 
----
+  * PDF
+  * DOCX
+  * Markdown
+* REST API with FastAPI
+* Centralized Logging
+* Global Exception Handling
+* Semantic Scholar Integration
 
 ## 💻 Frontend
 
-- React + Vite
-- Tailwind CSS
-- Dashboard
-- Sidebar Navigation
-- Navbar
-- Generate Report Page
-- Report History
-- Report Search
-- Report Statistics
-- Settings Page
-- PDF Download
-- DOCX Download
-- Markdown Download
-- Responsive Layout
-- Reusable UI Components
-- Loading Indicators
-- Analytics Cards
-- Report Cards
+* React + Vite
+* Tailwind CSS
+* Dashboard
+* Sidebar Navigation
+* Navbar
+* Generate Report Page
+* Report History
+* Report Search
+* Report Statistics
+* Settings Page
+* PDF Download
+* DOCX Download
+* Markdown Download
+* Responsive Layout
+* Reusable UI Components
+* Loading Indicators
+* Analytics Cards
+* Report Cards
 
 ---
 
 # 🏗 Project Architecture
 
 ```text
-                    User
-                      │
-                      ▼
-          React Frontend Dashboard
-                      │
-                Axios REST API
-                      │
-                      ▼
-               FastAPI Backend
-                      │
- ────────────────────────────────────────────
-                      │
-        Paper Retrieval Agent
-                      │
-        Paper Analysis Agent
-                      │
-    Methodology Comparison Agent
-                      │
-    Research Gap Detection Agent
-                      │
-     Literature Review Agent
-                      │
-      Experiment Planning Agent
-                      │
-      Report Generation Agent
-                      │
-      Report Management APIs
-                      │
-        PDF • DOCX • Markdown
+                         User
+                           │
+                           ▼
+                 React Frontend Dashboard
+                           │
+                     Axios REST API
+                           │
+                           ▼
+                    FastAPI Backend
+                           │
+        ─────────────────────────────────────
+                           │
+                 Paper Retrieval Agent
+                           │
+                    Paper Parser
+                           │
+                  Paper Analysis Agent
+                           │
+             Methodology Comparison Agent
+                           │
+             Research Gap Detection Agent
+                           │
+                Literature Review Agent
+                           │
+              Experiment Planning Agent
+                           │
+                Report Generation Agent
+                           │
+                 Report Management APIs
+                           │
+              PDF • DOCX • Markdown
 ```
 
 ---
@@ -132,28 +137,26 @@ ResearchMind_AI/
 
 ## Backend
 
-- Python
-- FastAPI
-- Pydantic
-- ReportLab
-- python-docx
-- Markdown
-- Semantic Scholar API
-- JSON
-- Logging
-
----
+* Python
+* FastAPI
+* Pydantic
+* ReportLab
+* python-docx
+* Markdown
+* Semantic Scholar API
+* JSON
+* Logging
 
 ## Frontend
 
-- React
-- Vite
-- Tailwind CSS
-- React Router DOM
-- Axios
-- React Icons
-- Recharts
-- Framer Motion
+* React
+* Vite
+* Tailwind CSS
+* React Router DOM
+* Axios
+* React Icons
+* Recharts
+* Framer Motion
 
 ---
 
@@ -162,49 +165,86 @@ ResearchMind_AI/
 ## Research APIs
 
 ```text
-GET    /api/v1/search
-GET    /api/v1/analyze
-GET    /api/v1/compare
-GET    /api/v1/research-gap
-GET    /api/v1/literature-review
-GET    /api/v1/experiment-plan
-
-POST   /api/v1/report
-POST   /api/v1/report/download
-POST   /api/v1/report/download/docx
-POST   /api/v1/report/download/markdown
+GET     /api/v1/search
+GET     /api/v1/analyze
+GET     /api/v1/compare
+GET     /api/v1/research-gap
+GET     /api/v1/literature-review
+GET     /api/v1/experiment-plan
+POST    /api/v1/report
+POST    /api/v1/report/download
+POST    /api/v1/report/download/docx
+POST    /api/v1/report/download/markdown
 ```
-
----
 
 ## Report Management APIs
 
 ```text
-GET      /api/v1/report/history
-GET      /api/v1/reports/search
-GET      /api/v1/reports/statistics
-GET      /api/v1/reports/export
-
-DELETE   /api/v1/reports/delete
+GET       /api/v1/report/history
+GET       /api/v1/reports/search
+GET       /api/v1/reports/statistics
+GET       /api/v1/reports/export
+DELETE    /api/v1/reports/delete
 ```
 
 ---
 
 # 📑 Generated Reports
 
-ResearchMind AI automatically generates:
+ResearchMind AI can generate structured research reports for individual research topics.
 
-- PDF Reports
-- DOCX Reports
-- Markdown Reports
+Supported formats:
 
-All generated reports are stored inside:
+* PDF Reports
+* DOCX Reports
+* Markdown Reports
+
+Generated reports are stored inside:
 
 ```text
 backend/generated_reports/
 ```
 
-along with complete version history.
+The system supports separate report generation for different research topics, allowing each topic to have its own structured research output.
+
+---
+
+# 🔄 Research Report Workflow
+
+```text
+Research Topic
+      │
+      ▼
+Paper Retrieval
+      │
+      ▼
+Paper Parsing
+      │
+      ▼
+Paper Analysis
+      │
+      ▼
+Methodology Comparison
+      │
+      ▼
+Research Gap Detection
+      │
+      ▼
+Literature Review
+      │
+      ▼
+Experiment Planning
+      │
+      ▼
+Report Generation
+      │
+      ▼
+Topic-specific Research Report
+      │
+      ├── PDF
+      ├── DOCX
+      └── Markdown
+```
 
 ---
 
@@ -230,13 +270,13 @@ pip install -r requirements.txt
 uvicorn app.main:app --reload
 ```
 
-Backend
+Backend:
 
 ```text
 http://127.0.0.1:8000
 ```
 
-Swagger Documentation
+Swagger Documentation:
 
 ```text
 http://127.0.0.1:8000/docs
@@ -254,7 +294,7 @@ npm install
 npm run dev
 ```
 
-Frontend
+Frontend:
 
 ```text
 http://localhost:5173
@@ -266,100 +306,147 @@ http://localhost:5173
 
 ## ✅ Phase 1 – Project Planning
 
-- Project Planning
-- Documentation
-- Repository Setup
+* Project Planning
+* Documentation
+* Repository Setup
 
 ---
 
 ## ✅ Phase 2 – Research Analysis
 
-- Paper Retrieval Agent
-- Paper Analysis Agent
-- Unit Testing
-- Integration Testing
+* Paper Retrieval Agent
+* Paper Analysis Agent
+* Unit Testing
+* Integration Testing
 
 ---
 
 ## ✅ Phase 3 – Research Intelligence
 
-- Methodology Comparison
-- Research Gap Detection
+* Methodology Comparison
+* Research Gap Detection
 
 ---
 
 ## ✅ Phase 4 – Report Generation
 
-- Literature Review Generation
-- Experiment Planning
-- Report Generation
-- PDF Export
-- DOCX Export
-- Markdown Export
+* Literature Review Generation
+* Experiment Planning
+* Report Generation
+* Topic-wise Report Generation
+* PDF Export
+* DOCX Export
+* Markdown Export
 
 ---
 
 ## ✅ Phase 5 – Report Management
 
-- Report Versioning
-- Report History
-- Report Search
-- Report Statistics
-- Report Delete API
-- Report Export API
+* Report Versioning
+* Report History
+* Report Search
+* Report Statistics
+* Report Delete API
+* Report Export API
 
 ---
 
 ## ✅ Phase 6 – Frontend Integration
 
-Completed
+Completed:
 
-- React + Vite Setup
-- Tailwind CSS
-- React Router
-- Dashboard
-- Sidebar
-- Navbar
-- Generate Report Page
-- Report History Page
-- Report Search Page
-- Report Statistics Page
-- Settings Page
-- Backend API Integration
-- PDF Download
-- DOCX Download
-- Markdown Download
-- Responsive UI
-- Reusable Components
+* React + Vite Setup
+* Tailwind CSS
+* React Router
+* Dashboard
+* Sidebar
+* Navbar
+* Generate Report Page
+* Report History Page
+* Report Search Page
+* Report Statistics Page
+* Settings Page
+* Backend API Integration
+* PDF Download
+* DOCX Download
+* Markdown Download
+* Responsive UI
+* Reusable Components
 
 ---
 
-## 🚧 Phase 7 – Upcoming
+## 🚧 Phase 7 – Frontend and User Experience Enhancements
 
-- Interactive Analytics Charts
-- Report Viewer
-- Delete Report UI
-- Export History UI
-- Dark Mode
-- Authentication
-- Mobile Optimization
-- User Profile
-- Dashboard Enhancements
+Upcoming:
+
+* Interactive Analytics Charts
+* Report Viewer
+* Delete Report UI
+* Export History UI
+* Dark Mode
+* Authentication
+* Mobile Optimization
+* User Profile
+* Dashboard Enhancements
+
+---
+
+# 🧪 Testing
+
+ResearchMind AI includes testing for major backend components.
+
+Current testing includes:
+
+* Paper Analysis Unit Testing
+* Analysis Pipeline Integration Testing
+* API Testing
+* Exception Handling Testing
+* Semantic Scholar API Rate-limit Handling
+* Literature Review API Testing
+* Report Generation Testing
+
+Testing helps ensure that individual agents, services, APIs, and the complete research workflow operate correctly.
+
+---
+
+# 📚 Research Workflow Capabilities
+
+ResearchMind AI currently supports a complete research workflow:
+
+```text
+Search Papers
+      ↓
+Analyze Papers
+      ↓
+Compare Methodologies
+      ↓
+Detect Research Gaps
+      ↓
+Generate Literature Review
+      ↓
+Create Experiment Plan
+      ↓
+Generate Research Report
+      ↓
+Export Report
+```
+
+This enables researchers to move from a research topic to a structured research report through a single integrated system.
 
 ---
 
 # 🛣 Future Roadmap
 
-- Knowledge Graph Visualization
-- Citation Network Analysis
-- AI Research Chat Assistant
-- Multi-user Collaboration
-- Authentication & Authorization
-- Cloud Deployment
-- Docker Support
-- LLM Integration
-- Research Trend Prediction
-- Vector Database Integration
+* Knowledge Graph Visualization
+* Citation Network Analysis
+* AI Research Chat Assistant
+* Multi-user Collaboration
+* Authentication & Authorization
+* Cloud Deployment
+* Docker Support
+* LLM Integration
+* Research Trend Prediction
+* Vector Database Integration
 
 ---
 
