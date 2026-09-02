@@ -884,5 +884,21 @@
         "pdf": "Research_Report_v5_20260831_214323.pdf",
         "docx": "Research_Report_v5_20260831_214324.docx",
         "markdown": "Research_Report_v5_20260831_214324.md"
+    },
+    {
+        "research_topic": "RAG",
+        "version": 8,
+        "generated_at": "2026-09-02 19:37:03",
+        "pdf": "Research_Report_v8_20260902_193702.pdf",
+        "docx": "Research_Report_v8_20260902_193703.docx",
+        "markdown": "Research_Report_v8_20260902_193703.md"
+    },
+    {
+        "research_topic": "RAG",
+        "version": 9,
+        "generated_at": "2026-09-02 19:37:09",
+        "pdf": "Research_Report_v9_20260902_193709.pdf",
+        "docx": "Research_Report_v9_20260902_193709.docx",
+        "markdown": "Research_Report_v9_20260902_193709.md"
     }
 ]

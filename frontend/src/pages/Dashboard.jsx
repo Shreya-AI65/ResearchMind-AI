@@ -8,123 +8,56 @@ import {
     FiPlus,
     FiClock,
     FiArrowRight,
-    FiMoon,
-    FiSun,
 } from "react-icons/fi";
 
 import { getReportHistory } from "../services/reportHistoryService";
 import { checkBackendHealth } from "../services/healthService";
 
-
 function Dashboard() {
-
-    // ==========================================
-    // STATE
-    // ==========================================
-
     const [reports, setReports] = useState([]);
-
-    const [systemStatus, setSystemStatus] =
-        useState("Checking...");
-
-    const [isSystemOnline, setIsSystemOnline] =
-        useState(false);
-
-    // ==========================================
-    // DARK MODE
-    // ==========================================
-
-    const [darkMode, setDarkMode] = useState(() => {
-
-        const savedTheme =
-            localStorage.getItem("researchmind-theme");
-
-        if (savedTheme === "dark") {
-            return true;
-        }
-
-        if (savedTheme === "light") {
-            return false;
-        }
-
-        return false;
-    });
-
-
-    useEffect(() => {
-
-        localStorage.setItem(
-            "researchmind-theme",
-            darkMode ? "dark" : "light"
-        );
-
-    }, [darkMode]);
-
-
-    const toggleDarkMode = () => {
-
-        setDarkMode((previous) => !previous);
-
-    };
-
+    const [systemStatus, setSystemStatus] = useState("Checking...");
+    const [isSystemOnline, setIsSystemOnline] = useState(false);
 
     // ==========================================
     // LOAD DASHBOARD
     // ==========================================
 
     useEffect(() => {
-
         loadDashboardData();
         checkHealth();
-
     }, []);
-
 
     // ==========================================
     // EXTRACT REPORTS
     // ==========================================
 
     const extractReports = (response) => {
-
         if (Array.isArray(response)) {
             return response;
         }
 
-
         const possibleArrays = [
-
             response?.reports,
-
+            response?.history,
             response?.data,
-
             response?.data?.reports,
-
+            response?.data?.history,
             response?.data?.data,
-
             response?.data?.data?.reports,
-
+            response?.results,
             response?.result,
-
             response?.result?.reports,
-
             response?.result?.data,
-
             response?.result?.data?.reports,
-
         ];
 
-
         for (const value of possibleArrays) {
-
             if (Array.isArray(value)) {
                 return value;
             }
-
         }
 
-
         const findReportArray = (value, depth = 0) => {
-
             if (
                 depth > 5 ||
                 value === null ||
@@ -133,13 +66,10 @@ function Dashboard() {
                 return null;
             }
 
-
             if (Array.isArray(value)) {
-
                 const looksLikeReports =
                     value.length === 0 ||
                     value.some((item) => {
-
                         if (
                             !item ||
                             typeof item !== "object"
@@ -157,180 +87,123 @@ function Dashboard() {
                             item.pdf_file !== undefined ||
                             item.pdfFile !== undefined
                         );
-
                     });
-
 
                 if (looksLikeReports) {
                     return value;
                 }
 
-
                 for (const item of value) {
-
-                    const result =
-                        findReportArray(
-                            item,
-                            depth + 1
-                        );
+                    const result = findReportArray(
+                        item,
+                        depth + 1
+                    );
 
                     if (result) {
                         return result;
                     }
-
                 }
 
                 return null;
             }
 
-
             if (typeof value === "object") {
-
-                for (
-                    const key of Object.keys(value)
-                ) {
-
-                    const result =
-                        findReportArray(
-                            value[key],
-                            depth + 1
-                        );
+                for (const key of Object.keys(value)) {
+                    const result = findReportArray(
+                        value[key],
+                        depth + 1
+                    );
 
                     if (result) {
                         return result;
                     }
-
                 }
-
             }
 
             return null;
         };
 
-
         return findReportArray(response) || [];
-
     };
-
 
     // ==========================================
     // LOAD REPORT HISTORY
     // ==========================================
 
     const loadDashboardData = async () => {
-
         try {
-
-            const response =
-                await getReportHistory();
-
+            const response = await getReportHistory();
 
             console.log(
                 "Dashboard history response:",
                 response
             );
 
-
-            const parsedReports =
-                extractReports(response);
-
+            const parsedReports = extractReports(response);
 
             console.log(
                 "Dashboard parsed reports:",
                 parsedReports
             );
 
-
             setReports(
                 Array.isArray(parsedReports)
                     ? parsedReports
                     : []
             );
-
-
         } catch (error) {
-
             console.error(
                 "Dashboard history error:",
                 error
             );
 
             setReports([]);
-
         }
-
     };
-
 
     // ==========================================
     // BACKEND HEALTH CHECK
     // ==========================================
 
     const checkHealth = async () => {
-
         try {
-
-            const response =
-                await checkBackendHealth();
-
+            const response = await checkBackendHealth();
 
             console.log(
                 "Backend health response:",
                 response
             );
 
-
             const healthData =
                 response?.data || response;
-
 
             if (
                 healthData?.success === true &&
                 healthData?.status === "healthy"
             ) {
-
                 setSystemStatus("Healthy");
                 setIsSystemOnline(true);
-
-            }
-
-            else if (
+            } else if (
                 healthData?.success === true &&
                 healthData?.status === "degraded"
             ) {
-
                 setSystemStatus("Degraded");
                 setIsSystemOnline(true);
-
-            }
-
-            else if (
+            } else if (
                 healthData?.status === "healthy"
             ) {
-
                 setSystemStatus("Healthy");
                 setIsSystemOnline(true);
-
-            }
-
-            else if (
+            } else if (
                 healthData?.status === "degraded"
             ) {
-
                 setSystemStatus("Degraded");
                 setIsSystemOnline(true);
-
-            }
-
-            else {
-
+            } else {
                 setSystemStatus("Offline");
                 setIsSystemOnline(false);
-
             }
-
         } catch (error) {
-
             console.error(
                 "Backend health check failed:",
                 error
@@ -338,18 +211,14 @@ function Dashboard() {
 
             setSystemStatus("Offline");
             setIsSystemOnline(false);
-
         }
-
     };
-
 
     // ==========================================
     // GET REPORT TOPIC
     // ==========================================
 
     const getReportTopic = (report) => {
-
         if (
             !report ||
             typeof report !== "object"
@@ -357,86 +226,26 @@ function Dashboard() {
             return null;
         }
 
-
         return (
-
             report.query ||
-
             report.topic ||
-
             report.research_topic ||
-
             report.researchTopic ||
-
             report.search_query ||
-
             report.searchQuery ||
-
             report.title ||
-
             report.report_title ||
-
             report.reportTitle ||
-
             report.name ||
-
             null
-
         );
-
     };
-
-
-    // ==========================================
-    // REPORT STATISTICS
-    // ==========================================
-
-    const totalReports =
-        reports.length;
-
-
-    const researchTopics =
-        useMemo(() => {
-
-            const topics = new Set();
-
-
-            reports.forEach((report) => {
-
-                const topic =
-                    getReportTopic(report);
-
-
-                if (topic) {
-
-                    const cleanedTopic =
-                        String(topic).trim();
-
-
-                    if (cleanedTopic) {
-
-                        topics.add(
-                            cleanedTopic.toLowerCase()
-                        );
-
-                    }
-
-                }
-
-            });
-
-
-            return topics.size;
-
-        }, [reports]);
-
 
     // ==========================================
     // GET REPORT DATE
     // ==========================================
 
     const getReportDate = (report) => {
-
         if (
             !report ||
             typeof report !== "object"
@@ -444,98 +253,85 @@ function Dashboard() {
             return null;
         }
 
-
         return (
-
             report.created_at ||
-
             report.createdAt ||
-
             report.generated_at ||
-
             report.generatedAt ||
-
             report.timestamp ||
-
             report.date ||
-
             report.created ||
-
             null
-
         );
-
     };
 
+    // ==========================================
+    // STATISTICS
+    // ==========================================
+
+    const totalReports = reports.length;
+
+    const researchTopics = useMemo(() => {
+        const topics = new Set();
+
+        reports.forEach((report) => {
+            const topic = getReportTopic(report);
+
+            if (topic) {
+                const cleanedTopic = String(topic).trim();
+
+                if (cleanedTopic) {
+                    topics.add(
+                        cleanedTopic.toLowerCase()
+                    );
+                }
+            }
+        });
+
+        return topics.size;
+    }, [reports]);
 
     // ==========================================
     // SORT REPORTS
     // ==========================================
 
-    const sortedReports =
-        useMemo(() => {
+    const sortedReports = useMemo(() => {
+        return [...reports].sort((a, b) => {
+            const dateA = getReportDate(a);
+            const dateB = getReportDate(b);
 
-            return [...reports].sort(
-                (a, b) => {
+            if (!dateA && !dateB) {
+                return 0;
+            }
 
-                    const dateA =
-                        getReportDate(a);
+            if (!dateA) {
+                return 1;
+            }
 
-                    const dateB =
-                        getReportDate(b);
+            if (!dateB) {
+                return -1;
+            }
 
-
-                    if (!dateA && !dateB) {
-                        return 0;
-                    }
-
-                    if (!dateA) {
-                        return 1;
-                    }
-
-                    if (!dateB) {
-                        return -1;
-                    }
-
-
-                    return (
-
-                        new Date(dateB).getTime() -
-
-                        new Date(dateA).getTime()
-
-                    );
-
-                }
+            return (
+                new Date(dateB).getTime() -
+                new Date(dateA).getTime()
             );
-
-        }, [reports]);
-
-
-    // ==========================================
-    // LATEST REPORT
-    // ==========================================
+        });
+    }, [reports]);
 
     const latestReport =
         sortedReports.length > 0
             ? sortedReports[0]
             : null;
 
-
-    // ==========================================
-    // RECENT REPORTS
-    // ==========================================
-
     const recentReports =
         sortedReports.slice(0, 5);
 
-
     // ==========================================
-    // SYSTEM STATUS COLORS
+    // SYSTEM STATUS
     // ==========================================
 
     const getStatusTextColor = () => {
-
         if (systemStatus === "Healthy") {
             return "text-green-500";
         }
@@ -549,12 +345,9 @@ function Dashboard() {
         }
 
         return "text-red-500";
-
     };
 
-
     const getStatusDotColor = () => {
-
         if (systemStatus === "Healthy") {
             return "bg-green-500";
         }
@@ -568,24 +361,18 @@ function Dashboard() {
         }
 
         return "bg-red-500";
-
     };
-
 
     // ==========================================
     // FORMAT DATE
     // ==========================================
 
     const formatDate = (date) => {
-
         if (!date) {
             return "";
         }
 
-
-        const parsedDate =
-            new Date(date);
-
+        const parsedDate = new Date(date);
 
         if (
             Number.isNaN(
@@ -595,194 +382,73 @@ function Dashboard() {
             return "";
         }
 
-
         return parsedDate.toLocaleDateString();
-
     };
-
-
-    // ==========================================
-    // THEME CLASSES
-    // ==========================================
-
-    const pageBackground =
-        darkMode
-            ? "bg-slate-950 text-white"
-            : "bg-slate-50 text-gray-800";
-
-
-    const cardBackground =
-        darkMode
-            ? "bg-slate-900 border-slate-800"
-            : "bg-white border-sky-100";
-
-
-    const secondaryText =
-        darkMode
-            ? "text-slate-400"
-            : "text-gray-500";
-
-
-    const headingText =
-        darkMode
-            ? "text-white"
-            : "text-gray-800";
-
-
-    const borderColor =
-        darkMode
-            ? "border-slate-800"
-            : "border-gray-100";
-
 
     // ==========================================
     // RENDER
     // ==========================================
 
     return (
-
         <div
-            className={`
+            className="
                 min-h-screen
+                bg-sky-50
+                dark:bg-slate-950
+                text-gray-800
+                dark:text-white
                 transition-colors
                 duration-300
-                ${pageBackground}
-            `}
+            "
         >
-
-            <div className="max-w-7xl mx-auto px-4 md:px-6 py-8">
-
-
+            <div
+                className="
+                    max-w-7xl
+                    mx-auto
+                    px-4
+                    md:px-6
+                    py-8
+                "
+            >
                 {/* ======================================
                     HEADER
                 ====================================== */}
 
                 <div className="mb-8">
+                    <p
+                        className="
+                            text-sky-600
+                            dark:text-sky-400
+                            font-semibold
+                            mb-2
+                        "
+                    >
+                        ResearchMind AI
+                    </p>
 
-                    <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-5">
+                    <h1
+                        className="
+                            text-3xl
+                            md:text-4xl
+                            font-bold
+                            text-gray-800
+                            dark:text-white
+                        "
+                    >
+                        Welcome back, Researcher 👋
+                    </h1>
 
-
-                        <div>
-
-                            <p
-                                className={`
-                                    font-semibold
-                                    mb-2
-                                    ${
-                                        darkMode
-                                            ? "text-sky-400"
-                                            : "text-sky-600"
-                                    }
-                                `}
-                            >
-                                ResearchMind AI
-                            </p>
-
-
-                            <h1
-                                className={`
-                                    text-3xl
-                                    md:text-4xl
-                                    font-bold
-                                    ${headingText}
-                                `}
-                            >
-                                Welcome back, Researcher 👋
-                            </h1>
-
-
-                            <p
-                                className={`
-                                    mt-2
-                                    ${secondaryText}
-                                `}
-                            >
-                                Explore, generate and manage your research reports.
-                            </p>
-
-                        </div>
-
-
-                        {/* ==================================
-                            DARK MODE TOGGLE
-                        ================================== */}
-
-                        <button
-                            type="button"
-                            onClick={toggleDarkMode}
-                            aria-label={
-                                darkMode
-                                    ? "Switch to light mode"
-                                    : "Switch to dark mode"
-                            }
-                            className={`
-                                inline-flex
-                                items-center
-                                gap-3
-                                px-4
-                                py-2.5
-                                rounded-xl
-                                border
-                                font-semibold
-                                text-sm
-                                transition-all
-                                duration-200
-                                shadow-sm
-                                ${
-                                    darkMode
-                                        ? `
-                                            bg-slate-800
-                                            border-slate-700
-                                            text-slate-200
-                                            hover:bg-slate-700
-                                        `
-                                        : `
-                                            bg-white
-                                            border-sky-100
-                                            text-gray-700
-                                            hover:bg-sky-50
-                                        `
-                                }
-                            `}
-                        >
-
-                            <span
-                                className={`
-                                    flex
-                                    items-center
-                                    justify-center
-                                    w-8
-                                    h-8
-                                    rounded-lg
-                                    ${
-                                        darkMode
-                                            ? "bg-slate-700 text-yellow-300"
-                                            : "bg-sky-100 text-sky-600"
-                                    }
-                                `}
-                            >
-
-                                {darkMode
-                                    ? <FiSun size={18} />
-                                    : <FiMoon size={18} />
-                                }
-
-                            </span>
-
-
-                            <span>
-                                {darkMode
-                                    ? "Light Mode"
-                                    : "Dark Mode"
-                                }
-                            </span>
-
-                        </button>
-
-                    </div>
-
+                    <p
+                        className="
+                            text-gray-500
+                            dark:text-slate-400
+                            mt-2
+                        "
+                    >
+                        Explore, generate and manage
+                        your research reports.
+                    </p>
                 </div>
-
 
                 {/* ======================================
                     QUICK ACTIONS
@@ -797,9 +463,7 @@ function Dashboard() {
                         mb-8
                     "
                 >
-
-
-                    {/* GENERATE REPORT */}
+                    {/* GENERATE */}
 
                     <Link
                         to="/generate-report"
@@ -819,7 +483,6 @@ function Dashboard() {
                             duration-300
                         "
                     >
-
                         <div
                             className="
                                 flex
@@ -828,7 +491,6 @@ function Dashboard() {
                                 mb-5
                             "
                         >
-
                             <div
                                 className="
                                     bg-white/20
@@ -840,7 +502,6 @@ function Dashboard() {
                                 <FiPlus size={24} />
                             </div>
 
-
                             <FiArrowRight
                                 size={22}
                                 className="
@@ -849,42 +510,47 @@ function Dashboard() {
                                     group-hover:translate-x-1
                                 "
                             />
-
                         </div>
-
 
                         <h2 className="text-xl font-bold">
                             Generate Report
                         </h2>
 
-
-                        <p className="text-sky-100 mt-2">
-                            Create a new AI-powered research report.
+                        <p
+                            className="
+                                text-sky-100
+                                mt-2
+                            "
+                        >
+                            Create a new AI-powered
+                            research report.
                         </p>
-
                     </Link>
 
-
-                    {/* SEARCH REPORTS */}
+                    {/* SEARCH */}
 
                     <Link
                         to="/search-reports"
-                        className={`
+                        className="
                             group
-                            ${cardBackground}
+                            bg-white
+                            dark:bg-slate-900
                             hover:shadow-xl
                             rounded-2xl
                             p-6
                             border
+                            border-sky-100
+                            dark:border-slate-800
                             transition-all
                             duration-300
-                        `}
+                        "
                     >
-
                         <div
                             className="
                                 bg-sky-100
+                                dark:bg-sky-900/40
                                 text-sky-600
+                                dark:text-sky-400
                                 w-fit
                                 p-3
                                 rounded-xl
@@ -894,50 +560,53 @@ function Dashboard() {
                             <FiSearch size={24} />
                         </div>
 
-
                         <h2
-                            className={`
+                            className="
                                 text-xl
                                 font-bold
-                                ${headingText}
-                            `}
+                                text-gray-800
+                                dark:text-white
+                            "
                         >
                             Search Reports
                         </h2>
 
-
                         <p
-                            className={`
+                            className="
                                 mt-2
-                                ${secondaryText}
-                            `}
+                                text-gray-500
+                                dark:text-slate-400
+                            "
                         >
-                            Find previously generated research reports.
+                            Find previously generated
+                            research reports.
                         </p>
-
                     </Link>
-
 
                     {/* ANALYTICS */}
 
                     <Link
                         to="/statistics"
-                        className={`
+                        className="
                             group
-                            ${cardBackground}
+                            bg-white
+                            dark:bg-slate-900
                             hover:shadow-xl
                             rounded-2xl
                             p-6
                             border
+                            border-sky-100
+                            dark:border-slate-800
                             transition-all
                             duration-300
-                        `}
+                        "
                     >
-
                         <div
                             className="
                                 bg-sky-100
+                                dark:bg-sky-900/40
                                 text-sky-600
+                                dark:text-sky-400
                                 w-fit
                                 p-3
                                 rounded-xl
@@ -947,31 +616,29 @@ function Dashboard() {
                             <FiBarChart2 size={24} />
                         </div>
 
-
                         <h2
-                            className={`
+                            className="
                                 text-xl
                                 font-bold
-                                ${headingText}
-                            `}
+                                text-gray-800
+                                dark:text-white
+                            "
                         >
                             View Analytics
                         </h2>
 
-
                         <p
-                            className={`
+                            className="
                                 mt-2
-                                ${secondaryText}
-                            `}
+                                text-gray-500
+                                dark:text-slate-400
+                            "
                         >
-                            Monitor your research activity and statistics.
+                            Monitor your research activity
+                            and statistics.
                         </p>
-
                     </Link>
-
                 </div>
-
 
                 {/* ======================================
                     STATISTICS
@@ -987,181 +654,184 @@ function Dashboard() {
                         mb-8
                     "
                 >
-
-
                     {/* TOTAL REPORTS */}
 
                     <div
-                        className={`
-                            ${cardBackground}
+                        className="
+                            bg-white
+                            dark:bg-slate-900
                             rounded-2xl
                             p-6
                             border
+                            border-sky-100
+                            dark:border-slate-800
                             shadow-sm
-                            hover:shadow-lg
-                            transition
-                        `}
+                        "
                     >
-
-                        <div className="flex items-center justify-between">
-
+                        <div
+                            className="
+                                flex
+                                items-center
+                                justify-between
+                            "
+                        >
                             <div>
-
                                 <p
-                                    className={`
+                                    className="
+                                        text-gray-500
+                                        dark:text-slate-400
                                         text-sm
-                                        ${secondaryText}
-                                    `}
+                                    "
                                 >
                                     Total Reports
                                 </p>
 
-
                                 <h3
-                                    className={`
+                                    className="
                                         text-3xl
                                         font-bold
+                                        text-gray-800
+                                        dark:text-white
                                         mt-2
-                                        ${headingText}
-                                    `}
+                                    "
                                 >
                                     {totalReports}
                                 </h3>
-
                             </div>
-
 
                             <div
                                 className="
                                     bg-sky-100
+                                    dark:bg-sky-900/40
                                     text-sky-600
+                                    dark:text-sky-400
                                     p-3
                                     rounded-xl
                                 "
                             >
                                 <FiFileText size={22} />
                             </div>
-
                         </div>
-
                     </div>
-
 
                     {/* RESEARCH TOPICS */}
 
                     <div
-                        className={`
-                            ${cardBackground}
+                        className="
+                            bg-white
+                            dark:bg-slate-900
                             rounded-2xl
                             p-6
                             border
+                            border-sky-100
+                            dark:border-slate-800
                             shadow-sm
-                            hover:shadow-lg
-                            transition
-                        `}
+                        "
                     >
-
-                        <div className="flex items-center justify-between">
-
+                        <div
+                            className="
+                                flex
+                                items-center
+                                justify-between
+                            "
+                        >
                             <div>
-
                                 <p
-                                    className={`
+                                    className="
+                                        text-gray-500
+                                        dark:text-slate-400
                                         text-sm
-                                        ${secondaryText}
-                                    `}
+                                    "
                                 >
                                     Research Topics
                                 </p>
 
-
                                 <h3
-                                    className={`
+                                    className="
                                         text-3xl
                                         font-bold
+                                        text-gray-800
+                                        dark:text-white
                                         mt-2
-                                        ${headingText}
-                                    `}
+                                    "
                                 >
                                     {researchTopics}
                                 </h3>
-
                             </div>
-
 
                             <div
                                 className="
                                     bg-sky-100
+                                    dark:bg-sky-900/40
                                     text-sky-600
+                                    dark:text-sky-400
                                     p-3
                                     rounded-xl
                                 "
                             >
                                 <FiSearch size={22} />
                             </div>
-
                         </div>
-
                     </div>
-
 
                     {/* LATEST ACTIVITY */}
 
                     <div
-                        className={`
-                            ${cardBackground}
+                        className="
+                            bg-white
+                            dark:bg-slate-900
                             rounded-2xl
                             p-6
                             border
+                            border-sky-100
+                            dark:border-slate-800
                             shadow-sm
-                            hover:shadow-lg
-                            transition
-                        `}
+                        "
                     >
-
-                        <div className="flex items-center justify-between">
-
+                        <div
+                            className="
+                                flex
+                                items-center
+                                justify-between
+                            "
+                        >
                             <div className="min-w-0">
-
                                 <p
-                                    className={`
+                                    className="
+                                        text-gray-500
+                                        dark:text-slate-400
                                         text-sm
-                                        ${secondaryText}
-                                    `}
+                                    "
                                 >
                                     Latest Activity
                                 </p>
 
-
                                 <h3
-                                    className={`
+                                    className="
                                         text-lg
                                         font-bold
+                                        text-gray-800
+                                        dark:text-white
                                         mt-2
                                         truncate
-                                        ${headingText}
-                                    `}
+                                    "
                                 >
-
                                     {latestReport
                                         ? (
                                             getReportTopic(
                                                 latestReport
-                                            ) ||
-                                            "Research"
+                                            ) || "Research"
                                         )
-                                        : "No activity"
-                                    }
-
+                                        : "No activity"}
                                 </h3>
-
                             </div>
-
 
                             <div
                                 className="
                                     bg-sky-100
+                                    dark:bg-sky-900/40
                                     text-sky-600
+                                    dark:text-sky-400
                                     p-3
                                     rounded-xl
                                     flex-shrink-0
@@ -1169,39 +839,40 @@ function Dashboard() {
                             >
                                 <FiClock size={22} />
                             </div>
-
                         </div>
-
                     </div>
-
 
                     {/* SYSTEM */}
 
                     <div
-                        className={`
-                            ${cardBackground}
+                        className="
+                            bg-white
+                            dark:bg-slate-900
                             rounded-2xl
                             p-6
                             border
+                            border-sky-100
+                            dark:border-slate-800
                             shadow-sm
-                            hover:shadow-lg
-                            transition
-                        `}
+                        "
                     >
-
-                        <div className="flex items-center justify-between">
-
+                        <div
+                            className="
+                                flex
+                                items-center
+                                justify-between
+                            "
+                        >
                             <div>
-
                                 <p
-                                    className={`
+                                    className="
+                                        text-gray-500
+                                        dark:text-slate-400
                                         text-sm
-                                        ${secondaryText}
-                                    `}
+                                    "
                                 >
                                     System
                                 </p>
-
 
                                 <h3
                                     className={`
@@ -1213,9 +884,7 @@ function Dashboard() {
                                 >
                                     {systemStatus}
                                 </h3>
-
                             </div>
-
 
                             <div
                                 className={`
@@ -1225,66 +894,73 @@ function Dashboard() {
                                     ${getStatusDotColor()}
                                 `}
                             />
-
                         </div>
-
                     </div>
-
                 </div>
-
 
                 {/* ======================================
                     SYSTEM HEALTH
                 ====================================== */}
 
                 <div
-                    className={`
-                        ${cardBackground}
+                    className="
+                        bg-white
+                        dark:bg-slate-900
                         rounded-2xl
                         border
+                        border-sky-100
+                        dark:border-slate-800
                         shadow-sm
                         mb-8
-                    `}
+                    "
                 >
-
                     <div
-                        className={`
+                        className="
                             p-6
                             border-b
-                            ${borderColor}
-                        `}
+                            border-gray-100
+                            dark:border-slate-800
+                        "
                     >
-
-                        <div className="flex items-center justify-between">
-
+                        <div
+                            className="
+                                flex
+                                items-center
+                                justify-between
+                            "
+                        >
                             <div>
-
                                 <h2
-                                    className={`
+                                    className="
                                         text-xl
                                         font-bold
-                                        ${headingText}
-                                    `}
+                                        text-gray-800
+                                        dark:text-white
+                                    "
                                 >
                                     System Health
                                 </h2>
 
-
                                 <p
-                                    className={`
+                                    className="
+                                        text-gray-500
+                                        dark:text-slate-400
                                         text-sm
                                         mt-1
-                                        ${secondaryText}
-                                    `}
+                                    "
                                 >
-                                    Current status of ResearchMind AI backend services
+                                    Current status of
+                                    ResearchMind AI backend services
                                 </p>
-
                             </div>
 
-
-                            <div className="flex items-center gap-2">
-
+                            <div
+                                className="
+                                    flex
+                                    items-center
+                                    gap-2
+                                "
+                            >
                                 <span
                                     className={`
                                         w-3
@@ -1294,7 +970,6 @@ function Dashboard() {
                                     `}
                                 />
 
-
                                 <span
                                     className={`
                                         font-semibold
@@ -1303,16 +978,11 @@ function Dashboard() {
                                 >
                                     {systemStatus}
                                 </span>
-
                             </div>
-
                         </div>
-
                     </div>
 
-
                     <div className="p-6">
-
                         <div
                             className="
                                 grid
@@ -1321,124 +991,111 @@ function Dashboard() {
                                 gap-4
                             "
                         >
-
-
                             {/* BACKEND API */}
 
                             <div
-                                className={`
+                                className="
                                     border
-                                    ${borderColor}
+                                    border-gray-100
+                                    dark:border-slate-800
                                     rounded-xl
                                     p-4
-                                `}
+                                "
                             >
-
-                                <div className="flex items-center justify-between">
-
+                                <div
+                                    className="
+                                        flex
+                                        items-center
+                                        justify-between
+                                    "
+                                >
                                     <div>
-
                                         <h3
-                                            className={`
+                                            className="
                                                 font-semibold
-                                                ${headingText}
-                                            `}
+                                                text-gray-800
+                                                dark:text-white
+                                            "
                                         >
                                             Backend API
                                         </h3>
 
-
                                         <p
-                                            className={`
+                                            className="
                                                 text-sm
+                                                text-gray-500
+                                                dark:text-slate-400
                                                 mt-1
-                                                ${secondaryText}
-                                            `}
+                                            "
                                         >
                                             FastAPI server
                                         </p>
-
                                     </div>
 
-
                                     <span
-                                        className={`
+                                        className="
                                             flex
                                             items-center
                                             gap-2
+                                            text-green-500
                                             font-semibold
                                             text-sm
-                                            ${
-                                                isSystemOnline
-                                                    ? "text-green-500"
-                                                    : "text-red-500"
-                                            }
-                                        `}
+                                        "
                                     >
-
                                         <span
-                                            className={`
+                                            className="
                                                 w-2.5
                                                 h-2.5
+                                                bg-green-500
                                                 rounded-full
-                                                ${
-                                                    isSystemOnline
-                                                        ? "bg-green-500"
-                                                        : "bg-red-500"
-                                                }
-                                            `}
+                                            "
                                         />
 
-
-                                        {isSystemOnline
-                                            ? "Healthy"
-                                            : "Unavailable"
-                                        }
-
+                                        Healthy
                                     </span>
-
                                 </div>
-
                             </div>
-
 
                             {/* REPORT GENERATION */}
 
                             <div
-                                className={`
+                                className="
                                     border
-                                    ${borderColor}
+                                    border-gray-100
+                                    dark:border-slate-800
                                     rounded-xl
                                     p-4
-                                `}
+                                "
                             >
-
-                                <div className="flex items-center justify-between">
-
+                                <div
+                                    className="
+                                        flex
+                                        items-center
+                                        justify-between
+                                    "
+                                >
                                     <div>
-
                                         <h3
-                                            className={`
+                                            className="
                                                 font-semibold
-                                                ${headingText}
-                                            `}
+                                                text-gray-800
+                                                dark:text-white
+                                            "
                                         >
                                             Report Generation
                                         </h3>
 
-
                                         <p
-                                            className={`
+                                            className="
                                                 text-sm
+                                                text-gray-500
+                                                dark:text-slate-400
                                                 mt-1
-                                                ${secondaryText}
-                                            `}
+                                            "
                                         >
                                             Research report service
                                         </p>
-
                                     </div>
-
 
                                     <span
                                         className={`
@@ -1454,7 +1111,6 @@ function Dashboard() {
                                             }
                                         `}
                                     >
-
                                         <span
                                             className={`
                                                 w-2.5
@@ -1468,123 +1124,104 @@ function Dashboard() {
                                             `}
                                         />
 
-
                                         {isSystemOnline
                                             ? "Available"
-                                            : "Unavailable"
-                                        }
-
+                                            : "Unavailable"}
                                     </span>
-
                                 </div>
-
                             </div>
-
                         </div>
-
                     </div>
-
                 </div>
-
 
                 {/* ======================================
                     RECENT RESEARCH
                 ====================================== */}
 
                 <div
-                    className={`
-                        ${cardBackground}
+                    className="
+                        bg-white
+                        dark:bg-slate-900
                         rounded-2xl
                         border
+                        border-sky-100
+                        dark:border-slate-800
                         shadow-sm
-                    `}
+                    "
                 >
-
                     <div
-                        className={`
+                        className="
                             p-6
                             border-b
-                            ${borderColor}
+                            border-gray-100
+                            dark:border-slate-800
                             flex
                             items-center
                             justify-between
-                        `}
+                        "
                     >
-
                         <div>
-
                             <h2
-                                className={`
+                                className="
                                     text-xl
                                     font-bold
-                                    ${headingText}
-                                `}
+                                    text-gray-800
+                                    dark:text-white
+                                "
                             >
                                 Recent Research
                             </h2>
 
-
                             <p
-                                className={`
+                                className="
+                                    text-gray-500
+                                    dark:text-slate-400
                                     text-sm
                                     mt-1
-                                    ${secondaryText}
-                                `}
+                                "
                             >
                                 Your latest research activity
                             </p>
-
                         </div>
-
 
                         <Link
                             to="/report-history"
                             className="
-                                text-sky-500
-                                hover:text-sky-400
+                                text-sky-600
+                                dark:text-sky-400
+                                hover:text-sky-700
+                                dark:hover:text-sky-300
                                 font-semibold
                                 text-sm
                             "
                         >
                             View All
                         </Link>
-
                     </div>
 
-
                     {recentReports.length > 0 ? (
-
                         <div
-                            className={`
+                            className="
                                 divide-y
-                                ${
-                                    darkMode
-                                        ? "divide-slate-800"
-                                        : "divide-gray-100"
-                                }
-                            `}
+                                divide-gray-100
+                                dark:divide-slate-800
+                            "
                         >
-
                             {recentReports.map(
                                 (report, index) => {
-
                                     const topic =
                                         getReportTopic(report) ||
                                         "Research Report";
-
 
                                     const version =
                                         report?.version ||
                                         report?.report_version ||
                                         report?.reportVersion;
 
-
                                     const date =
                                         getReportDate(report);
 
-
                                     return (
-
                                         <div
                                             key={
                                                 report?.id ||
@@ -1592,17 +1229,13 @@ function Dashboard() {
                                                 report?.reportId ||
                                                 index
                                             }
-                                            className={`
+                                            className="
                                                 p-5
+                                                hover:bg-sky-50
+                                                dark:hover:bg-slate-800/60
                                                 transition
-                                                ${
-                                                    darkMode
-                                                        ? "hover:bg-slate-800/60"
-                                                        : "hover:bg-sky-50"
-                                                }
-                                            `}
+                                            "
                                         >
-
                                             <div
                                                 className="
                                                     flex
@@ -1611,7 +1244,6 @@ function Dashboard() {
                                                     gap-4
                                                 "
                                             >
-
                                                 <div
                                                     className="
                                                         flex
@@ -1620,64 +1252,60 @@ function Dashboard() {
                                                         min-w-0
                                                     "
                                                 >
-
                                                     <div
                                                         className="
                                                             bg-sky-100
+                                                            dark:bg-sky-900/40
                                                             text-sky-600
+                                                            dark:text-sky-400
                                                             p-3
                                                             rounded-xl
                                                             flex-shrink-0
                                                         "
                                                     >
-                                                        <FiFileText size={22} />
+                                                        <FiFileText
+                                                            size={22}
+                                                        />
                                                     </div>
 
-
                                                     <div className="min-w-0">
-
                                                         <h3
-                                                            className={`
+                                                            className="
                                                                 font-semibold
+                                                                text-gray-800
+                                                                dark:text-white
                                                                 truncate
-                                                                ${headingText}
-                                                            `}
+                                                            "
                                                         >
                                                             {topic}
                                                         </h3>
 
-
                                                         <p
-                                                            className={`
+                                                            className="
                                                                 text-sm
+                                                                text-gray-500
+                                                                dark:text-slate-400
                                                                 mt-1
-                                                                ${secondaryText}
-                                                            `}
+                                                            "
                                                         >
-
                                                             {version
                                                                 ? `Version ${version}`
-                                                                : "Research Report"
-                                                            }
-
+                                                                : "Research Report"}
 
                                                             {date
                                                                 ? ` • ${formatDate(date)}`
-                                                                : ""
-                                                            }
-
+                                                                : ""}
                                                         </p>
-
                                                     </div>
-
                                                 </div>
-
 
                                                 <Link
                                                     to="/report-history"
                                                     className="
-                                                        text-sky-500
-                                                        hover:text-sky-400
+                                                        text-sky-600
+                                                        dark:text-sky-400
+                                                        hover:text-sky-700
+                                                        dark:hover:text-sky-300
                                                         font-semibold
                                                         text-sm
                                                         whitespace-nowrap
@@ -1685,26 +1313,20 @@ function Dashboard() {
                                                 >
                                                     View
                                                 </Link>
-
                                             </div>
-
                                         </div>
-
                                     );
-
                                 }
                             )}
-
                         </div>
-
                     ) : (
-
                         <div className="p-10 text-center">
-
                             <div
                                 className="
                                     bg-sky-100
+                                    dark:bg-sky-900/40
                                     text-sky-600
+                                    dark:text-sky-400
                                     w-fit
                                     mx-auto
                                     p-4
@@ -1715,29 +1337,30 @@ function Dashboard() {
                                 <FiFileText size={28} />
                             </div>
 
-
                             <h3
-                                className={`
+                                className="
                                     text-lg
                                     font-semibold
-                                    ${headingText}
-                                `}
+                                    text-gray-700
+                                    dark:text-slate-200
+                                "
                             >
-                                Your research activity will appear here
+                                Your research activity
+                                will appear here
                             </h3>
 
-
                             <p
-                                className={`
+                                className="
+                                    text-gray-500
+                                    dark:text-slate-400
                                     mt-2
                                     mb-5
-                                    ${secondaryText}
-                                `}
+                                "
                             >
-                                Generate your first report to start building your
+                                Generate your first report
+                                to start building your
                                 research workspace.
                             </p>
-
 
                             <Link
                                 to="/generate-report"
@@ -1757,20 +1380,12 @@ function Dashboard() {
                                 <FiPlus />
                                 Generate Report
                             </Link>
-
                         </div>
-
                     )}
-
                 </div>
-
             </div>
-
         </div>
-
     );
-
 }
-
 
 export default Dashboard;

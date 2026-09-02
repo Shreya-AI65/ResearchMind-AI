@@ -603,7 +603,15 @@ function GenerateReport() {
 
     return (
 
-        <div className="min-h-screen bg-sky-50 p-6 md:p-8">
+        <div className="
+            min-h-screen
+            bg-sky-50
+            dark:bg-slate-950
+            p-6
+            md:p-8
+            transition-colors
+            duration-300
+        ">
 
             <div className="max-w-6xl mx-auto">
 
@@ -614,21 +622,36 @@ function GenerateReport() {
 
                 <div className="mb-8">
 
-                    <p className="text-sky-600 font-semibold">
+                    <p className="
+                        text-sky-600
+                        dark:text-sky-400
+                        font-semibold
+                    ">
 
                         ResearchMind AI
 
                     </p>
 
 
-                    <h1 className="text-3xl md:text-4xl font-bold text-gray-800 mt-2">
+                    <h1 className="
+                        text-3xl
+                        md:text-4xl
+                        font-bold
+                        text-gray-800
+                        dark:text-white
+                        mt-2
+                    ">
 
                         Generate Research Report
 
                     </h1>
 
 
-                    <p className="text-gray-500 mt-2">
+                    <p className="
+                        text-gray-500
+                        dark:text-gray-400
+                        mt-2
+                    ">
 
                         Generate an AI-powered research report
                         from your selected research topic.
@@ -645,9 +668,22 @@ function GenerateReport() {
 
                 {error && (
 
-                    <div className="mb-6 bg-red-50 border border-red-200 rounded-xl p-4">
+                    <div className="
+                        mb-6
+                        bg-red-50
+                        dark:bg-red-950/40
+                        border
+                        border-red-200
+                        dark:border-red-900
+                        rounded-xl
+                        p-4
+                    ">
 
-                        <p className="text-red-600 font-medium">
+                        <p className="
+                            text-red-600
+                            dark:text-red-400
+                            font-medium
+                        ">
 
                             {error}
 
@@ -665,9 +701,25 @@ function GenerateReport() {
 
                 {downloadSuccess && (
 
-                    <div className="mb-6 bg-green-50 border border-green-200 rounded-xl p-4">
+                    <div className="
+                        mb-6
+                        bg-green-50
+                        dark:bg-green-950/40
+                        border
+                        border-green-200
+                        dark:border-green-900
+                        rounded-xl
+                        p-4
+                    ">
 
-                        <div className="flex items-center gap-2 text-green-600 font-medium">
+                        <div className="
+                            flex
+                            items-center
+                            gap-2
+                            text-green-600
+                            dark:text-green-400
+                            font-medium
+                        ">
 
                             <FiCheckCircle />
 
@@ -685,7 +737,19 @@ function GenerateReport() {
                     REPORT FORM
                 ====================================== */}
 
-                <div className="bg-white rounded-2xl border border-sky-100 shadow-sm p-6 mb-8">
+                <div className="
+                    bg-white
+                    dark:bg-slate-900
+                    rounded-2xl
+                    border
+                    border-sky-100
+                    dark:border-slate-700
+                    shadow-sm
+                    p-6
+                    mb-8
+                    transition-colors
+                    duration-300
+                ">
 
                     <form
                         onSubmit={
@@ -698,7 +762,14 @@ function GenerateReport() {
 
                         <div className="mb-6">
 
-                            <label className="block text-sm font-semibold text-gray-700 mb-2">
+                            <label className="
+                                block
+                                text-sm
+                                font-semibold
+                                text-gray-700
+                                dark:text-gray-200
+                                mb-2
+                            ">
 
                                 Research Topic
 
@@ -718,12 +789,20 @@ function GenerateReport() {
                                     w-full
                                     border
                                     border-gray-200
+                                    dark:border-slate-700
+                                    bg-white
+                                    dark:bg-slate-800
+                                    text-gray-800
+                                    dark:text-white
+                                    placeholder-gray-400
+                                    dark:placeholder-gray-500
                                     rounded-lg
                                     px-4
                                     py-3
                                     focus:outline-none
                                     focus:ring-2
                                     focus:ring-sky-300
+                                    dark:focus:ring-sky-600
                                 "
                             />
 
@@ -735,14 +814,27 @@ function GenerateReport() {
                             USER DETAILS
                         ====================================== */}
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-6">
+                        <div className="
+                            grid
+                            grid-cols-1
+                            md:grid-cols-2
+                            gap-5
+                            mb-6
+                        ">
 
 
                             {/* Name */}
 
                             <div>
 
-                                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                                <label className="
+                                    block
+                                    text-sm
+                                    font-semibold
+                                    text-gray-700
+                                    dark:text-gray-200
+                                    mb-2
+                                ">
 
                                     Name
 
@@ -761,9 +853,18 @@ function GenerateReport() {
                                         w-full
                                         border
                                         border-gray-200
+                                        dark:border-slate-700
+                                        bg-white
+                                        dark:bg-slate-800
+                                        text-gray-800
+                                        dark:text-white
                                         rounded-lg
                                         px-4
                                         py-3
+                                        focus:outline-none
+                                        focus:ring-2
+                                        focus:ring-sky-300
+                                        dark:focus:ring-sky-600
                                     "
                                 />
 
@@ -775,7 +876,14 @@ function GenerateReport() {
 
                             <div>
 
-                                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                                <label className="
+                                    block
+                                    text-sm
+                                    font-semibold
+                                    text-gray-700
+                                    dark:text-gray-200
+                                    mb-2
+                                ">
 
                                     Age
 
@@ -795,9 +903,18 @@ function GenerateReport() {
                                         w-full
                                         border
                                         border-gray-200
+                                        dark:border-slate-700
+                                        bg-white
+                                        dark:bg-slate-800
+                                        text-gray-800
+                                        dark:text-white
                                         rounded-lg
                                         px-4
                                         py-3
+                                        focus:outline-none
+                                        focus:ring-2
+                                        focus:ring-sky-300
+                                        dark:focus:ring-sky-600
                                     "
                                 />
 
@@ -809,7 +926,14 @@ function GenerateReport() {
 
                             <div>
 
-                                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                                <label className="
+                                    block
+                                    text-sm
+                                    font-semibold
+                                    text-gray-700
+                                    dark:text-gray-200
+                                    mb-2
+                                ">
 
                                     Qualification
 
@@ -830,9 +954,18 @@ function GenerateReport() {
                                         w-full
                                         border
                                         border-gray-200
+                                        dark:border-slate-700
+                                        bg-white
+                                        dark:bg-slate-800
+                                        text-gray-800
+                                        dark:text-white
                                         rounded-lg
                                         px-4
                                         py-3
+                                        focus:outline-none
+                                        focus:ring-2
+                                        focus:ring-sky-300
+                                        dark:focus:ring-sky-600
                                     "
                                 />
 
@@ -844,7 +977,14 @@ function GenerateReport() {
 
                             <div>
 
-                                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                                <label className="
+                                    block
+                                    text-sm
+                                    font-semibold
+                                    text-gray-700
+                                    dark:text-gray-200
+                                    mb-2
+                                ">
 
                                     Experience Level
 
@@ -864,10 +1004,18 @@ function GenerateReport() {
                                         w-full
                                         border
                                         border-gray-200
+                                        dark:border-slate-700
+                                        bg-white
+                                        dark:bg-slate-800
+                                        text-gray-800
+                                        dark:text-white
                                         rounded-lg
                                         px-4
                                         py-3
-                                        bg-white
+                                        focus:outline-none
+                                        focus:ring-2
+                                        focus:ring-sky-300
+                                        dark:focus:ring-sky-600
                                     "
                                 >
 
@@ -893,7 +1041,14 @@ function GenerateReport() {
 
                             <div>
 
-                                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                                <label className="
+                                    block
+                                    text-sm
+                                    font-semibold
+                                    text-gray-700
+                                    dark:text-gray-200
+                                    mb-2
+                                ">
 
                                     Explanation Style
 
@@ -913,10 +1068,18 @@ function GenerateReport() {
                                         w-full
                                         border
                                         border-gray-200
+                                        dark:border-slate-700
+                                        bg-white
+                                        dark:bg-slate-800
+                                        text-gray-800
+                                        dark:text-white
                                         rounded-lg
                                         px-4
                                         py-3
-                                        bg-white
+                                        focus:outline-none
+                                        focus:ring-2
+                                        focus:ring-sky-300
+                                        dark:focus:ring-sky-600
                                     "
                                 >
 
@@ -942,7 +1105,14 @@ function GenerateReport() {
 
                             <div>
 
-                                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                                <label className="
+                                    block
+                                    text-sm
+                                    font-semibold
+                                    text-gray-700
+                                    dark:text-gray-200
+                                    mb-2
+                                ">
 
                                     Report Template
 
@@ -960,10 +1130,18 @@ function GenerateReport() {
                                         w-full
                                         border
                                         border-gray-200
+                                        dark:border-slate-700
+                                        bg-white
+                                        dark:bg-slate-800
+                                        text-gray-800
+                                        dark:text-white
                                         rounded-lg
                                         px-4
                                         py-3
-                                        bg-white
+                                        focus:outline-none
+                                        focus:ring-2
+                                        focus:ring-sky-300
+                                        dark:focus:ring-sky-600
                                     "
                                 >
 
@@ -1001,6 +1179,7 @@ function GenerateReport() {
                                 bg-sky-500
                                 hover:bg-sky-600
                                 disabled:bg-sky-300
+                                dark:disabled:bg-sky-800
                                 disabled:cursor-not-allowed
                                 text-white
                                 px-6
@@ -1047,23 +1226,52 @@ function GenerateReport() {
 
                 {generatedReport && (
 
-                    <div className="bg-white rounded-2xl border border-sky-100 shadow-sm p-6">
+                    <div className="
+                        bg-white
+                        dark:bg-slate-900
+                        rounded-2xl
+                        border
+                        border-sky-100
+                        dark:border-slate-700
+                        shadow-sm
+                        p-6
+                        transition-colors
+                        duration-300
+                    ">
 
 
                         {/* Report Header */}
 
-                        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
+                        <div className="
+                            flex
+                            flex-col
+                            md:flex-row
+                            md:items-center
+                            md:justify-between
+                            gap-4
+                            mb-6
+                        ">
 
                             <div>
 
-                                <p className="text-sky-600 font-semibold">
+                                <p className="
+                                    text-sky-600
+                                    dark:text-sky-400
+                                    font-semibold
+                                ">
 
                                     Report Generated Successfully
 
                                 </p>
 
 
-                                <h2 className="text-2xl font-bold text-gray-800 mt-1">
+                                <h2 className="
+                                    text-2xl
+                                    font-bold
+                                    text-gray-800
+                                    dark:text-white
+                                    mt-1
+                                ">
 
                                     {query}
 
@@ -1072,7 +1280,16 @@ function GenerateReport() {
                             </div>
 
 
-                            <div className="bg-green-100 text-green-700 px-4 py-2 rounded-lg font-semibold">
+                            <div className="
+                                bg-green-100
+                                dark:bg-green-950/50
+                                text-green-700
+                                dark:text-green-400
+                                px-4
+                                py-2
+                                rounded-lg
+                                font-semibold
+                            ">
 
                                 Version {version}
 
@@ -1090,21 +1307,42 @@ function GenerateReport() {
                             qualityText ||
                             executionTime) && (
 
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+                            <div className="
+                                grid
+                                grid-cols-1
+                                md:grid-cols-3
+                                gap-4
+                                mb-8
+                            ">
 
 
                                 {/* Quality Score */}
 
-                                <div className="bg-sky-50 rounded-xl p-4">
+                                <div className="
+                                    bg-sky-50
+                                    dark:bg-slate-800
+                                    rounded-xl
+                                    p-4
+                                ">
 
-                                    <p className="text-sm text-gray-500">
+                                    <p className="
+                                        text-sm
+                                        text-gray-500
+                                        dark:text-gray-400
+                                    ">
 
                                         Quality Score
 
                                     </p>
 
 
-                                    <p className="text-2xl font-bold text-gray-800 mt-1">
+                                    <p className="
+                                        text-2xl
+                                        font-bold
+                                        text-gray-800
+                                        dark:text-white
+                                        mt-1
+                                    ">
 
                                         {qualityScore ??
                                             "-"}
@@ -1117,16 +1355,31 @@ function GenerateReport() {
 
                                 {/* Quality */}
 
-                                <div className="bg-sky-50 rounded-xl p-4">
+                                <div className="
+                                    bg-sky-50
+                                    dark:bg-slate-800
+                                    rounded-xl
+                                    p-4
+                                ">
 
-                                    <p className="text-sm text-gray-500">
+                                    <p className="
+                                        text-sm
+                                        text-gray-500
+                                        dark:text-gray-400
+                                    ">
 
                                         Quality
 
                                     </p>
 
 
-                                    <p className="text-lg font-bold text-gray-800 mt-1">
+                                    <p className="
+                                        text-lg
+                                        font-bold
+                                        text-gray-800
+                                        dark:text-white
+                                        mt-1
+                                    ">
 
                                         {qualityText ||
                                             "-"}
@@ -1139,16 +1392,31 @@ function GenerateReport() {
 
                                 {/* Execution Time */}
 
-                                <div className="bg-sky-50 rounded-xl p-4">
+                                <div className="
+                                    bg-sky-50
+                                    dark:bg-slate-800
+                                    rounded-xl
+                                    p-4
+                                ">
 
-                                    <p className="text-sm text-gray-500">
+                                    <p className="
+                                        text-sm
+                                        text-gray-500
+                                        dark:text-gray-400
+                                    ">
 
                                         Execution Time
 
                                     </p>
 
 
-                                    <p className="text-lg font-bold text-gray-800 mt-1">
+                                    <p className="
+                                        text-lg
+                                        font-bold
+                                        text-gray-800
+                                        dark:text-white
+                                        mt-1
+                                    ">
 
                                         {executionTime
                                             ? `${executionTime}s`
@@ -1173,14 +1441,24 @@ function GenerateReport() {
 
                             <div className="mb-4">
 
-                                <h3 className="text-xl font-bold text-gray-800">
+                                <h3 className="
+                                    text-xl
+                                    font-bold
+                                    text-gray-800
+                                    dark:text-white
+                                ">
 
                                     Download Report
 
                                 </h3>
 
 
-                                <p className="text-gray-500 text-sm mt-1">
+                                <p className="
+                                    text-gray-500
+                                    dark:text-gray-400
+                                    text-sm
+                                    mt-1
+                                ">
 
                                     Download your generated research
                                     report in your preferred format.
@@ -1191,7 +1469,12 @@ function GenerateReport() {
 
 
 
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div className="
+                                grid
+                                grid-cols-1
+                                md:grid-cols-3
+                                gap-4
+                            ">
 
 
                                 {/* ==================================
@@ -1220,6 +1503,7 @@ function GenerateReport() {
                                         bg-red-500
                                         hover:bg-red-600
                                         disabled:bg-gray-300
+                                        dark:disabled:bg-slate-700
                                         disabled:cursor-not-allowed
                                         transition
                                     "
@@ -1264,6 +1548,7 @@ function GenerateReport() {
                                         bg-blue-500
                                         hover:bg-blue-600
                                         disabled:bg-gray-300
+                                        dark:disabled:bg-slate-700
                                         disabled:cursor-not-allowed
                                         transition
                                     "
@@ -1308,6 +1593,7 @@ function GenerateReport() {
                                         bg-sky-500
                                         hover:bg-sky-600
                                         disabled:bg-gray-300
+                                        dark:disabled:bg-slate-700
                                         disabled:cursor-not-allowed
                                         transition
                                     "
@@ -1335,7 +1621,12 @@ function GenerateReport() {
                             {!downloading &&
                                 !downloadSuccess && (
 
-                                    <p className="text-sm text-green-600 mt-4">
+                                    <p className="
+                                        text-sm
+                                        text-green-600
+                                        dark:text-green-400
+                                        mt-4
+                                    ">
 
                                         ✓ Report files are ready
                                         for download.
@@ -1352,13 +1643,32 @@ function GenerateReport() {
                             FILE AVAILABILITY
                         ====================================== */}
 
-                        <div className="mt-6 pt-5 border-t border-gray-100">
+                        <div className="
+                            mt-6
+                            pt-5
+                            border-t
+                            border-gray-100
+                            dark:border-slate-700
+                        ">
 
-                            <div className="flex flex-wrap gap-3 text-sm">
+                            <div className="
+                                flex
+                                flex-wrap
+                                gap-3
+                                text-sm
+                            ">
 
                                 {pdfFile && (
 
-                                    <span className="bg-red-50 text-red-600 px-3 py-1.5 rounded-lg">
+                                    <span className="
+                                        bg-red-50
+                                        dark:bg-red-950/40
+                                        text-red-600
+                                        dark:text-red-400
+                                        px-3
+                                        py-1.5
+                                        rounded-lg
+                                    ">
 
                                         PDF Available
 
@@ -1369,7 +1679,15 @@ function GenerateReport() {
 
                                 {docxFile && (
 
-                                    <span className="bg-blue-50 text-blue-600 px-3 py-1.5 rounded-lg">
+                                    <span className="
+                                        bg-blue-50
+                                        dark:bg-blue-950/40
+                                        text-blue-600
+                                        dark:text-blue-400
+                                        px-3
+                                        py-1.5
+                                        rounded-lg
+                                    ">
 
                                         DOCX Available
 
@@ -1380,7 +1698,15 @@ function GenerateReport() {
 
                                 {markdownFile && (
 
-                                    <span className="bg-sky-50 text-sky-600 px-3 py-1.5 rounded-lg">
+                                    <span className="
+                                        bg-sky-50
+                                        dark:bg-sky-950/40
+                                        text-sky-600
+                                        dark:text-sky-400
+                                        px-3
+                                        py-1.5
+                                        rounded-lg
+                                    ">
 
                                         Markdown Available
 
@@ -1400,7 +1726,15 @@ function GenerateReport() {
 
                         {downloadSuccess && (
 
-                            <div className="mt-5 flex items-center gap-2 text-green-600 font-semibold">
+                            <div className="
+                                mt-5
+                                flex
+                                items-center
+                                gap-2
+                                text-green-600
+                                dark:text-green-400
+                                font-semibold
+                            ">
 
                                 <FiCheckCircle />
 

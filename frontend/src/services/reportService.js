@@ -14,6 +14,7 @@ export const generateReport = async (reportData) => {
         "Generate Report API Response:",
         response.data
     );
+    
 
     return response.data;
 };

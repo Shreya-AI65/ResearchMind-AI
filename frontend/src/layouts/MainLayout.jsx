@@ -1,21 +1,50 @@
-import Navbar from "../components/Navbar/Navbar";
-import Sidebar from "../components/Sidebar/Sidebar";
+import { Outlet } from "react-router-dom";
 
-function MainLayout({ children }) {
+import Navbar from "./Navbar/Navbar";
+import Sidebar from "./Sidebar/Sidebar";
+
+
+function Layout() {
 
     return (
 
-        <div className="flex bg-gray-100">
+        <div
+            className="
+                min-h-screen
+                flex
+
+                bg-gray-100
+                dark:bg-slate-950
+
+                text-gray-900
+                dark:text-slate-100
+
+                transition-colors
+                duration-300
+            "
+        >
 
             <Sidebar />
 
-            <div className="flex-1">
+
+            <div className="flex-1 min-w-0">
 
                 <Navbar />
 
-                <main className="p-8">
 
-                    {children}
+                <main
+                    className="
+                        min-h-screen
+
+                        bg-gray-100
+                        dark:bg-slate-950
+
+                        transition-colors
+                        duration-300
+                    "
+                >
+
+                    <Outlet />
 
                 </main>
 
@@ -24,7 +53,7 @@ function MainLayout({ children }) {
         </div>
 
     );
-
 }
 
-export default MainLayout;
+
+export default Layout;
