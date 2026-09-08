@@ -5426,3 +5426,398 @@ The development work also improved error visibility and maintained consistency a
 ## Status
 
 **Development and Testing Completed – Search Reports Fix Pending**
+
+
+# Day 36 – Frontend Layout Debugging, Dashboard Integration and Search Service Fixes
+
+## Date
+
+**8 September 2026**
+
+---
+
+## Objective
+
+The objective of today's development session was to identify and resolve the issue where the **ResearchMind AI Dashboard main content was not visible**, even though the Sidebar and Navbar were rendering correctly.
+
+The session also focused on:
+
+* Verifying the React application structure
+* Correcting layout imports
+* Ensuring proper React Router integration
+* Connecting report history functionality
+* Fixing the Search Reports API parameter mismatch
+* Verifying Dashboard integration with the main application layout
+
+---
+
+## Work Completed
+
+### 1. Investigated Dashboard Rendering Issue
+
+The Dashboard initially displayed an empty main area while the Sidebar and Navbar were visible.
+
+The Dashboard component was inspected to determine whether the issue was caused by:
+
+* Dashboard rendering logic
+* React Router configuration
+* API loading
+* Theme configuration
+* CSS animations
+* Layout structure
+* React application entry point
+
+A debugging message was also added to the Dashboard component to verify whether the component was being mounted.
+
+---
+
+### 2. Verified React Application Entry Point
+
+The `main.jsx` file was checked to confirm that the React application was correctly initialized.
+
+The application was found to be using:
+
+* `ReactDOM.createRoot()`
+* `React.StrictMode`
+* `ThemeProvider`
+* `App.jsx`
+* Global `index.css`
+
+The root element was also verified in `index.html`:
+
+```html
+<div id="root"></div>
+```
+
+The Vite entry point was confirmed as:
+
+```html
+<script type="module" src="/src/main.jsx"></script>
+```
+
+This confirmed that the React application was being loaded correctly.
+
+---
+
+### 3. Tested the Main Layout Independently
+
+A temporary test page was used to verify whether the main content area and routing system were working independently of the Dashboard component.
+
+The test successfully displayed the main area, confirming that:
+
+* React Router was functioning
+* The main content container was available
+* The Sidebar was rendering
+* The application shell was working
+
+This helped isolate the issue from the Dashboard's internal UI code.
+
+---
+
+### 4. Identified Duplicate Layout Implementations
+
+Two layout files were present in the project:
+
+```text
+src/components/Layout.jsx
+src/layouts/MainLayout.jsx
+```
+
+Both were attempting to provide the main application structure.
+
+This created unnecessary duplication and contributed to confusion regarding component paths and routing.
+
+The project was standardized around:
+
+```text
+src/layouts/MainLayout.jsx
+```
+
+as the primary application layout.
+
+---
+
+### 5. Corrected Navbar and Sidebar Import Paths
+
+The major issue was identified in `MainLayout.jsx`.
+
+The project structure contained:
+
+```text
+src/
+└── components/
+    ├── Navbar.jsx
+    └── Sidebar.jsx
+```
+
+However, `MainLayout.jsx` was attempting to import them as if they were nested folders:
+
+```jsx
+import Navbar from "./Navbar/Navbar";
+import Sidebar from "./Sidebar/Sidebar";
+```
+
+These paths were incorrect.
+
+They were corrected to:
+
+```jsx
+import Navbar from "../components/Navbar";
+import Sidebar from "../components/Sidebar";
+```
+
+This resolved the Vite import-analysis error:
+
+```text
+Failed to resolve import "./Navbar/Navbar"
+```
+
+---
+
+### 6. Updated MainLayout
+
+The `MainLayout.jsx` component was configured to provide the complete application shell.
+
+The structure now follows:
+
+```text
+MainLayout
+│
+├── Sidebar
+│
+└── Main Content
+    ├── Navbar
+    └── Outlet
+        └── Current Page
+```
+
+The `<Outlet />` component allows React Router to dynamically render:
+
+* Dashboard
+* Generate Report
+* Report History
+* Search Reports
+* Statistics
+* Settings
+* Report Viewer
+
+within the same layout.
+
+---
+
+### 7. Updated App Routing
+
+`App.jsx` was updated to use `MainLayout` from the `layouts` directory.
+
+The routing structure was organized as:
+
+```text
+BrowserRouter
+    │
+    └── Routes
+        │
+        └── MainLayout
+            │
+            ├── /
+            ├── /generate-report
+            ├── /report-history
+            ├── /search-reports
+            ├── /statistics
+            ├── /settings
+            └── /report-viewer
+```
+
+This ensures that the Sidebar and Navbar remain available while navigating between pages.
+
+---
+
+### 8. Fixed Report History Service
+
+The `reportHistoryService.js` file was reviewed and updated.
+
+The report history API continues to use:
+
+```text
+GET /api/v1/report/history
+```
+
+The service now correctly returns the API response to the frontend.
+
+The service also logs the API response for debugging:
+
+```javascript
+console.log(
+    "Report history API:",
+    response.data
+);
+```
+
+This helps verify the data received from the backend during development.
+
+---
+
+### 9. Fixed Search Reports API Parameter
+
+The Search Reports functionality was also reviewed.
+
+The backend expects the parameter:
+
+```text
+topic
+```
+
+but the frontend previously sent:
+
+```text
+query
+```
+
+This mismatch prevented the search API from receiving the expected parameter.
+
+The frontend service was corrected to:
+
+```javascript
+export const searchReports = async (topic) => {
+    const response = await api.get(
+        "/api/v1/reports/search",
+        {
+            params: {
+                topic: topic.trim(),
+            },
+        }
+    );
+
+    console.log(
+        "Search reports API:",
+        response.data
+    );
+
+    return response.data;
+};
+```
+
+This aligns the frontend request with the backend endpoint.
+
+---
+
+### 10. Verified Dashboard Integration
+
+After correcting the layout structure and import paths, the Dashboard was successfully rendered inside the main application area.
+
+The following components were verified as part of the application shell:
+
+* Sidebar
+* Navbar
+* Dashboard
+* React Router
+* MainLayout
+* ThemeProvider
+* Report History Service
+* Search Reports Service
+
+The Dashboard's existing functionality and UI design were preserved rather than unnecessarily rewritten.
+
+---
+
+## Technical Decisions
+
+* Standardized the application around a single `MainLayout.jsx`.
+* Kept `Navbar.jsx` and `Sidebar.jsx` as reusable components inside the `components` directory.
+* Used React Router's `<Outlet />` for rendering child pages inside the common layout.
+* Preserved the existing Dashboard design and functionality.
+* Corrected frontend import paths instead of changing the component architecture unnecessarily.
+* Kept API communication inside the existing service layer.
+* Corrected the Search Reports parameter mismatch without modifying the backend endpoint.
+* Preserved the existing global dark-mode implementation through `ThemeProvider`.
+* Used console logging and temporary rendering tests to isolate the frontend issue systematically.
+
+---
+
+## Testing and Verification
+
+### Application Loading
+
+* React application loaded successfully.
+* `main.jsx` correctly mounted the application.
+* `index.html` contained the required React root element.
+
+### Layout
+
+* Sidebar rendered successfully.
+* Navbar rendered successfully.
+* Main content area rendered successfully.
+* `MainLayout.jsx` loaded without Vite import errors.
+
+### Routing
+
+The following routes were verified:
+
+```text
+/
+ /generate-report
+ /report-history
+ /search-reports
+ /statistics
+ /settings
+ /report-viewer
+```
+
+### API Integration
+
+The frontend service configuration was verified for:
+
+```text
+GET /api/v1/report/history
+GET /api/v1/reports/search?topic=<topic>
+```
+
+### Search
+
+The Search Reports service was aligned with the backend's expected `topic` parameter.
+
+---
+
+## Outcome
+
+Today's development session successfully resolved the major frontend layout and rendering problem that was preventing the Dashboard content from appearing.
+
+The project now has a clearer and more consistent frontend structure:
+
+```text
+frontend/
+└── src/
+    ├── components/
+    │   ├── Navbar.jsx
+    │   ├── Sidebar.jsx
+    │   └── ...
+    │
+    ├── layouts/
+    │   └── MainLayout.jsx
+    │
+    ├── pages/
+    │   ├── Dashboard.jsx
+    │   ├── GenerateReport.jsx
+    │   ├── ReportHistory.jsx
+    │   ├── SearchReports.jsx
+    │   ├── Statistics.jsx
+    │   ├── Settings.jsx
+    │   └── ReportViewer.jsx
+    │
+    ├── services/
+    │   ├── api.js
+    │   └── reportHistoryService.js
+    │
+    ├── context/
+    │   └── ThemeContext.jsx
+    │
+    ├── App.jsx
+    └── main.jsx
+```
+
+The Dashboard is now correctly integrated into the application layout, the routing structure is functioning, and the report search service is correctly communicating with the backend API.
+
+---
+
+## Status
+
+**Completed Successfully** 

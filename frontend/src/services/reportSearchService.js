@@ -12,7 +12,7 @@ export const searchReports = async (topic) => {
             "/api/v1/reports/search",
             {
                 params: {
-                    query: topic.trim(),
+                    topic: topic.trim(),
                 },
             }
         );

@@ -900,5 +900,13 @@
         "pdf": "Research_Report_v9_20260902_193709.pdf",
         "docx": "Research_Report_v9_20260902_193709.docx",
         "markdown": "Research_Report_v9_20260902_193709.md"
+    },
+    {
+        "research_topic": "RAG",
+        "version": 10,
+        "generated_at": "2026-09-08 15:04:12",
+        "pdf": "Research_Report_v10_20260908_150411.pdf",
+        "docx": "Research_Report_v10_20260908_150412.docx",
+        "markdown": "Research_Report_v10_20260908_150412.md"
     }
 ]

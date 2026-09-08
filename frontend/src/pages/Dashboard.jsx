@@ -1,1391 +1,2008 @@
 import { useEffect, useMemo, useState } from "react";
-import { Link } from "react-router-dom";
 
 import {
-    FiFileText,
-    FiSearch,
-    FiBarChart2,
-    FiPlus,
+    FiArrowUpRight,
+    FiBookOpen,
+    FiCheckCircle,
     FiClock,
-    FiArrowRight,
+    FiFileText,
+    FiPlus,
+    FiSearch,
+    FiTrendingUp,
+    FiX,
 } from "react-icons/fi";
 
+import { useNavigate } from "react-router-dom";
+
 import { getReportHistory } from "../services/reportHistoryService";
-import { checkBackendHealth } from "../services/healthService";
+
 
 function Dashboard() {
-    const [reports, setReports] = useState([]);
-    const [systemStatus, setSystemStatus] = useState("Checking...");
-    const [isSystemOnline, setIsSystemOnline] = useState(false);
 
-    // ==========================================
-    // LOAD DASHBOARD
-    // ==========================================
+    console.log("🔥 DASHBOARD COMPONENT LOADED");
+
+    const navigate = useNavigate();
+
+    const [reports, setReports] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    const [searchQuery, setSearchQuery] = useState("");
+
+
+    // =========================================================
+    // LOAD REPORTS
+    // =========================================================
 
     useEffect(() => {
-        loadDashboardData();
-        checkHealth();
+        loadReports();
     }, []);
 
-    // ==========================================
-    // EXTRACT REPORTS
-    // ==========================================
 
-    const extractReports = (response) => {
-        if (Array.isArray(response)) {
-            return response;
-        }
+    const loadReports = async () => {
 
-        const possibleArrays = [
-            response?.reports,
-            response?.history,
-            response?.data,
-            response?.data?.reports,
-            response?.data?.history,
-            response?.data?.data,
-            response?.data?.data?.reports,
-            response?.results,
-            response?.result,
-            response?.result?.reports,
-            response?.result?.data,
-            response?.result?.data?.reports,
-        ];
-
-        for (const value of possibleArrays) {
-            if (Array.isArray(value)) {
-                return value;
-            }
-        }
-
-        const findReportArray = (value, depth = 0) => {
-            if (
-                depth > 5 ||
-                value === null ||
-                value === undefined
-            ) {
-                return null;
-            }
-
-            if (Array.isArray(value)) {
-                const looksLikeReports =
-                    value.length === 0 ||
-                    value.some((item) => {
-                        if (
-                            !item ||
-                            typeof item !== "object"
-                        ) {
-                            return false;
-                        }
-
-                        return (
-                            item.query !== undefined ||
-                            item.topic !== undefined ||
-                            item.research_topic !== undefined ||
-                            item.report_id !== undefined ||
-                            item.reportId !== undefined ||
-                            item.version !== undefined ||
-                            item.pdf_file !== undefined ||
-                            item.pdfFile !== undefined
-                        );
-                    });
-
-                if (looksLikeReports) {
-                    return value;
-                }
-
-                for (const item of value) {
-                    const result = findReportArray(
-                        item,
-                        depth + 1
-                    );
-
-                    if (result) {
-                        return result;
-                    }
-                }
-
-                return null;
-            }
-
-            if (typeof value === "object") {
-                for (const key of Object.keys(value)) {
-                    const result = findReportArray(
-                        value[key],
-                        depth + 1
-                    );
-
-                    if (result) {
-                        return result;
-                    }
-                }
-            }
-
-            return null;
-        };
-
-        return findReportArray(response) || [];
-    };
-
-    // ==========================================
-    // LOAD REPORT HISTORY
-    // ==========================================
-
-    const loadDashboardData = async () => {
         try {
+
+            setLoading(true);
+
             const response = await getReportHistory();
 
             console.log(
-                "Dashboard history response:",
+                "🔥 DASHBOARD HISTORY RESPONSE:",
                 response
             );
 
-            const parsedReports = extractReports(response);
+
+            let history = [];
+
+
+            // Direct array
+            if (Array.isArray(response)) {
+
+                history = response;
+
+            }
+
+            // { reports: [] }
+            else if (Array.isArray(response?.reports)) {
+
+                history = response.reports;
+
+            }
+
+            // { history: [] }
+            else if (Array.isArray(response?.history)) {
+
+                history = response.history;
+
+            }
+
+            // { results: [] }
+            else if (Array.isArray(response?.results)) {
+
+                history = response.results;
+
+            }
+
+            // { data: [] }
+            else if (Array.isArray(response?.data)) {
+
+                history = response.data;
+
+            }
+
+            // { data: { reports: [] } }
+            else if (
+                Array.isArray(response?.data?.reports)
+            ) {
+
+                history = response.data.reports;
+
+            }
+
+            // { data: { history: [] } }
+            else if (
+                Array.isArray(response?.data?.history)
+            ) {
+
+                history = response.data.history;
+
+            }
+
+            // { data: { results: [] } }
+            else if (
+                Array.isArray(response?.data?.results)
+            ) {
+
+                history = response.data.results;
+
+            }
+
 
             console.log(
-                "Dashboard parsed reports:",
-                parsedReports
+                "🔥 DASHBOARD PARSED REPORTS:",
+                history
             );
 
+
             setReports(
-                Array.isArray(parsedReports)
-                    ? parsedReports
+                Array.isArray(history)
+                    ? history
                     : []
             );
-        } catch (error) {
+
+        }
+
+        catch (error) {
+
             console.error(
-                "Dashboard history error:",
+                "❌ Dashboard history error:",
                 error
             );
 
             setReports([]);
+
         }
+
+        finally {
+
+            setLoading(false);
+
+        }
+
     };
 
-    // ==========================================
-    // BACKEND HEALTH CHECK
-    // ==========================================
 
-    const checkHealth = async () => {
-        try {
-            const response = await checkBackendHealth();
-
-            console.log(
-                "Backend health response:",
-                response
-            );
-
-            const healthData =
-                response?.data || response;
-
-            if (
-                healthData?.success === true &&
-                healthData?.status === "healthy"
-            ) {
-                setSystemStatus("Healthy");
-                setIsSystemOnline(true);
-            } else if (
-                healthData?.success === true &&
-                healthData?.status === "degraded"
-            ) {
-                setSystemStatus("Degraded");
-                setIsSystemOnline(true);
-            } else if (
-                healthData?.status === "healthy"
-            ) {
-                setSystemStatus("Healthy");
-                setIsSystemOnline(true);
-            } else if (
-                healthData?.status === "degraded"
-            ) {
-                setSystemStatus("Degraded");
-                setIsSystemOnline(true);
-            } else {
-                setSystemStatus("Offline");
-                setIsSystemOnline(false);
-            }
-        } catch (error) {
-            console.error(
-                "Backend health check failed:",
-                error
-            );
-
-            setSystemStatus("Offline");
-            setIsSystemOnline(false);
-        }
-    };
-
-    // ==========================================
-    // GET REPORT TOPIC
-    // ==========================================
+    // =========================================================
+    // REPORT TOPIC
+    // =========================================================
 
     const getReportTopic = (report) => {
-        if (
-            !report ||
-            typeof report !== "object"
-        ) {
-            return null;
-        }
 
         return (
-            report.query ||
-            report.topic ||
-            report.research_topic ||
-            report.researchTopic ||
-            report.search_query ||
-            report.searchQuery ||
-            report.title ||
-            report.report_title ||
-            report.reportTitle ||
-            report.name ||
-            null
+            report?.research_topic ||
+            report?.researchTopic ||
+            report?.query ||
+            report?.topic ||
+            report?.search_query ||
+            report?.searchQuery ||
+            report?.title ||
+            report?.report_title ||
+            "Research Report"
         );
+
     };
 
-    // ==========================================
-    // GET REPORT DATE
-    // ==========================================
+
+    // =========================================================
+    // REPORT DATE
+    // =========================================================
 
     const getReportDate = (report) => {
-        if (
-            !report ||
-            typeof report !== "object"
-        ) {
-            return null;
-        }
 
         return (
-            report.created_at ||
-            report.createdAt ||
-            report.generated_at ||
-            report.generatedAt ||
-            report.timestamp ||
-            report.date ||
-            report.created ||
+            report?.generated_at ||
+            report?.generatedAt ||
+            report?.created_at ||
+            report?.createdAt ||
+            report?.timestamp ||
+            report?.date ||
+            report?.created ||
             null
         );
+
     };
 
-    // ==========================================
-    // STATISTICS
-    // ==========================================
 
-    const totalReports = reports.length;
-
-    const researchTopics = useMemo(() => {
-        const topics = new Set();
-
-        reports.forEach((report) => {
-            const topic = getReportTopic(report);
-
-            if (topic) {
-                const cleanedTopic = String(topic).trim();
-
-                if (cleanedTopic) {
-                    topics.add(
-                        cleanedTopic.toLowerCase()
-                    );
-                }
-            }
-        });
-
-        return topics.size;
-    }, [reports]);
-
-    // ==========================================
-    // SORT REPORTS
-    // ==========================================
-
-    const sortedReports = useMemo(() => {
-        return [...reports].sort((a, b) => {
-            const dateA = getReportDate(a);
-            const dateB = getReportDate(b);
-
-            if (!dateA && !dateB) {
-                return 0;
-            }
-
-            if (!dateA) {
-                return 1;
-            }
-
-            if (!dateB) {
-                return -1;
-            }
-
-            return (
-                new Date(dateB).getTime() -
-                new Date(dateA).getTime()
-            );
-        });
-    }, [reports]);
-
-    const latestReport =
-        sortedReports.length > 0
-            ? sortedReports[0]
-            : null;
-
-    const recentReports =
-        sortedReports.slice(0, 5);
-
-    // ==========================================
-    // SYSTEM STATUS
-    // ==========================================
-
-    const getStatusTextColor = () => {
-        if (systemStatus === "Healthy") {
-            return "text-green-500";
-        }
-
-        if (systemStatus === "Degraded") {
-            return "text-yellow-500";
-        }
-
-        if (systemStatus === "Checking...") {
-            return "text-yellow-500";
-        }
-
-        return "text-red-500";
-    };
-
-    const getStatusDotColor = () => {
-        if (systemStatus === "Healthy") {
-            return "bg-green-500";
-        }
-
-        if (systemStatus === "Degraded") {
-            return "bg-yellow-500";
-        }
-
-        if (systemStatus === "Checking...") {
-            return "bg-yellow-500";
-        }
-
-        return "bg-red-500";
-    };
-
-    // ==========================================
+    // =========================================================
     // FORMAT DATE
-    // ==========================================
+    // =========================================================
 
     const formatDate = (date) => {
+
         if (!date) {
-            return "";
+
+            return "Recently generated";
+
         }
 
+
         const parsedDate = new Date(date);
+
 
         if (
             Number.isNaN(
                 parsedDate.getTime()
             )
         ) {
-            return "";
+
+            return String(date);
+
         }
 
-        return parsedDate.toLocaleDateString();
+
+        return parsedDate.toLocaleDateString(
+            "en-IN",
+            {
+                day: "numeric",
+                month: "short",
+                year: "numeric",
+            }
+        );
+
     };
 
-    // ==========================================
-    // RENDER
-    // ==========================================
+
+    // =========================================================
+    // TOTAL REPORTS
+    // =========================================================
+
+    const totalReports = reports.length;
+
+
+    // =========================================================
+    // UNIQUE TOPICS
+    // =========================================================
+
+    const uniqueTopics = useMemo(() => {
+
+        const topics = reports
+            .map((report) =>
+                getReportTopic(report)
+                    ?.trim()
+                    ?.toLowerCase()
+            )
+            .filter(Boolean);
+
+
+        return new Set(topics).size;
+
+    }, [reports]);
+
+
+    // =========================================================
+    // LATEST REPORT
+    // =========================================================
+
+    const sortedReports = useMemo(() => {
+
+        return [...reports].sort(
+            (a, b) => {
+
+                const dateA = getReportDate(a);
+                const dateB = getReportDate(b);
+
+
+                if (!dateA && !dateB) {
+
+                    return 0;
+
+                }
+
+
+                if (!dateA) {
+
+                    return 1;
+
+                }
+
+
+                if (!dateB) {
+
+                    return -1;
+
+                }
+
+
+                return (
+                    new Date(dateB).getTime() -
+                    new Date(dateA).getTime()
+                );
+
+            }
+        );
+
+    }, [reports]);
+
+
+    const latestReport =
+        sortedReports.length > 0
+            ? sortedReports[0]
+            : null;
+
+
+    // =========================================================
+    // RECENT REPORTS
+    // =========================================================
+
+    const recentReports =
+        sortedReports.slice(0, 5);
+
+
+    // =========================================================
+    // SEARCH RESULTS
+    // =========================================================
+
+    const searchResults = useMemo(() => {
+
+        const query =
+            searchQuery.trim().toLowerCase();
+
+
+        if (!query) {
+
+            return [];
+
+        }
+
+
+        return reports
+            .filter((report) => {
+
+                const topic =
+                    getReportTopic(report)
+                        ?.toLowerCase() || "";
+
+
+                return topic.includes(query);
+
+            })
+            .slice(0, 8);
+
+    }, [reports, searchQuery]);
+
+
+    // =========================================================
+    // CLEAR SEARCH
+    // =========================================================
+
+    const clearSearch = () => {
+
+        setSearchQuery("");
+
+    };
+
+
+    // =========================================================
+    // OPEN REPORT
+    // =========================================================
+
+    const openReport = (report) => {
+
+        navigate(
+            "/report-viewer",
+            {
+                state: {
+                    report,
+                },
+            }
+        );
+
+    };
+
+
+    // =========================================================
+    // PAGE
+    // =========================================================
 
     return (
-        <div
-            className="
-                min-h-screen
-                bg-sky-50
-                dark:bg-slate-950
-                text-gray-800
-                dark:text-white
-                transition-colors
-                duration-300
-            "
-        >
-            <div
+
+        <div className="page-enter space-y-7 p-6 md:p-8">
+
+
+            {/* =====================================================
+                HERO
+            ===================================================== */}
+
+            <section
                 className="
-                    max-w-7xl
-                    mx-auto
-                    px-4
-                    md:px-6
-                    py-8
+                    relative
+                    overflow-hidden
+                    rounded-[28px]
+                    border
+                    border-slate-200/80
+                    bg-white
+                    p-7
+                    shadow-[0_20px_60px_rgba(15,23,42,0.07)]
+                    dark:border-slate-800/80
+                    dark:bg-[#071126]
+                    dark:shadow-[0_25px_80px_rgba(0,0,0,0.3)]
+                    md:p-9
+                    lg:p-10
                 "
             >
-                {/* ======================================
-                    HEADER
-                ====================================== */}
-
-                <div className="mb-8">
-                    <p
-                        className="
-                            text-sky-600
-                            dark:text-sky-400
-                            font-semibold
-                            mb-2
-                        "
-                    >
-                        ResearchMind AI
-                    </p>
-
-                    <h1
-                        className="
-                            text-3xl
-                            md:text-4xl
-                            font-bold
-                            text-gray-800
-                            dark:text-white
-                        "
-                    >
-                        Welcome back, Researcher 👋
-                    </h1>
-
-                    <p
-                        className="
-                            text-gray-500
-                            dark:text-slate-400
-                            mt-2
-                        "
-                    >
-                        Explore, generate and manage
-                        your research reports.
-                    </p>
-                </div>
-
-                {/* ======================================
-                    QUICK ACTIONS
-                ====================================== */}
 
                 <div
                     className="
-                        grid
-                        grid-cols-1
-                        md:grid-cols-3
-                        gap-5
-                        mb-8
+                        pointer-events-none
+                        absolute
+                        -right-20
+                        -top-28
+                        h-72
+                        w-72
+                        rounded-full
+                        bg-sky-400/15
+                        blur-[90px]
+                    "
+                />
+
+
+                <div
+                    className="
+                        pointer-events-none
+                        absolute
+                        -bottom-28
+                        right-1/3
+                        h-64
+                        w-64
+                        rounded-full
+                        bg-violet-500/10
+                        blur-[90px]
+                    "
+                />
+
+
+                <div
+                    className="
+                        relative
+                        z-10
+                        flex
+                        flex-col
+                        gap-8
+                        lg:flex-row
+                        lg:items-center
+                        lg:justify-between
                     "
                 >
-                    {/* GENERATE */}
 
-                    <Link
-                        to="/generate-report"
-                        className="
-                            group
-                            bg-gradient-to-br
-                            from-sky-500
-                            to-blue-600
-                            hover:from-sky-600
-                            hover:to-blue-700
-                            text-white
-                            rounded-2xl
-                            p-6
-                            shadow-md
-                            hover:shadow-xl
-                            transition-all
-                            duration-300
-                        "
-                    >
+                    <div className="max-w-3xl">
+
+
+                        {/* BADGE */}
+
                         <div
                             className="
-                                flex
-                                items-center
-                                justify-between
                                 mb-5
-                            "
-                        >
-                            <div
-                                className="
-                                    bg-white/20
-                                    backdrop-blur-sm
-                                    p-3
-                                    rounded-xl
-                                "
-                            >
-                                <FiPlus size={24} />
-                            </div>
-
-                            <FiArrowRight
-                                size={22}
-                                className="
-                                    transition-transform
-                                    duration-300
-                                    group-hover:translate-x-1
-                                "
-                            />
-                        </div>
-
-                        <h2 className="text-xl font-bold">
-                            Generate Report
-                        </h2>
-
-                        <p
-                            className="
-                                text-sky-100
-                                mt-2
-                            "
-                        >
-                            Create a new AI-powered
-                            research report.
-                        </p>
-                    </Link>
-
-                    {/* SEARCH */}
-
-                    <Link
-                        to="/search-reports"
-                        className="
-                            group
-                            bg-white
-                            dark:bg-slate-900
-                            hover:shadow-xl
-                            rounded-2xl
-                            p-6
-                            border
-                            border-sky-100
-                            dark:border-slate-800
-                            transition-all
-                            duration-300
-                        "
-                    >
-                        <div
-                            className="
-                                bg-sky-100
-                                dark:bg-sky-900/40
+                                inline-flex
+                                items-center
+                                gap-2
+                                rounded-full
+                                border
+                                border-sky-200
+                                bg-sky-50
+                                px-3.5
+                                py-1.5
+                                text-xs
+                                font-semibold
                                 text-sky-600
-                                dark:text-sky-400
-                                w-fit
-                                p-3
-                                rounded-xl
-                                mb-5
+                                dark:border-sky-500/20
+                                dark:bg-sky-500/10
+                                dark:text-sky-300
                             "
                         >
-                            <FiSearch size={24} />
-                        </div>
 
-                        <h2
-                            className="
-                                text-xl
-                                font-bold
-                                text-gray-800
-                                dark:text-white
-                            "
-                        >
-                            Search Reports
-                        </h2>
-
-                        <p
-                            className="
-                                mt-2
-                                text-gray-500
-                                dark:text-slate-400
-                            "
-                        >
-                            Find previously generated
-                            research reports.
-                        </p>
-                    </Link>
-
-                    {/* ANALYTICS */}
-
-                    <Link
-                        to="/statistics"
-                        className="
-                            group
-                            bg-white
-                            dark:bg-slate-900
-                            hover:shadow-xl
-                            rounded-2xl
-                            p-6
-                            border
-                            border-sky-100
-                            dark:border-slate-800
-                            transition-all
-                            duration-300
-                        "
-                    >
-                        <div
-                            className="
-                                bg-sky-100
-                                dark:bg-sky-900/40
-                                text-sky-600
-                                dark:text-sky-400
-                                w-fit
-                                p-3
-                                rounded-xl
-                                mb-5
-                            "
-                        >
-                            <FiBarChart2 size={24} />
-                        </div>
-
-                        <h2
-                            className="
-                                text-xl
-                                font-bold
-                                text-gray-800
-                                dark:text-white
-                            "
-                        >
-                            View Analytics
-                        </h2>
-
-                        <p
-                            className="
-                                mt-2
-                                text-gray-500
-                                dark:text-slate-400
-                            "
-                        >
-                            Monitor your research activity
-                            and statistics.
-                        </p>
-                    </Link>
-                </div>
-
-                {/* ======================================
-                    STATISTICS
-                ====================================== */}
-
-                <div
-                    className="
-                        grid
-                        grid-cols-1
-                        sm:grid-cols-2
-                        lg:grid-cols-4
-                        gap-5
-                        mb-8
-                    "
-                >
-                    {/* TOTAL REPORTS */}
-
-                    <div
-                        className="
-                            bg-white
-                            dark:bg-slate-900
-                            rounded-2xl
-                            p-6
-                            border
-                            border-sky-100
-                            dark:border-slate-800
-                            shadow-sm
-                        "
-                    >
-                        <div
-                            className="
-                                flex
-                                items-center
-                                justify-between
-                            "
-                        >
-                            <div>
-                                <p
-                                    className="
-                                        text-gray-500
-                                        dark:text-slate-400
-                                        text-sm
-                                    "
-                                >
-                                    Total Reports
-                                </p>
-
-                                <h3
-                                    className="
-                                        text-3xl
-                                        font-bold
-                                        text-gray-800
-                                        dark:text-white
-                                        mt-2
-                                    "
-                                >
-                                    {totalReports}
-                                </h3>
-                            </div>
-
-                            <div
+                            <span
                                 className="
-                                    bg-sky-100
-                                    dark:bg-sky-900/40
-                                    text-sky-600
-                                    dark:text-sky-400
-                                    p-3
-                                    rounded-xl
-                                "
-                            >
-                                <FiFileText size={22} />
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* RESEARCH TOPICS */}
-
-                    <div
-                        className="
-                            bg-white
-                            dark:bg-slate-900
-                            rounded-2xl
-                            p-6
-                            border
-                            border-sky-100
-                            dark:border-slate-800
-                            shadow-sm
-                        "
-                    >
-                        <div
-                            className="
-                                flex
-                                items-center
-                                justify-between
-                            "
-                        >
-                            <div>
-                                <p
-                                    className="
-                                        text-gray-500
-                                        dark:text-slate-400
-                                        text-sm
-                                    "
-                                >
-                                    Research Topics
-                                </p>
-
-                                <h3
-                                    className="
-                                        text-3xl
-                                        font-bold
-                                        text-gray-800
-                                        dark:text-white
-                                        mt-2
-                                    "
-                                >
-                                    {researchTopics}
-                                </h3>
-                            </div>
-
-                            <div
-                                className="
-                                    bg-sky-100
-                                    dark:bg-sky-900/40
-                                    text-sky-600
-                                    dark:text-sky-400
-                                    p-3
-                                    rounded-xl
-                                "
-                            >
-                                <FiSearch size={22} />
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* LATEST ACTIVITY */}
-
-                    <div
-                        className="
-                            bg-white
-                            dark:bg-slate-900
-                            rounded-2xl
-                            p-6
-                            border
-                            border-sky-100
-                            dark:border-slate-800
-                            shadow-sm
-                        "
-                    >
-                        <div
-                            className="
-                                flex
-                                items-center
-                                justify-between
-                            "
-                        >
-                            <div className="min-w-0">
-                                <p
-                                    className="
-                                        text-gray-500
-                                        dark:text-slate-400
-                                        text-sm
-                                    "
-                                >
-                                    Latest Activity
-                                </p>
-
-                                <h3
-                                    className="
-                                        text-lg
-                                        font-bold
-                                        text-gray-800
-                                        dark:text-white
-                                        mt-2
-                                        truncate
-                                    "
-                                >
-                                    {latestReport
-                                        ? (
-                                            getReportTopic(
-                                                latestReport
-                                            ) || "Research"
-                                        )
-                                        : "No activity"}
-                                </h3>
-                            </div>
-
-                            <div
-                                className="
-                                    bg-sky-100
-                                    dark:bg-sky-900/40
-                                    text-sky-600
-                                    dark:text-sky-400
-                                    p-3
-                                    rounded-xl
-                                    flex-shrink-0
-                                "
-                            >
-                                <FiClock size={22} />
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* SYSTEM */}
-
-                    <div
-                        className="
-                            bg-white
-                            dark:bg-slate-900
-                            rounded-2xl
-                            p-6
-                            border
-                            border-sky-100
-                            dark:border-slate-800
-                            shadow-sm
-                        "
-                    >
-                        <div
-                            className="
-                                flex
-                                items-center
-                                justify-between
-                            "
-                        >
-                            <div>
-                                <p
-                                    className="
-                                        text-gray-500
-                                        dark:text-slate-400
-                                        text-sm
-                                    "
-                                >
-                                    System
-                                </p>
-
-                                <h3
-                                    className={`
-                                        text-lg
-                                        font-bold
-                                        mt-2
-                                        ${getStatusTextColor()}
-                                    `}
-                                >
-                                    {systemStatus}
-                                </h3>
-                            </div>
-
-                            <div
-                                className={`
-                                    w-3
-                                    h-3
-                                    rounded-full
-                                    ${getStatusDotColor()}
-                                `}
-                            />
-                        </div>
-                    </div>
-                </div>
-
-                {/* ======================================
-                    SYSTEM HEALTH
-                ====================================== */}
-
-                <div
-                    className="
-                        bg-white
-                        dark:bg-slate-900
-                        rounded-2xl
-                        border
-                        border-sky-100
-                        dark:border-slate-800
-                        shadow-sm
-                        mb-8
-                    "
-                >
-                    <div
-                        className="
-                            p-6
-                            border-b
-                            border-gray-100
-                            dark:border-slate-800
-                        "
-                    >
-                        <div
-                            className="
-                                flex
-                                items-center
-                                justify-between
-                            "
-                        >
-                            <div>
-                                <h2
-                                    className="
-                                        text-xl
-                                        font-bold
-                                        text-gray-800
-                                        dark:text-white
-                                    "
-                                >
-                                    System Health
-                                </h2>
-
-                                <p
-                                    className="
-                                        text-gray-500
-                                        dark:text-slate-400
-                                        text-sm
-                                        mt-1
-                                    "
-                                >
-                                    Current status of
-                                    ResearchMind AI backend services
-                                </p>
-                            </div>
-
-                            <div
-                                className="
+                                    relative
                                     flex
-                                    items-center
-                                    gap-2
+                                    h-2
+                                    w-2
                                 "
                             >
+
                                 <span
-                                    className={`
-                                        w-3
-                                        h-3
+                                    className="
+                                        absolute
+                                        inline-flex
+                                        h-full
+                                        w-full
+                                        animate-ping
                                         rounded-full
-                                        ${getStatusDotColor()}
-                                    `}
+                                        bg-sky-400
+                                        opacity-60
+                                    "
                                 />
 
                                 <span
-                                    className={`
-                                        font-semibold
-                                        ${getStatusTextColor()}
-                                    `}
-                                >
-                                    {systemStatus}
-                                </span>
-                            </div>
-                        </div>
-                    </div>
+                                    className="
+                                        relative
+                                        inline-flex
+                                        h-2
+                                        w-2
+                                        rounded-full
+                                        bg-sky-400
+                                    "
+                                />
 
-                    <div className="p-6">
-                        <div
+                            </span>
+
+                            AI Research Assistant
+
+                        </div>
+
+
+                        {/* TITLE */}
+
+                        <h1
                             className="
-                                grid
-                                grid-cols-1
-                                md:grid-cols-2
-                                gap-4
+                                text-3xl
+                                font-bold
+                                tracking-tight
+                                text-slate-900
+                                dark:text-white
+                                sm:text-4xl
+                                lg:text-[42px]
                             "
                         >
-                            {/* BACKEND API */}
 
-                            <div
+                            Welcome back, Researcher
+
+                            <span className="ml-2">
+                                👋
+                            </span>
+
+                        </h1>
+
+
+                        <p
+                            className="
+                                mt-4
+                                max-w-2xl
+                                text-sm
+                                leading-7
+                                text-slate-500
+                                dark:text-slate-400
+                                sm:text-base
+                            "
+                        >
+
+                            Explore, analyze, generate and manage
+                            your research reports with your intelligent
+                            research workspace.
+
+                        </p>
+
+
+                        {/* BUTTONS */}
+
+                        <div
+                            className="
+                                mt-7
+                                flex
+                                flex-wrap
+                                gap-3
+                            "
+                        >
+
+                            <button
+                                type="button"
+                                onClick={() =>
+                                    navigate(
+                                        "/generate-report"
+                                    )
+                                }
                                 className="
-                                    border
-                                    border-gray-100
-                                    dark:border-slate-800
+                                    group
+                                    inline-flex
+                                    items-center
+                                    gap-2.5
                                     rounded-xl
-                                    p-4
+                                    bg-gradient-to-r
+                                    from-sky-500
+                                    via-blue-500
+                                    to-violet-600
+                                    px-5
+                                    py-3
+                                    text-sm
+                                    font-semibold
+                                    text-white
+                                    shadow-lg
+                                    shadow-blue-500/20
+                                    transition
+                                    duration-200
+                                    hover:-translate-y-0.5
+                                    hover:shadow-xl
                                 "
                             >
-                                <div
-                                    className="
-                                        flex
-                                        items-center
-                                        justify-between
-                                    "
-                                >
-                                    <div>
-                                        <h3
-                                            className="
-                                                font-semibold
-                                                text-gray-800
-                                                dark:text-white
-                                            "
-                                        >
-                                            Backend API
-                                        </h3>
 
-                                        <p
-                                            className="
-                                                text-sm
-                                                text-gray-500
-                                                dark:text-slate-400
-                                                mt-1
-                                            "
-                                        >
-                                            FastAPI server
-                                        </p>
-                                    </div>
+                                <FiPlus size={17} />
 
-                                    <span
-                                        className="
-                                            flex
-                                            items-center
-                                            gap-2
-                                            text-green-500
-                                            font-semibold
-                                            text-sm
-                                        "
-                                    >
-                                        <span
-                                            className="
-                                                w-2.5
-                                                h-2.5
-                                                bg-green-500
-                                                rounded-full
-                                            "
-                                        />
+                                Generate Report
 
-                                        Healthy
-                                    </span>
-                                </div>
-                            </div>
+                                <FiArrowUpRight
+                                    size={16}
+                                />
 
-                            {/* REPORT GENERATION */}
+                            </button>
 
-                            <div
+
+                            <button
+                                type="button"
+                                onClick={() =>
+                                    navigate(
+                                        "/search-reports"
+                                    )
+                                }
                                 className="
-                                    border
-                                    border-gray-100
-                                    dark:border-slate-800
+                                    inline-flex
+                                    items-center
+                                    gap-2.5
                                     rounded-xl
-                                    p-4
+                                    border
+                                    border-slate-200
+                                    bg-white/80
+                                    px-5
+                                    py-3
+                                    text-sm
+                                    font-semibold
+                                    text-slate-700
+                                    transition
+                                    hover:border-sky-300
+                                    hover:bg-sky-50
+                                    dark:border-slate-700
+                                    dark:bg-slate-900/60
+                                    dark:text-slate-200
+                                    dark:hover:border-sky-500/40
+                                    dark:hover:bg-sky-500/10
                                 "
                             >
-                                <div
-                                    className="
-                                        flex
-                                        items-center
-                                        justify-between
-                                    "
-                                >
-                                    <div>
-                                        <h3
-                                            className="
-                                                font-semibold
-                                                text-gray-800
-                                                dark:text-white
-                                            "
-                                        >
-                                            Report Generation
-                                        </h3>
 
-                                        <p
-                                            className="
-                                                text-sm
-                                                text-gray-500
-                                                dark:text-slate-400
-                                                mt-1
-                                            "
-                                        >
-                                            Research report service
-                                        </p>
-                                    </div>
+                                <FiSearch size={16} />
 
-                                    <span
-                                        className={`
-                                            flex
-                                            items-center
-                                            gap-2
-                                            font-semibold
-                                            text-sm
-                                            ${
-                                                isSystemOnline
-                                                    ? "text-green-500"
-                                                    : "text-red-500"
-                                            }
-                                        `}
-                                    >
-                                        <span
-                                            className={`
-                                                w-2.5
-                                                h-2.5
-                                                rounded-full
-                                                ${
-                                                    isSystemOnline
-                                                        ? "bg-green-500"
-                                                        : "bg-red-500"
-                                                }
-                                            `}
-                                        />
+                                Search Reports
 
-                                        {isSystemOnline
-                                            ? "Available"
-                                            : "Unavailable"}
-                                    </span>
-                                </div>
-                            </div>
+                            </button>
+
                         </div>
+
                     </div>
+
+
+                    {/* AI ICON */}
+
+                    <div
+                        className="
+                            hidden
+                            h-40
+                            w-40
+                            shrink-0
+                            items-center
+                            justify-center
+                            rounded-[32px]
+                            border
+                            border-sky-200/70
+                            bg-gradient-to-br
+                            from-sky-50
+                            via-white
+                            to-violet-50
+                            shadow-xl
+                            shadow-sky-500/10
+                            lg:flex
+                            dark:border-sky-500/20
+                            dark:from-sky-500/10
+                            dark:via-slate-900
+                            dark:to-violet-500/10
+                        "
+                    >
+
+                        <div
+                            className="
+                                flex
+                                h-24
+                                w-24
+                                items-center
+                                justify-center
+                                rounded-3xl
+                                bg-gradient-to-br
+                                from-sky-400
+                                via-blue-500
+                                to-violet-600
+                                shadow-2xl
+                                shadow-blue-500/30
+                                float-animation
+                            "
+                        >
+
+                            <FiBookOpen
+                                size={42}
+                                className="text-white"
+                            />
+
+                        </div>
+
+                    </div>
+
                 </div>
 
-                {/* ======================================
-                    RECENT RESEARCH
-                ====================================== */}
+            </section>
+
+
+            {/* =====================================================
+                DASHBOARD SEARCH
+            ===================================================== */}
+
+            <section
+                className="
+                    relative
+                    rounded-[24px]
+                    border
+                    border-slate-200/80
+                    bg-white
+                    p-5
+                    shadow-[0_12px_40px_rgba(15,23,42,0.05)]
+                    dark:border-slate-800
+                    dark:bg-[#071126]/80
+                "
+            >
 
                 <div
                     className="
-                        bg-white
-                        dark:bg-slate-900
-                        rounded-2xl
-                        border
-                        border-sky-100
-                        dark:border-slate-800
-                        shadow-sm
+                        flex
+                        items-center
+                        gap-2
+                        text-sm
+                        font-semibold
+                        text-slate-800
+                        dark:text-white
                     "
                 >
+
+                    <FiSearch className="text-sky-500" />
+
+                    Search your research reports
+
+                </div>
+
+
+                <div className="relative mt-4">
+
+                    <FiSearch
+                        className="
+                            absolute
+                            left-4
+                            top-1/2
+                            -translate-y-1/2
+                            text-slate-400
+                        "
+                        size={18}
+                    />
+
+
+                    <input
+                        type="text"
+                        value={searchQuery}
+                        onChange={(event) =>
+                            setSearchQuery(
+                                event.target.value
+                            )
+                        }
+                        placeholder="Search by research topic..."
+                        className="
+                            w-full
+                            rounded-xl
+                            border
+                            border-slate-200
+                            bg-slate-50
+                            py-3.5
+                            pl-11
+                            pr-12
+                            text-sm
+                            text-slate-800
+                            outline-none
+                            transition
+                            focus:border-sky-400
+                            focus:ring-4
+                            focus:ring-sky-500/10
+                            dark:border-slate-700
+                            dark:bg-slate-900
+                            dark:text-white
+                            dark:placeholder:text-slate-500
+                        "
+                    />
+
+
+                    {searchQuery && (
+
+                        <button
+                            type="button"
+                            onClick={clearSearch}
+                            className="
+                                absolute
+                                right-3
+                                top-1/2
+                                -translate-y-1/2
+                                rounded-lg
+                                p-2
+                                text-slate-400
+                                transition
+                                hover:bg-slate-200
+                                hover:text-slate-700
+                                dark:hover:bg-slate-800
+                                dark:hover:text-white
+                            "
+                        >
+
+                            <FiX size={17} />
+
+                        </button>
+
+                    )}
+
+                </div>
+
+
+                {/* SEARCH RESULTS */}
+
+                {searchQuery.trim() && (
+
                     <div
                         className="
-                            p-6
-                            border-b
-                            border-gray-100
+                            mt-4
+                            overflow-hidden
+                            rounded-xl
+                            border
+                            border-slate-200
                             dark:border-slate-800
+                        "
+                    >
+
+                        {searchResults.length > 0 ? (
+
+                            <div className="divide-y divide-slate-100 dark:divide-slate-800">
+
+                                {searchResults.map(
+                                    (report, index) => (
+
+                                        <button
+                                            key={
+                                                report?.id ||
+                                                report?._id ||
+                                                index
+                                            }
+                                            type="button"
+                                            onClick={() =>
+                                                openReport(
+                                                    report
+                                                )
+                                            }
+                                            className="
+                                                flex
+                                                w-full
+                                                items-center
+                                                gap-4
+                                                bg-white
+                                                px-4
+                                                py-4
+                                                text-left
+                                                transition
+                                                hover:bg-sky-50
+                                                dark:bg-slate-900/60
+                                                dark:hover:bg-sky-500/10
+                                            "
+                                        >
+
+                                            <div
+                                                className="
+                                                    flex
+                                                    h-10
+                                                    w-10
+                                                    shrink-0
+                                                    items-center
+                                                    justify-center
+                                                    rounded-xl
+                                                    bg-sky-50
+                                                    text-sky-500
+                                                    dark:bg-sky-500/10
+                                                    dark:text-sky-400
+                                                "
+                                            >
+
+                                                <FiFileText />
+
+                                            </div>
+
+
+                                            <div className="min-w-0 flex-1">
+
+                                                <p
+                                                    className="
+                                                        truncate
+                                                        text-sm
+                                                        font-semibold
+                                                        text-slate-800
+                                                        dark:text-white
+                                                    "
+                                                >
+
+                                                    {getReportTopic(
+                                                        report
+                                                    )}
+
+                                                </p>
+
+
+                                                <p
+                                                    className="
+                                                        mt-1
+                                                        text-xs
+                                                        text-slate-400
+                                                    "
+                                                >
+
+                                                    {formatDate(
+                                                        getReportDate(
+                                                            report
+                                                        )
+                                                    )}
+
+                                                </p>
+
+                                            </div>
+
+
+                                            <FiArrowUpRight
+                                                className="
+                                                    shrink-0
+                                                    text-slate-400
+                                                "
+                                            />
+
+                                        </button>
+
+                                    )
+                                )}
+
+                            </div>
+
+                        ) : (
+
+                            <div
+                                className="
+                                    px-5
+                                    py-8
+                                    text-center
+                                "
+                            >
+
+                                <FiSearch
+                                    size={28}
+                                    className="
+                                        mx-auto
+                                        text-slate-300
+                                        dark:text-slate-700
+                                    "
+                                />
+
+                                <p
+                                    className="
+                                        mt-3
+                                        text-sm
+                                        font-semibold
+                                        text-slate-700
+                                        dark:text-white
+                                    "
+                                >
+
+                                    No matching reports
+
+                                </p>
+
+                                <p
+                                    className="
+                                        mt-1
+                                        text-xs
+                                        text-slate-400
+                                    "
+                                >
+
+                                    Try another research topic.
+
+                                </p>
+
+                            </div>
+
+                        )}
+
+                    </div>
+
+                )}
+
+            </section>
+
+
+            {/* =====================================================
+                STATISTICS
+            ===================================================== */}
+
+            <section
+                className="
+                    grid
+                    grid-cols-1
+                    gap-4
+                    sm:grid-cols-2
+                    xl:grid-cols-4
+                "
+            >
+
+                <StatCard
+                    title="Total Reports"
+                    value={totalReports}
+                    icon={<FiFileText />}
+                    description="Reports generated"
+                />
+
+
+                <StatCard
+                    title="Research Topics"
+                    value={uniqueTopics}
+                    icon={<FiBookOpen />}
+                    description="Topics explored"
+                />
+
+
+                <StatCard
+                    title="Research Activity"
+                    value={
+                        totalReports > 0
+                            ? "Active"
+                            : "Start"
+                    }
+                    icon={<FiTrendingUp />}
+                    description={
+                        totalReports > 0
+                            ? "Workspace is active"
+                            : "Generate your first report"
+                    }
+                />
+
+
+                <StatCard
+                    title="Latest Status"
+                    value={
+                        latestReport
+                            ? "Ready"
+                            : "—"
+                    }
+                    icon={<FiCheckCircle />}
+                    description={
+                        latestReport
+                            ? "Latest report available"
+                            : "No reports yet"
+                    }
+                />
+
+            </section>
+
+
+            {/* =====================================================
+                MAIN CONTENT
+            ===================================================== */}
+
+            <section
+                className="
+                    grid
+                    grid-cols-1
+                    gap-6
+                    xl:grid-cols-3
+                "
+            >
+
+
+                {/* RECENT REPORTS */}
+
+                <div
+                    className="
+                        overflow-hidden
+                        rounded-[24px]
+                        border
+                        border-slate-200/80
+                        bg-white
+                        shadow-[0_12px_40px_rgba(15,23,42,0.05)]
+                        xl:col-span-2
+                        dark:border-slate-800
+                        dark:bg-[#071126]/80
+                    "
+                >
+
+                    <div
+                        className="
                             flex
                             items-center
                             justify-between
+                            border-b
+                            border-slate-100
+                            px-6
+                            py-5
+                            dark:border-slate-800
                         "
                     >
+
                         <div>
+
                             <h2
                                 className="
-                                    text-xl
+                                    text-base
                                     font-bold
-                                    text-gray-800
+                                    text-slate-900
                                     dark:text-white
                                 "
                             >
-                                Recent Research
+                                Recent Reports
                             </h2>
 
                             <p
                                 className="
-                                    text-gray-500
-                                    dark:text-slate-400
-                                    text-sm
                                     mt-1
+                                    text-xs
+                                    text-slate-400
                                 "
                             >
                                 Your latest research activity
                             </p>
+
                         </div>
 
-                        <Link
-                            to="/report-history"
+
+                        <button
+                            type="button"
+                            onClick={() =>
+                                navigate(
+                                    "/report-history"
+                                )
+                            }
                             className="
-                                text-sky-600
-                                dark:text-sky-400
-                                hover:text-sky-700
-                                dark:hover:text-sky-300
+                                text-xs
                                 font-semibold
-                                text-sm
+                                text-sky-600
+                                hover:text-sky-500
+                                dark:text-sky-400
                             "
                         >
-                            View All
-                        </Link>
+
+                            View all
+
+                        </button>
+
                     </div>
 
-                    {recentReports.length > 0 ? (
+
+                    <div
+                        className="
+                            divide-y
+                            divide-slate-100
+                            dark:divide-slate-800
+                        "
+                    >
+
+                        {loading ? (
+
+                            <LoadingState />
+
+                        ) : recentReports.length === 0 ? (
+
+                            <EmptyReports
+                                onClick={() =>
+                                    navigate(
+                                        "/generate-report"
+                                    )
+                                }
+                            />
+
+                        ) : (
+
+                            recentReports.map(
+                                (report, index) => (
+
+                                    <ReportRow
+                                        key={
+                                            report?.id ||
+                                            report?._id ||
+                                            index
+                                        }
+                                        report={report}
+                                        onClick={() =>
+                                            openReport(
+                                                report
+                                            )
+                                        }
+                                    />
+
+                                )
+                            )
+
+                        )}
+
+                    </div>
+
+                </div>
+
+
+                {/* QUICK ACTIONS */}
+
+                <div
+                    className="
+                        rounded-[24px]
+                        border
+                        border-slate-200/80
+                        bg-white
+                        p-6
+                        shadow-[0_12px_40px_rgba(15,23,42,0.05)]
+                        dark:border-slate-800
+                        dark:bg-[#071126]/80
+                    "
+                >
+
+                    <h2
+                        className="
+                            text-base
+                            font-bold
+                            text-slate-900
+                            dark:text-white
+                        "
+                    >
+                        Quick Actions
+                    </h2>
+
+
+                    <p
+                        className="
+                            mt-1
+                            text-xs
+                            text-slate-400
+                        "
+                    >
+                        Continue your research workflow
+                    </p>
+
+
+                    <div className="mt-5 space-y-3">
+
+                        <QuickAction
+                            icon={<FiPlus />}
+                            title="Generate Report"
+                            description="Create a new research report"
+                            onClick={() =>
+                                navigate(
+                                    "/generate-report"
+                                )
+                            }
+                        />
+
+
+                        <QuickAction
+                            icon={<FiSearch />}
+                            title="Search Reports"
+                            description="Find previous research"
+                            onClick={() =>
+                                navigate(
+                                    "/search-reports"
+                                )
+                            }
+                        />
+
+
+                        <QuickAction
+                            icon={<FiClock />}
+                            title="Report History"
+                            description="View generated reports"
+                            onClick={() =>
+                                navigate(
+                                    "/report-history"
+                                )
+                            }
+                        />
+
+
+                        <QuickAction
+                            icon={<FiTrendingUp />}
+                            title="Statistics"
+                            description="Explore research analytics"
+                            onClick={() =>
+                                navigate(
+                                    "/statistics"
+                                )
+                            }
+                        />
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            {/* =====================================================
+                RESEARCH INTELLIGENCE
+            ===================================================== */}
+
+            <section
+                className="
+                    relative
+                    overflow-hidden
+                    rounded-[24px]
+                    border
+                    border-blue-200/70
+                    bg-gradient-to-r
+                    from-sky-50
+                    via-indigo-50
+                    to-violet-50
+                    p-6
+                    dark:border-blue-500/20
+                    dark:from-sky-500/10
+                    dark:via-indigo-500/10
+                    dark:to-violet-500/10
+                "
+            >
+
+                <div
+                    className="
+                        relative
+                        z-10
+                        flex
+                        flex-col
+                        gap-4
+                        sm:flex-row
+                        sm:items-center
+                        sm:justify-between
+                    "
+                >
+
+                    <div>
+
                         <div
                             className="
-                                divide-y
-                                divide-gray-100
-                                dark:divide-slate-800
+                                flex
+                                items-center
+                                gap-2
+                                text-xs
+                                font-semibold
+                                uppercase
+                                tracking-wider
+                                text-sky-600
+                                dark:text-sky-400
                             "
                         >
-                            {recentReports.map(
-                                (report, index) => {
-                                    const topic =
-                                        getReportTopic(report) ||
-                                        "Research Report";
 
-                                    const version =
-                                        report?.version ||
-                                        report?.report_version ||
-                                        report?.reportVersion;
+                            <FiTrendingUp />
 
-                                    const date =
-                                        getReportDate(report);
+                            Research Intelligence
 
-                                    return (
-                                        <div
-                                            key={
-                                                report?.id ||
-                                                report?.report_id ||
-                                                report?.reportId ||
-                                                index
-                                            }
-                                            className="
-                                                p-5
-                                                hover:bg-sky-50
-                                                dark:hover:bg-slate-800/60
-                                                transition
-                                            "
-                                        >
-                                            <div
-                                                className="
-                                                    flex
-                                                    items-center
-                                                    justify-between
-                                                    gap-4
-                                                "
-                                            >
-                                                <div
-                                                    className="
-                                                        flex
-                                                        items-center
-                                                        gap-4
-                                                        min-w-0
-                                                    "
-                                                >
-                                                    <div
-                                                        className="
-                                                            bg-sky-100
-                                                            dark:bg-sky-900/40
-                                                            text-sky-600
-                                                            dark:text-sky-400
-                                                            p-3
-                                                            rounded-xl
-                                                            flex-shrink-0
-                                                        "
-                                                    >
-                                                        <FiFileText
-                                                            size={22}
-                                                        />
-                                                    </div>
-
-                                                    <div className="min-w-0">
-                                                        <h3
-                                                            className="
-                                                                font-semibold
-                                                                text-gray-800
-                                                                dark:text-white
-                                                                truncate
-                                                            "
-                                                        >
-                                                            {topic}
-                                                        </h3>
-
-                                                        <p
-                                                            className="
-                                                                text-sm
-                                                                text-gray-500
-                                                                dark:text-slate-400
-                                                                mt-1
-                                                            "
-                                                        >
-                                                            {version
-                                                                ? `Version ${version}`
-                                                                : "Research Report"}
-
-                                                            {date
-                                                                ? ` • ${formatDate(date)}`
-                                                                : ""}
-                                                        </p>
-                                                    </div>
-                                                </div>
-
-                                                <Link
-                                                    to="/report-history"
-                                                    className="
-                                                        text-sky-600
-                                                        dark:text-sky-400
-                                                        hover:text-sky-700
-                                                        dark:hover:text-sky-300
-                                                        font-semibold
-                                                        text-sm
-                                                        whitespace-nowrap
-                                                    "
-                                                >
-                                                    View
-                                                </Link>
-                                            </div>
-                                        </div>
-                                    );
-                                }
-                            )}
                         </div>
-                    ) : (
-                        <div className="p-10 text-center">
-                            <div
-                                className="
-                                    bg-sky-100
-                                    dark:bg-sky-900/40
-                                    text-sky-600
-                                    dark:text-sky-400
-                                    w-fit
-                                    mx-auto
-                                    p-4
-                                    rounded-full
-                                    mb-4
-                                "
-                            >
-                                <FiFileText size={28} />
-                            </div>
 
-                            <h3
-                                className="
-                                    text-lg
-                                    font-semibold
-                                    text-gray-700
-                                    dark:text-slate-200
-                                "
-                            >
-                                Your research activity
-                                will appear here
-                            </h3>
 
-                            <p
-                                className="
-                                    text-gray-500
-                                    dark:text-slate-400
-                                    mt-2
-                                    mb-5
-                                "
-                            >
-                                Generate your first report
-                                to start building your
-                                research workspace.
-                            </p>
+                        <h3
+                            className="
+                                mt-2
+                                text-lg
+                                font-bold
+                                text-slate-900
+                                dark:text-white
+                            "
+                        >
 
-                            <Link
-                                to="/generate-report"
-                                className="
-                                    inline-flex
-                                    items-center
-                                    gap-2
-                                    bg-sky-500
-                                    hover:bg-sky-600
-                                    text-white
-                                    px-5
-                                    py-3
-                                    rounded-lg
-                                    transition
-                                "
-                            >
-                                <FiPlus />
-                                Generate Report
-                            </Link>
-                        </div>
-                    )}
+                            Turn research into actionable insights.
+
+                        </h3>
+
+
+                        <p
+                            className="
+                                mt-1
+                                max-w-xl
+                                text-sm
+                                text-slate-500
+                                dark:text-slate-400
+                            "
+                        >
+
+                            Analyze papers, discover research gaps,
+                            compare methodologies and build structured
+                            research reports from one workspace.
+
+                        </p>
+
+                    </div>
+
+
+                    <button
+                        type="button"
+                        onClick={() =>
+                            navigate(
+                                "/generate-report"
+                            )
+                        }
+                        className="
+                            shrink-0
+                            rounded-xl
+                            bg-slate-900
+                            px-5
+                            py-3
+                            text-sm
+                            font-semibold
+                            text-white
+                            transition
+                            hover:-translate-y-0.5
+                            hover:bg-slate-800
+                            dark:bg-white
+                            dark:text-slate-900
+                        "
+                    >
+
+                        Start Research
+
+                    </button>
+
                 </div>
-            </div>
+
+            </section>
+
         </div>
+
     );
 }
+
+
+/* =============================================================
+   STAT CARD
+============================================================= */
+
+function StatCard({
+    title,
+    value,
+    icon,
+    description,
+}) {
+
+    return (
+
+        <div
+            className="
+                group
+                relative
+                overflow-hidden
+                rounded-[22px]
+                border
+                border-slate-200/80
+                bg-white
+                p-5
+                shadow-[0_10px_35px_rgba(15,23,42,0.05)]
+                transition
+                duration-300
+                hover:-translate-y-1
+                dark:border-slate-800
+                dark:bg-[#071126]/80
+            "
+        >
+
+            <div
+                className="
+                    absolute
+                    -right-8
+                    -top-8
+                    h-24
+                    w-24
+                    rounded-full
+                    bg-sky-400/10
+                    blur-2xl
+                "
+            />
+
+
+            <div className="relative z-10">
+
+                <div
+                    className="
+                        flex
+                        items-start
+                        justify-between
+                    "
+                >
+
+                    <div
+                        className="
+                            flex
+                            h-11
+                            w-11
+                            items-center
+                            justify-center
+                            rounded-xl
+                            bg-sky-50
+                            text-sky-600
+                            dark:bg-sky-500/10
+                            dark:text-sky-400
+                        "
+                    >
+                        {icon}
+                    </div>
+
+
+                    <FiArrowUpRight
+                        size={18}
+                        className="
+                            text-slate-300
+                            dark:text-slate-700
+                        "
+                    />
+
+                </div>
+
+
+                <p
+                    className="
+                        mt-5
+                        text-xs
+                        font-medium
+                        text-slate-400
+                    "
+                >
+                    {title}
+                </p>
+
+
+                <p
+                    className="
+                        mt-1
+                        text-2xl
+                        font-bold
+                        tracking-tight
+                        text-slate-900
+                        dark:text-white
+                    "
+                >
+                    {value}
+                </p>
+
+
+                <p
+                    className="
+                        mt-1
+                        text-xs
+                        text-slate-400
+                    "
+                >
+                    {description}
+                </p>
+
+            </div>
+
+        </div>
+
+    );
+
+}
+
+
+/* =============================================================
+   REPORT ROW
+============================================================= */
+
+function ReportRow({
+    report,
+    onClick,
+}) {
+
+    const topic =
+        report?.research_topic ||
+        report?.researchTopic ||
+        report?.query ||
+        report?.topic ||
+        report?.title ||
+        "Untitled Research";
+
+
+    return (
+
+        <button
+            type="button"
+            onClick={onClick}
+            className="
+                group
+                flex
+                w-full
+                items-center
+                gap-4
+                px-6
+                py-4
+                text-left
+                transition
+                hover:bg-slate-50
+                dark:hover:bg-slate-900/50
+            "
+        >
+
+            <div
+                className="
+                    flex
+                    h-11
+                    w-11
+                    shrink-0
+                    items-center
+                    justify-center
+                    rounded-xl
+                    bg-gradient-to-br
+                    from-sky-50
+                    to-indigo-50
+                    text-sky-600
+                    dark:from-sky-500/10
+                    dark:to-indigo-500/10
+                    dark:text-sky-400
+                "
+            >
+
+                <FiFileText size={18} />
+
+            </div>
+
+
+            <div className="min-w-0 flex-1">
+
+                <p
+                    className="
+                        truncate
+                        text-sm
+                        font-semibold
+                        text-slate-800
+                        dark:text-slate-100
+                    "
+                >
+                    {topic}
+                </p>
+
+
+                <div
+                    className="
+                        mt-1
+                        flex
+                        items-center
+                        gap-2
+                    "
+                >
+
+                    <FiClock
+                        size={12}
+                        className="text-slate-400"
+                    />
+
+                    <span
+                        className="
+                            text-xs
+                            text-slate-400
+                        "
+                    >
+                        {formatRowDate(report)}
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <FiArrowUpRight
+                size={17}
+                className="
+                    shrink-0
+                    text-slate-300
+                    transition
+                    group-hover:translate-x-0.5
+                    group-hover:-translate-y-0.5
+                    group-hover:text-sky-500
+                "
+            />
+
+        </button>
+
+    );
+
+}
+
+
+function formatRowDate(report) {
+
+    const date =
+        report?.generated_at ||
+        report?.generatedAt ||
+        report?.created_at ||
+        report?.createdAt ||
+        report?.timestamp ||
+        report?.date;
+
+
+    if (!date) {
+
+        return "Recently generated";
+
+    }
+
+
+    const parsed = new Date(date);
+
+
+    if (
+        Number.isNaN(
+            parsed.getTime()
+        )
+    ) {
+
+        return String(date);
+
+    }
+
+
+    return parsed.toLocaleDateString(
+        "en-IN",
+        {
+            day: "numeric",
+            month: "short",
+            year: "numeric",
+        }
+    );
+
+}
+
+
+/* =============================================================
+   QUICK ACTION
+============================================================= */
+
+function QuickAction({
+    icon,
+    title,
+    description,
+    onClick,
+}) {
+
+    return (
+
+        <button
+            type="button"
+            onClick={onClick}
+            className="
+                group
+                flex
+                w-full
+                items-center
+                gap-3.5
+                rounded-xl
+                border
+                border-slate-100
+                bg-slate-50/70
+                p-3
+                text-left
+                transition
+                hover:-translate-y-0.5
+                hover:border-sky-200
+                hover:bg-sky-50
+                dark:border-slate-800
+                dark:bg-slate-900/50
+                dark:hover:border-sky-500/20
+                dark:hover:bg-sky-500/10
+            "
+        >
+
+            <div
+                className="
+                    flex
+                    h-10
+                    w-10
+                    shrink-0
+                    items-center
+                    justify-center
+                    rounded-lg
+                    bg-white
+                    text-sky-600
+                    shadow-sm
+                    dark:bg-slate-800
+                    dark:text-sky-400
+                "
+            >
+                {icon}
+            </div>
+
+
+            <div className="min-w-0 flex-1">
+
+                <p
+                    className="
+                        text-sm
+                        font-semibold
+                        text-slate-800
+                        dark:text-slate-100
+                    "
+                >
+                    {title}
+                </p>
+
+
+                <p
+                    className="
+                        mt-0.5
+                        truncate
+                        text-xs
+                        text-slate-400
+                    "
+                >
+                    {description}
+                </p>
+
+            </div>
+
+
+            <FiArrowUpRight
+                size={15}
+                className="
+                    text-slate-300
+                    transition
+                    group-hover:text-sky-500
+                "
+            />
+
+        </button>
+
+    );
+
+}
+
+
+/* =============================================================
+   LOADING
+============================================================= */
+
+function LoadingState() {
+
+    return (
+
+        <div className="space-y-4 px-6 py-6">
+
+            {[1, 2, 3].map((item) => (
+
+                <div
+                    key={item}
+                    className="
+                        flex
+                        animate-pulse
+                        items-center
+                        gap-4
+                    "
+                >
+
+                    <div
+                        className="
+                            h-11
+                            w-11
+                            rounded-xl
+                            bg-slate-200
+                            dark:bg-slate-800
+                        "
+                    />
+
+
+                    <div className="flex-1 space-y-2">
+
+                        <div
+                            className="
+                                h-3
+                                w-1/2
+                                rounded
+                                bg-slate-200
+                                dark:bg-slate-800
+                            "
+                        />
+
+
+                        <div
+                            className="
+                                h-2
+                                w-1/4
+                                rounded
+                                bg-slate-100
+                                dark:bg-slate-900
+                            "
+                        />
+
+                    </div>
+
+                </div>
+
+            ))}
+
+        </div>
+
+    );
+
+}
+
+
+/* =============================================================
+   EMPTY REPORTS
+============================================================= */
+
+function EmptyReports({
+    onClick,
+}) {
+
+    return (
+
+        <div className="px-6 py-12 text-center">
+
+            <div
+                className="
+                    mx-auto
+                    flex
+                    h-14
+                    w-14
+                    items-center
+                    justify-center
+                    rounded-2xl
+                    bg-sky-50
+                    text-sky-500
+                    dark:bg-sky-500/10
+                    dark:text-sky-400
+                "
+            >
+
+                <FiFileText size={24} />
+
+            </div>
+
+
+            <h3
+                className="
+                    mt-4
+                    text-sm
+                    font-semibold
+                    text-slate-800
+                    dark:text-white
+                "
+            >
+                No research reports yet
+            </h3>
+
+
+            <p
+                className="
+                    mx-auto
+                    mt-1
+                    max-w-sm
+                    text-xs
+                    leading-5
+                    text-slate-400
+                "
+            >
+                Start your research journey by generating
+                your first report.
+            </p>
+
+
+            <button
+                type="button"
+                onClick={onClick}
+                className="
+                    mt-5
+                    inline-flex
+                    items-center
+                    gap-2
+                    rounded-lg
+                    bg-sky-500
+                    px-4
+                    py-2
+                    text-xs
+                    font-semibold
+                    text-white
+                    transition
+                    hover:bg-sky-600
+                "
+            >
+
+                <FiPlus />
+
+                Generate Report
+
+            </button>
+
+        </div>
+
+    );
+
+}
+
 
 export default Dashboard;

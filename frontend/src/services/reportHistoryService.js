@@ -5,7 +5,6 @@ import api from "./api";
 // ==========================================
 
 export const getReportHistory = async () => {
-
     const response = await api.get(
         "/api/v1/report/history"
     );
@@ -18,18 +17,16 @@ export const getReportHistory = async () => {
     return response.data;
 };
 
-
 // ==========================================
 // SEARCH REPORTS
 // ==========================================
 
-export const searchReports = async (query) => {
-
+export const searchReports = async (topic) => {
     const response = await api.get(
         "/api/v1/reports/search",
         {
             params: {
-                query: query,
+                topic: topic.trim(),
             },
         }
     );

@@ -1,59 +1,38 @@
 import { Outlet } from "react-router-dom";
 
-import Navbar from "./Navbar/Navbar";
-import Sidebar from "./Sidebar/Sidebar";
+import Navbar from "../components/Navbar";
+import Sidebar from "../components/Sidebar";
 
-
-function Layout() {
-
+function MainLayout() {
     return (
-
-        <div
-            className="
-                min-h-screen
-                flex
-
-                bg-gray-100
-                dark:bg-slate-950
-
-                text-gray-900
-                dark:text-slate-100
-
-                transition-colors
-                duration-300
-            "
-        >
+        <div className="
+            min-h-screen
+            bg-gray-100
+            dark:bg-slate-950
+            transition-colors
+            duration-300
+        ">
 
             <Sidebar />
 
-
-            <div className="flex-1 min-w-0">
+            <div className="ml-[270px] min-h-screen">
 
                 <Navbar />
 
-
-                <main
-                    className="
-                        min-h-screen
-
-                        bg-gray-100
-                        dark:bg-slate-950
-
-                        transition-colors
-                        duration-300
-                    "
-                >
-
+                <main className="
+                    min-h-[calc(100vh-76px)]
+                    bg-gray-100
+                    dark:bg-slate-950
+                    transition-colors
+                    duration-300
+                ">
                     <Outlet />
-
                 </main>
 
             </div>
 
         </div>
-
     );
 }
 
-
-export default Layout;
+export default MainLayout;

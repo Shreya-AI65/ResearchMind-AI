@@ -1,6 +1,10 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import {
+    BrowserRouter,
+    Routes,
+    Route
+} from "react-router-dom";
 
-import Layout from "./components/Layout";
+import MainLayout from "./layouts/MainLayout";
 
 import Dashboard from "./pages/Dashboard";
 import GenerateReport from "./pages/GenerateReport";
@@ -11,13 +15,14 @@ import Settings from "./pages/Settings";
 import ReportViewer from "./pages/ReportViewer";
 
 function App() {
+    console.log("🔥 REAL APP LOADED");
 
     return (
         <BrowserRouter>
 
             <Routes>
 
-                <Route element={<Layout />}>
+                <Route element={<MainLayout />}>
 
                     <Route
                         path="/"
