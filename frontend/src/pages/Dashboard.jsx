@@ -46,11 +46,6 @@ function Dashboard() {
 
             const response = await getReportHistory();
 
-            console.log(
-                "🔥 DASHBOARD HISTORY RESPONSE:",
-                response
-            );
-
 
             let history = [];
 

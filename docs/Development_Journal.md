@@ -5821,3 +5821,220 @@ The Dashboard is now correctly integrated into the application layout, the routi
 ## Status
 
 **Completed Successfully** 
+
+
+# Day 37 – Dashboard Integration and Settings Enhancement
+
+## Date
+
+17 September 2026
+
+## Objective
+
+The objective of Day 37 was to improve the consistency of the ResearchMind AI frontend by synchronizing Dashboard report data with the existing report-history structure and beginning the development of a functional Settings page.
+
+---
+
+## Work Completed
+
+### 1. Dashboard Report Data Integration
+
+Updated the Dashboard report-history parsing logic to correctly handle different response structures returned by the backend.
+
+The Dashboard now supports report data received through:
+
+* `response.history`
+* `response.reports`
+* `response.results`
+* `response.data`
+* `response.data.history`
+* `response.data.reports`
+
+This ensures that the Dashboard can correctly process the same report-history information used by other frontend modules.
+
+---
+
+### 2. Dashboard Statistics Verification
+
+Verified the existing Dashboard statistics calculations, including:
+
+* Total Reports
+* Research Topics
+* Research Activity
+* Latest Report Status
+
+The existing calculations were already functioning correctly, so no unnecessary changes were made.
+
+The Dashboard continues to use the existing report-history API without introducing additional backend dependencies.
+
+---
+
+### 3. Recent Reports and Report Viewer Verification
+
+Reviewed the Recent Reports integration with the Report Viewer.
+
+Verified the existing navigation flow:
+
+```text
+Dashboard
+    ↓
+Recent Reports
+    ↓
+Select Report
+    ↓
+Report Viewer
+```
+
+The report object is passed through React Router state so that the selected report can be displayed by the Report Viewer.
+
+The existing navigation structure was preserved to avoid affecting other working frontend pages.
+
+---
+
+## 4. Settings Page Development
+
+Started converting the Settings page from a basic placeholder into a functional application settings interface.
+
+The previous Settings page contained only:
+
+```text
+Settings
+Coming Soon...
+```
+
+It was replaced with a structured Settings interface.
+
+---
+
+### 5. Appearance Settings
+
+Implemented the Appearance section with a functional Light/Dark Mode toggle.
+
+The existing `ThemeContext` was reused instead of creating a separate theme-management system.
+
+Implemented:
+
+* Light Mode
+* Dark Mode
+* Sun/Moon icons
+* Animated toggle
+* Dark-mode compatible styling
+* Persistent theme preference through the existing `localStorage` implementation
+
+The theme can now be changed directly from:
+
+```text
+Sidebar
+    ↓
+Settings
+    ↓
+Appearance
+    ↓
+Theme Toggle
+```
+
+---
+
+### 6. Research Preferences
+
+Added a Research Preferences section to the Settings page.
+
+Implemented the following controls:
+
+#### Papers per Search
+
+Users can select:
+
+```text
+5 papers
+10 papers
+20 papers
+```
+
+The selected value is stored in `localStorage`.
+
+#### Prefer Recent Papers
+
+Added a toggle that allows users to enable or disable the preference for prioritizing recent research papers.
+
+The preference is stored locally.
+
+#### Research Area
+
+Added selectable research domains:
+
+```text
+General
+Artificial Intelligence
+Machine Learning
+Agentic AI
+Multi-Agent Systems
+RAG
+Scientific Document Intelligence
+```
+
+The selected research area is stored in `localStorage`.
+
+---
+
+## 7. Automatic Preference Persistence
+
+Implemented local browser storage for the new research preferences.
+
+The following values are persisted:
+
+```text
+papersPerSearch
+recentPapers
+researchArea
+```
+
+This allows the selected settings to remain available after refreshing the Settings page.
+
+---
+
+## Technical Decisions
+
+* Reused the existing `ThemeContext` instead of introducing another theme-management mechanism.
+* Used `localStorage` for lightweight frontend preference persistence.
+* Preserved existing Dashboard, Report History, and Report Viewer functionality.
+* Avoided unnecessary backend modifications while developing the Settings UI.
+* Followed the existing ResearchMind AI dark/light design system.
+* Used reusable React state and event handlers for Settings controls.
+* Kept the Settings implementation modular so the preferences can be connected to backend/search functionality in a future task.
+
+---
+
+## Testing
+
+The following functionality was tested:
+
+* Dashboard loads report-history data correctly.
+* Dashboard report parsing handles multiple response structures.
+* Existing Dashboard statistics remain functional.
+* Recent Reports navigation can pass report data to Report Viewer.
+* Settings page loads correctly.
+* Light Mode works correctly.
+* Dark Mode works correctly.
+* Theme changes persist across navigation.
+* Papers-per-search selection works.
+* Recent-papers toggle works.
+* Research-area selection works.
+* Research preferences persist after page refresh.
+* Existing frontend routing remains functional.
+
+---
+
+## Outcome
+
+Day 37 improved both the reliability and functionality of the ResearchMind AI frontend.
+
+The Dashboard now correctly processes the available report-history response structures, while the Settings page has evolved from a placeholder into a functional configuration interface with Appearance and Research Preferences.
+
+The new Settings architecture also provides a foundation for future features such as profile management, notifications, AI preferences, and connecting research preferences directly to the paper-search workflow.
+
+---
+
+## Status
+
+**Completed Successfully** 
